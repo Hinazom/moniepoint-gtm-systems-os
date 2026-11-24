@@ -132,3 +132,190 @@ HEAD@{2026-11-12T23:56:30+01:00}	commit (initial): Build Moniepoint GTM systems 
 - File creation and modification timestamps can change when files are copied, downloaded or edited.
 - Deleted files may not appear in the current file-system inventory, but can appear in Git history.
 - Reflog records local Git reference movements, not every action performed in the repository.
+
+<!-- RETROSPECTIVE BASELINE CAPTURED -->
+
+## Retrospective Baseline
+
+Captured: 2026-11-24T13:05:35+01:00
+
+This section records historical evidence available when automatic monitoring was first configured.
+
+### 1. Git Commit History
+
+Author and committer timestamps are shown separately.
+
+#### Initial commit
+- Commit: `a9e8496cf5d231f6a31a1bcbe9d996b7673719bf`
+- Author timestamp: 2026-11-11T01:40:21+01:00
+- Committer timestamp: 2026-11-11T01:40:21+01:00
+- Changed file: `A	README.md`
+#### Agent host session f7b19446-f601-4980-8d23-433b7f38fc48 - baseline checkpoint
+- Commit: `9a4c4ad986aacb9b86cb8d2de512b023dbdfc0c3`
+- Author timestamp: 2026-11-12T16:14:15+01:00
+- Committer timestamp: 2026-11-12T16:14:15+01:00
+- Changed file: `A	.claude/skills/icp-check/SKILL.md`
+- Changed file: `A	.gitignore`
+- Changed file: `A	CLAUDE.md`
+- Changed file: `A	tools/gemini_helper.py`
+- Changed file: `A	weekly-priorities/2026-W45.md`
+- Changed file: `A	work-log/2026-W45.md`
+#### Agent host session f7b19446-f601-4980-8d23-433b7f38fc48 - turn 1 start
+- Commit: `1ce782e0ce5253e9183f70432310aa5e6988c66d`
+- Author timestamp: 2026-11-12T16:14:19+01:00
+- Committer timestamp: 2026-11-12T16:14:19+01:00
+#### Agent host session f7b19446-f601-4980-8d23-433b7f38fc48 - turn 1
+- Commit: `e40c1258e2b42d2e21a9dfde83d0294817cb4910`
+- Author timestamp: 2026-11-12T16:14:19+01:00
+- Committer timestamp: 2026-11-12T16:14:19+01:00
+#### Build Moniepoint GTM systems foundation
+- Commit: `76aa5e3a9ff8724c6904da2c4e1f58e4b17c1a26`
+- Author timestamp: 2026-11-13T00:05:06+01:00
+- Committer timestamp: 2026-11-13T00:05:06+01:00
+- Changed file: `A	.claude/skills/icp-check/SKILL.md`
+- Changed file: `A	.gitignore`
+- Changed file: `A	CLAUDE.md`
+- Changed file: `A	architecture.md`
+- Changed file: `A	icp/icp.md`
+- Changed file: `A	icp/signals.md`
+- Changed file: `A	research/icp/source_register.json`
+- Changed file: `A	research/signals/source_register.json`
+- Changed file: `A	tools/gemini_helper.py`
+- Changed file: `A	tools/generate_icp.py`
+- Changed file: `A	tools/generate_signals.py`
+- Changed file: `A	weekly-priorities/2026-W45.md`
+- Changed file: `A	work-log/2026-W45.md`
+- Changed file: `A	work-log/2026-W46.md`
+- Changed file: `A	workflow.md`
+#### Restore project README
+- Commit: `e49fde89ac7168fdbbe2adfe60002a88789fcbfb`
+- Author timestamp: 2026-11-13T00:13:29+01:00
+- Committer timestamp: 2026-11-13T00:13:29+01:00
+- Changed file: `A	README.md`
+#### Merge remote-tracking branch 'origin/main'
+- Commit: `cd4f3edb4413cdfdcf05529c19a98ca79c726b42`
+- Author timestamp: 2026-11-13T00:17:47+01:00
+- Committer timestamp: 2026-11-13T00:17:47+01:00
+#### Revise README with project overview and details
+- Commit: `9a411833b1555d3c3f1736b197233037052eab06`
+- Author timestamp: 2026-11-13T12:04:25+01:00
+- Committer timestamp: 2026-11-13T12:04:25+01:00
+- Changed file: `M	README.md`
+#### Refine GTM systems architecture
+- Commit: `5b660361f3532c361c3361bd8254125805972500`
+- Author timestamp: 2026-11-13T12:09:26+01:00
+- Committer timestamp: 2026-11-13T12:10:26+01:00
+- Changed file: `M	architecture.md`
+#### Refine buying signals research
+- Commit: `03b6facfbde79b4959add3602a1a3740bf89d14b`
+- Author timestamp: 2026-11-13T12:19:28+01:00
+- Committer timestamp: 2026-11-13T12:19:28+01:00
+- Changed file: `M	icp/signals.md`
+#### Add retrospective project activity audit
+- Commit: `35a570dd98446be344e16ba9a8a9bae98b8cc290`
+- Author timestamp: 2026-11-14T13:42:28+01:00
+- Committer timestamp: 2026-11-14T13:42:28+01:00
+- Changed file: `A	retrospective_audit.py`
+- Changed file: `A	work-log/retrospective-audit.md`
+
+### 2. Local Git Reflog
+
+origin/main@{2026-11-14T13:42:40+01:00}	update by push
+main@{2026-11-14T13:42:28+01:00}	commit: Add retrospective project activity audit
+HEAD@{2026-11-14T13:42:28+01:00}	commit: Add retrospective project activity audit
+origin/main@{2026-11-13T12:20:01+01:00}	update by push
+main@{2026-11-13T12:19:28+01:00}	commit: Refine buying signals research
+HEAD@{2026-11-13T12:19:28+01:00}	commit: Refine buying signals research
+origin/main@{2026-11-13T12:10:36+01:00}	update by push
+main@{2026-11-13T12:10:26+01:00}	pull --rebase origin main (finish): refs/heads/main onto 9a411833b1555d3c3f1736b197233037052eab06
+origin/main@{2026-11-13T12:10:26+01:00}	pull --rebase origin main: fast-forward
+HEAD@{2026-11-13T12:10:26+01:00}	pull --rebase origin main (finish): returning to refs/heads/main
+HEAD@{2026-11-13T12:10:26+01:00}	pull --rebase origin main (pick): Refine GTM systems architecture
+HEAD@{2026-11-13T12:10:26+01:00}	pull --rebase origin main (start): checkout 9a411833b1555d3c3f1736b197233037052eab06
+main@{2026-11-13T12:09:26+01:00}	commit: Refine GTM systems architecture
+HEAD@{2026-11-13T12:09:26+01:00}	commit: Refine GTM systems architecture
+origin/main@{2026-11-13T00:19:59+01:00}	update by push
+main@{2026-11-13T00:17:47+01:00}	merge origin/main: Merge made by the 'ort' strategy.
+HEAD@{2026-11-13T00:17:47+01:00}	merge origin/main: Merge made by the 'ort' strategy.
+main@{2026-11-13T00:13:29+01:00}	commit: Restore project README
+HEAD@{2026-11-13T00:13:29+01:00}	commit: Restore project README
+origin/main@{2026-11-13T00:09:42+01:00}	fetch origin: storing head
+main@{2026-11-13T00:05:06+01:00}	commit (amend): Build Moniepoint GTM systems foundation
+HEAD@{2026-11-13T00:05:06+01:00}	commit (amend): Build Moniepoint GTM systems foundation
+main@{2026-11-12T23:56:30+01:00}	commit (initial): Build Moniepoint GTM systems foundation
+HEAD@{2026-11-12T23:56:30+01:00}	commit (initial): Build Moniepoint GTM systems foundation
+
+### 3. Current File-System Inventory
+
+| File | Created (if available) | Last modified | Size (bytes) |
+|---|---|---|---:|
+| `weekly-priorities/2026-W45.md` | 2026-11-11T02:18:19+01:00 | 2026-11-11T02:18:19+01:00 | 30 |
+| `tools/gemini_helper.py` | 2026-11-12T15:08:22+01:00 | 2026-11-12T16:15:39+01:00 | 557 |
+| `work-log/2026-W45.md` | 2026-11-11T02:18:19+01:00 | 2026-11-12T18:36:41+01:00 | 275 |
+| `tools/generate_icp.py` | 2026-11-12T16:27:36+01:00 | 2026-11-12T21:33:02+01:00 | 11721 |
+| `research/icp/source_register.json` | 2026-11-12T21:39:11+01:00 | 2026-11-12T21:39:11+01:00 | 57627 |
+| `tools/generate_signals.py` | 2026-11-12T20:00:14+01:00 | 2026-11-12T21:59:39+01:00 | 15921 |
+| `research/signals/source_register.json` | 2026-11-12T22:03:45+01:00 | 2026-11-12T22:03:45+01:00 | 20197 |
+| `work-log/2026-W46.md` | 2026-11-12T21:39:22+01:00 | 2026-11-12T22:04:16+01:00 | 680 |
+| `.gitignore` | 2026-11-11T02:18:19+01:00 | 2026-11-12T22:53:56+01:00 | 263 |
+| `.claude/skills/icp-check/SKILL.md` | 2026-11-11T02:18:19+01:00 | 2026-11-12T23:13:14+01:00 | 2371 |
+| `architecture.md` | 2026-11-13T12:10:26+01:00 | 2026-11-13T12:10:26+01:00 | 9648 |
+| `README.md` | 2026-11-13T12:10:26+01:00 | 2026-11-13T12:10:26+01:00 | 2355 |
+| `icp/signals.md` | 2026-11-12T22:04:16+01:00 | 2026-11-13T12:18:46+01:00 | 9453 |
+| `icp/icp.md` | 2026-11-12T17:32:34+01:00 | 2026-11-24T09:12:40+01:00 | 13176 |
+| `knowledge-base/playbooks/personas.md` | 2026-11-24T08:42:45+01:00 | 2026-11-24T11:46:57+01:00 | 16210 |
+| `workflow.md` | 2026-11-12T23:32:40+01:00 | 2026-11-24T11:47:34+01:00 | 46498 |
+| `CLAUDE.md` | 2026-11-11T02:18:19+01:00 | 2026-11-24T12:01:26+01:00 | 11327 |
+| `retrospective_audit.py` | 2026-11-14T13:35:45+01:00 | 2026-11-24T13:02:32+01:00 | 17120 |
+
+### 4. Git Working-Tree Status
+
+```text
+ M CLAUDE.md
+ M icp/icp.md
+ M retrospective_audit.py
+ M workflow.md
+?? knowledge-base/
+
+```
+
+### Historical Audit Limitations
+
+- Git history records committed changes, not every edit.
+- Reflog records local Git reference movements, not every action.
+- File timestamps are evidence, not proof of when or how a change occurred.
+- Deleted files may be visible in Git history but absent from the current inventory.
+- Actions that left no surviving evidence cannot be reconstructed.
+
+
+## Automatic File Monitoring Started
+
+- **Started:** 2026-11-24T13:05:35+01:00
+- **Scope:** Project folder changes only.
+- **Git internals, secrets, caches and audit outputs:** Excluded.
+- **Storage:** Metadata and hashes, with small text diffs where available.
+
+
+## File Modified
+
+- **Detected:** 2026-11-24T16:06:53+01:00
+- **Path:** `.gitignore`
+- **Size:** 290 bytes
+- **SHA-256:** `b939241bbadc68532819104e938da55fc6227763f9013d72a33805539de469b2`
+
+### Content Capture
+
+Content diff skipped. File is binary, too large or unreadable.
+
+
+## File Modified
+
+- **Detected:** 2026-11-24T16:13:24+01:00
+- **Path:** `.gitignore`
+- **Size:** 291 bytes
+- **SHA-256:** `1136987e2c6f0025cdcda5b536f9b48d12a9ec3d8f52873ddad39b85f09d0194`
+
+### Content Capture
+
+Content diff skipped. File is binary, too large or unreadable.
+

@@ -19,3 +19,4 @@ __pycache__/
 # Local datasets and spreadsheets
 *.csv
 *.xlsx
+work-log/.audit-state.json

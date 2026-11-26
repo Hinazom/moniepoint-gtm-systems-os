@@ -1,7 +1,10 @@
-
 import os
+import re
 import json
-from datetime import datetime
+import hashlib
+from datetime import datetime, timezone
+from pathlib import Path
+from urllib.parse import urlsplit, urlunsplit
 
 from google import genai
 from dotenv import load_dotenv
@@ -11,425 +14,1012 @@ from trafilatura import fetch_url, extract
 
 load_dotenv()
 
-api_key = os.getenv("GEMINI_API_KEY")
+API_KEY = os.getenv("GEMINI_API_KEY")
 
-if not api_key:
+if not API_KEY:
     raise ValueError("GEMINI_API_KEY not found in environment variables.")
 
-client = genai.Client(api_key=api_key)
+client = genai.Client(api_key=API_KEY)
 
-model_name = "gemini-3.1-flash-lite"
+MODEL_NAME = "gemini-3.1-flash-lite"
+
+ROOT = Path.cwd()
+
+RESEARCH_DIR = ROOT / "research" / "icp"
+OUTPUT_DIR = ROOT / "icp"
+
+SOURCE_REGISTER_PATH = RESEARCH_DIR / "source_register.json"
+OUTPUT_PATH = OUTPUT_DIR / "icp.md"
+
+MAX_RESULTS_PER_QUERY = 3
+MAX_PAGE_CHARS = 3000
+MAX_TOTAL_EVIDENCE_CHARS = 110000
+
+REQUEST_TIMEOUT = 20
+
+RESEARCH_TIMESTAMP = datetime.now(timezone.utc).isoformat()
 
 
-# Search for relevant information across different research areas.
-queries = [
-    "Moniepoint business banking official products POS business Nigeria",
-    "Nigeria retail chains supermarket groups business expansion",
-    "Nigeria FMCG distributors wholesale payment collection operations",
-    "Nigeria business banking POS settlement competitors fintech",
-    "Nigeria finance treasury manager recruitment retail distribution",
-]
+# these are investigation categories, not predetermined icps
+RESEARCH_AREAS = {
+    "moniepoint_products": [
+        "Moniepoint Nigeria official business banking products POS merchant payments business accounts settlements",
+        "Moniepoint Nigeria official business banking collections transfers payment infrastructure enterprise products",
+        "Moniepoint Nigeria business banking pricing merchant services official website",
+    ],
 
-print("\nStarting web research...")
+    "restaurants_and_food_service": [
+        "Nigeria restaurant groups multi outlet restaurant chains business operations payments POS",
+        "Nigeria quick service restaurant chains franchise groups expansion outlets",
+        "Nigeria restaurant hospitality industry supplier payments collections reconciliation operations",
+    ],
+
+    "supermarkets_and_grocery": [
+        "Nigeria supermarket chains grocery retail groups multiple outlets expansion",
+        "Nigeria independent supermarket operators grocery retail business payments",
+        "Nigeria supermarket retail POS collections branch reconciliation supplier payments",
+    ],
+
+    "fmcg_distribution_and_wholesale": [
+        "Nigeria FMCG distributors wholesalers distribution networks retailer collections payments",
+        "Nigeria wholesale distribution companies FMCG supplier payments trade receivables",
+        "Nigeria distributors depots warehouses multi location financial operations",
+    ],
+
+    "fuel_and_energy_retail": [
+        "Nigeria petrol station networks filling station groups multiple locations payments",
+        "Nigeria fuel retail station operators POS collections daily settlement operations",
+    ],
+
+    "pharmacy_and_health_retail": [
+        "Nigeria pharmacy chains retail pharmacy groups multiple branches payments",
+        "Nigeria pharmaceutical wholesalers distributors retailer collections operations",
+    ],
+
+    "hospitality_and_accommodation": [
+        "Nigeria hotel groups hospitality chains multiple properties payment operations",
+        "Nigeria hotels resorts accommodation businesses POS collections reconciliation",
+    ],
+
+    "healthcare_providers": [
+        "Nigeria private hospital groups diagnostic centres clinic networks payments",
+        "Nigeria healthcare providers multi location collections billing supplier payments",
+    ],
+
+    "education": [
+        "Nigeria private school groups multi campus education operators fee collections",
+        "Nigeria educational institutions payment collection reconciliation operations",
+    ],
+
+    "logistics_and_transport": [
+        "Nigeria logistics companies transport operators distribution networks payment collections",
+        "Nigeria haulage fleet companies multi location financial operations supplier payments",
+    ],
+
+    "building_materials_and_trade": [
+        "Nigeria building materials distributors wholesalers construction supply businesses payments",
+        "Nigeria cement steel hardware distribution companies dealer collections supplier payments",
+    ],
+
+    "electronics_and_appliances": [
+        "Nigeria electronics retail chains appliance stores multiple branches POS payments",
+        "Nigeria electronics distributors wholesale retailer collections operations",
+    ],
+
+    "fashion_and_specialty_retail": [
+        "Nigeria fashion retail chains apparel stores multiple outlets payments",
+        "Nigeria specialty retail chains multi branch collections supplier payments",
+    ],
+
+    "general_retail_and_commerce": [
+        "Nigeria multi branch retail companies physical stores payment collection operations",
+        "Nigeria wholesale retail trading companies multiple locations business payments",
+    ],
+
+    "cross_sector_financial_operations": [
+        "Nigeria businesses multi branch POS reconciliation cash management supplier payments case study",
+        "Nigeria business payment collection settlement reconciliation challenges retail distribution hospitality",
+        "Nigeria finance treasury recruitment multi branch retail distribution hospitality companies",
+        "Nigeria business expansion new outlets depots warehouses restaurant supermarket pharmacy retail",
+    ],
+}
+
+
+def normalise_url(url):
+    # remove fragments and common tracking parameters
+
+    if not url:
+        return None
+
+    try:
+        parts = urlsplit(url.strip())
+
+        if parts.scheme not in ("http", "https"):
+            return None
+
+        if not parts.netloc:
+            return None
+
+        tracking_parameters = {
+            "utm_source",
+            "utm_medium",
+            "utm_campaign",
+            "utm_term",
+            "utm_content",
+            "fbclid",
+            "gclid",
+        }
+
+        query_parts = []
+
+        for item in parts.query.split("&"):
+            if not item:
+                continue
+
+            key = item.split("=", 1)[0].lower()
+
+            if key not in tracking_parameters:
+                query_parts.append(item)
+
+        return urlunsplit((
+            parts.scheme.lower(),
+            parts.netloc.lower(),
+            parts.path.rstrip("/"),
+            "&".join(query_parts),
+            "",
+        ))
+
+    except Exception:
+        return None
+
+
+def make_source_id(index):
+    return f"S{index:03d}"
+
+
+print("\n========================================")
+print("MONIEPOINT MARKET RESEARCH")
+print("========================================")
+
+print(f"Research areas: {len(RESEARCH_AREAS)}")
+print(f"Maximum results per query: {MAX_RESULTS_PER_QUERY}")
 
 search_sources = []
 seen_urls = set()
+search_failures = []
 
 with DDGS() as ddgs:
-    for query in queries:
-        print(f"\nSearching: {query}")
 
-        try:
-            results = ddgs.text(query, max_results=4)
+    for area, queries in RESEARCH_AREAS.items():
 
-            for result in results:
-                url = result.get("href")
+        print(f"\n===== RESEARCH AREA: {area} =====")
 
-                if not url or url in seen_urls:
-                    continue
+        for query in queries:
 
-                seen_urls.add(url)
+            print(f"\nSearching: {query}")
 
-                search_sources.append({
-                    "title": result.get("title"),
-                    "url": url,
-                    "snippet": result.get("body"),
-                    "query": query
-                })
+            try:
 
-        except Exception as e:
-            print(f"Search failed for '{query}': {e}")
+                results = ddgs.text(
+                    query,
+                    max_results=MAX_RESULTS_PER_QUERY
+                )
+
+                result_count = 0
+
+                for result in results:
+
+                    raw_url = result.get("href")
+                    url = normalise_url(raw_url)
+
+                    if not url or url in seen_urls:
+                        continue
+
+                    seen_urls.add(url)
+
+                    search_sources.append({
+                        "title": result.get("title"),
+                        "url": url,
+                        "snippet": result.get("body") or "",
+                        "query": query,
+                        "research_area": area,
+                    })
+
+                    result_count += 1
+
+                print(f"Unique results collected: {result_count}")
+
+            except Exception as error:
+
+                failure = {
+                    "research_area": area,
+                    "query": query,
+                    "error": str(error),
+                }
+
+                search_failures.append(failure)
+
+                print(f"Search failed: {error}")
 
 
-print(f"\nCollected {len(search_sources)} unique search results.")
+print("\n========================================")
+print("DISCOVERY RESULTS")
+print("========================================")
+
+print(f"Unique sources: {len(search_sources)}")
+print(f"Search failures: {len(search_failures)}")
 
 if not search_sources:
     raise RuntimeError(
-        "No search results were collected. "
-        "Check your internet connection or DDGS availability."
+        "No sources collected. "
+        "Check DDGS availability and internet connectivity."
     )
 
 
-# Extract webpage content and retain search snippets when extraction fails.
-scraped_evidence = ""
 evidence_trail = []
 
 full_page_count = 0
 snippet_count = 0
+empty_source_count = 0
 
-for idx, source in enumerate(search_sources, 1):
-    source_id = f"S{idx}"
+total_evidence_chars = 0
+
+for index, source in enumerate(search_sources, 1):
+
+    source_id = make_source_id(index)
     url = source["url"]
 
     print(f"\nExtracting [{source_id}]: {url}")
 
     extracted_text = None
+    extraction_error = None
 
     try:
+
         downloaded = fetch_url(url)
 
         if downloaded:
+
             extracted_text = extract(
                 downloaded,
                 include_comments=False,
-                include_tables=False
+                include_tables=True,
             )
 
-    except Exception as e:
-        print(f"Extraction failed for {url}: {e}")
+    except Exception as error:
+
+        extraction_error = str(error)
+        print(f"Extraction failed: {error}")
 
     if extracted_text and extracted_text.strip():
-        evidence = extracted_text[:5000]
-        evidence_type = "Full page extraction"
+
+        evidence = extracted_text.strip()[:MAX_PAGE_CHARS]
+        evidence_type = "FULL_PAGE_EXTRACTION"
+
         full_page_count += 1
 
     else:
-        evidence = source.get("snippet") or ""
-        evidence_type = "Search snippet only"
 
-        if evidence.strip():
+        evidence = source["snippet"].strip()[:MAX_PAGE_CHARS]
+        evidence_type = "SEARCH_SNIPPET_ONLY"
+
+        if evidence:
             snippet_count += 1
 
-    # Keep the source details alongside the extracted evidence.
+    if not evidence:
+
+        empty_source_count += 1
+
+    # limit prompt evidence without deleting source metadata
+
+    remaining_capacity = (
+        MAX_TOTAL_EVIDENCE_CHARS - total_evidence_chars
+    )
+
+    if remaining_capacity <= 0:
+
+        prompt_evidence = ""
+        included_in_prompt = False
+
+    else:
+
+        prompt_evidence = evidence[:remaining_capacity]
+        included_in_prompt = bool(prompt_evidence)
+
+    total_evidence_chars += len(prompt_evidence)
+
     evidence_record = {
         "id": source_id,
         "title": source.get("title"),
         "url": url,
-        "search_query": source.get("query"),
+        "search_query": source["query"],
+        "research_area": source["research_area"],
+        "retrieved_at": RESEARCH_TIMESTAMP,
         "evidence_type": evidence_type,
-        "content": evidence
+        "extraction_error": extraction_error,
+        "content": evidence,
+        "included_in_gemini_prompt": included_in_prompt,
     }
 
     evidence_trail.append(evidence_record)
 
-    if evidence.strip():
-        scraped_evidence += (
-            f"\n\n--- SOURCE [{source_id}] ---\n"
-            f"Title: {source.get('title')}\n"
-            f"URL: {url}\n"
-            f"Search query: {source.get('query')}\n"
-            f"Evidence type: {evidence_type}\n"
-            f"Content:\n{evidence}"
-        )
 
+print("\n========================================")
+print("EXTRACTION RESULTS")
+print("========================================")
 
-print("\nEvidence collection completed.")
 print(f"Full pages extracted: {full_page_count}")
-print(f"Search snippets used: {snippet_count}")
+print(f"Snippet fallbacks: {snippet_count}")
+print(f"Empty sources: {empty_source_count}")
+print(f"Characters sent to Gemini: {total_evidence_chars}")
 
-if not scraped_evidence.strip():
+
+coverage = {}
+
+for area in RESEARCH_AREAS:
+
+    area_sources = [
+        source for source in evidence_trail
+        if source["research_area"] == area
+    ]
+
+    usable_sources = [
+        source for source in area_sources
+        if source["content"].strip()
+    ]
+
+    full_pages = [
+        source for source in usable_sources
+        if source["evidence_type"] == "FULL_PAGE_EXTRACTION"
+    ]
+
+    coverage[area] = {
+        "sources_found": len(area_sources),
+        "usable_sources": len(usable_sources),
+        "full_page_sources": len(full_pages),
+        "snippet_only_sources": sum(
+            source["evidence_type"] == "SEARCH_SNIPPET_ONLY"
+            for source in usable_sources
+        ),
+    }
+
+
+print("\n========================================")
+print("RESEARCH COVERAGE BY AREA")
+print("========================================")
+
+for area, stats in coverage.items():
+
+    print(
+        f"{area}: "
+        f"{stats['usable_sources']} usable sources, "
+        f"{stats['full_page_sources']} full pages"
+    )
+
+
+if not any(item["usable_sources"] for item in coverage.values()):
+
     raise RuntimeError(
-        "No usable evidence was collected. "
-        "Gemini will not be called with an empty evidence set."
+        "No usable evidence was extracted. "
+        "Gemini will not be called."
     )
 
 
-# Save the collected sources so they can be reviewed later.
-research_directory = "research/icp"
+RESEARCH_DIR.mkdir(parents=True, exist_ok=True)
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-os.makedirs(research_directory, exist_ok=True)
+source_register = {
+    "research_timestamp": RESEARCH_TIMESTAMP,
+    "model": MODEL_NAME,
+    "research_areas": RESEARCH_AREAS,
+    "coverage": coverage,
+    "search_failures": search_failures,
+    "sources": evidence_trail,
+}
 
-source_register_path = os.path.join(
-    research_directory,
-    "source_register.json"
-)
+with open(SOURCE_REGISTER_PATH, "w", encoding="utf-8") as file:
 
-with open(source_register_path, "w", encoding="utf-8") as f:
     json.dump(
-        evidence_trail,
-        f,
+        source_register,
+        file,
         indent=4,
-        ensure_ascii=False
+        ensure_ascii=False,
     )
 
-print(f"\nSource register saved to {source_register_path}")
+print(f"\nSource register saved: {SOURCE_REGISTER_PATH}")
 
 
-# Give Gemini the retrieved evidence and the ICP research requirements.
+scraped_evidence = ""
+
+for source in evidence_trail:
+
+    if not source["included_in_gemini_prompt"]:
+        continue
+
+    if not source["content"].strip():
+        continue
+
+    scraped_evidence += (
+        f"\n\n--- SOURCE [{source['id']}] ---\n"
+        f"Title: {source['title']}\n"
+        f"URL: {source['url']}\n"
+        f"Research area: {source['research_area']}\n"
+        f"Search query: {source['search_query']}\n"
+        f"Evidence type: {source['evidence_type']}\n"
+        f"Content:\n{source['content']}"
+    )
+
+
 prompt = f"""
-# IDEAL CUSTOMER PROFILE RESEARCH
-## Moniepoint Business Banking & Payments
+# COMPREHENSIVE MARKET AND IDEAL CUSTOMER PROFILE RESEARCH
 
-## Research Evidence
+## Company and Market
 
-The following evidence was retrieved programmatically
-from web search results and webpage extraction.
-
-{scraped_evidence}
-
+Company: Moniepoint
+Market: Nigeria
+Product category: Business banking, merchant payments,
+collections, settlements and related financial services.
 
 ## Research Objective
 
-Develop a comprehensive, research-backed Ideal Customer
-Profile (ICP) for Moniepoint Business Banking & Payments.
+Identify the Nigerian business segments with the strongest
+evidence-backed commercial potential for Moniepoint.
 
-Identify, investigate, evaluate and prioritise the Nigerian
-business segments with the strongest potential commercial
-fit.
+The objective is to identify genuine commercial opportunities,
+not merely to produce a narrow list of familiar industries.
 
-Do not simply validate predetermined customer categories.
-Challenge the initial hypotheses and allow the evidence
-to influence your conclusions.
+A missed viable segment could mean lost revenue for Moniepoint.
+A false-positive segment could waste sales resources.
 
+Therefore, the analysis must minimise both:
 
-## Initial Market Hypotheses
+1. False exclusions of commercially attractive businesses.
+2. False inclusions of businesses with weak or unsupported fit.
 
-Treat these as starting points for investigation, not fixed
-targeting requirements:
+Do not sacrifice commercial opportunity for superficial
+simplicity or convenient classification.
 
-- High-growth Nigerian retail businesses and multi-location
-  operators.
-- Supermarket groups, retail chains and fuel station networks.
-- Commercial distributors, wholesalers and businesses with
-  complex payment and collection operations.
-- Businesses operating across multiple branches, locations
-  or sales channels.
-- Companies with substantial transaction volumes,
-  operational complexity or growing financial management
-  requirements.
-- Lagos, Abuja and Port Harcourt as initial geographic areas
-  of interest. Investigate other Nigerian commercial clusters.
-- Consider different revenue levels, employee counts and
-  stages of growth. Do not assume that size alone indicates
-  strong product fit.
+## Critical Research Principle
 
+The sectors supplied in the evidence collection plan are
+research categories, not predetermined ICP decisions.
 
-## Research and Analysis
+Do not assume that supermarkets and FMCG distributors
+must be the best segments.
 
-Investigate and compare the market across these dimensions:
+Do not assume that restaurants, hotels, pharmacies,
+fuel stations, healthcare providers, schools, logistics
+companies or other sectors are inferior.
 
-### 1. Market and Segment Analysis
+Evaluate each segment on its actual business model,
+transaction characteristics, financial workflows and
+verified Moniepoint product fit.
 
-Identify relevant Nigerian business segments and subsegments.
+A sector must not be rejected merely because public
+information about it is less accessible.
 
-Examine business models, revenue mechanisms, operating
-structures, transaction volumes, locations, payment
-dependencies and commercial attractiveness.
+## Research Evidence
 
-Compare and prioritise the segments.
+The following evidence was retrieved from web searches
+and webpage extraction.
 
+{scraped_evidence}
 
-### 2. Firmographic and Operational Characteristics
+## Source Coverage Information
 
-Investigate company size, annual turnover, employee count,
-physical footprint, maturity, ownership structure,
-geographical presence and operational complexity.
+The following table describes how much evidence was
+collected for each research area:
 
+{json.dumps(coverage, indent=2)}
 
-### 3. Technographic and Financial Infrastructure
+Search failures:
 
-Investigate banking platforms, POS terminals, acquiring
-infrastructure, ERP platforms, e-commerce checkouts and
-reconciliation tools.
+{json.dumps(search_failures, indent=2)}
 
-Identify which technologies can actually be detected
-through tools such as BuiltWith or Wappalyzer.
+Coverage limitations must influence confidence.
 
-Explain detection limitations.
+A segment with weak evidence coverage must not be
+declared commercially unattractive merely because
+the research process did not retrieve enough information.
 
+## Stage 1: Broad Market Discovery
 
-### 4. Buying Committee and Decision-Making Dynamics
+Identify and evaluate relevant Nigerian business segments.
 
-Identify economic buyers, decision-makers, technical
-evaluators, operational stakeholders and potential blockers.
+At a minimum, investigate:
 
-Distinguish between founder-led and professionally
-managed businesses.
+- Restaurants and quick-service restaurant groups.
+- Supermarkets and grocery retailers.
+- FMCG distributors and wholesalers.
+- Fuel stations and energy retail networks.
+- Pharmacies and pharmaceutical distribution.
+- Hotels and hospitality groups.
+- Private hospitals, clinics and diagnostic networks.
+- Private schools and education groups.
+- Logistics, transport and haulage businesses.
+- Building materials and construction supply distributors.
+- Electronics and appliance retailers and distributors.
+- Fashion and specialty retail chains.
+- General multi-location physical retailers.
+- Other commercially relevant sectors identified by the evidence.
 
+Do not treat this list as exhaustive.
 
-### 5. Existing Solutions, Customer Problems and Unmet Needs
+Identify additional segments where the evidence indicates
+a meaningful business banking or merchant payments opportunity.
 
-Investigate actual workflows, alternatives, workarounds,
-reconciliation problems, delayed access to funds and
-operational bottlenecks.
+Separate broad industries from commercially meaningful
+subsegments.
 
+For example, distinguish a single independent restaurant
+from a restaurant group operating multiple locations.
 
-### 6. Moniepoint Product Fit and Competitive Positioning
+## Stage 2: Analyse Actual Payment and Financial Workflows
 
-Evaluate verified Moniepoint capabilities against the
-problems identified.
+For each relevant segment, investigate:
 
-Compare relevant alternatives, including traditional banks
-and competing fintech providers.
+1. How the business receives customer payments.
+2. Whether transactions are predominantly in-person,
+   online, B2B, B2C or mixed.
+3. Whether it operates POS terminals, bank transfers,
+   payment gateways, cash or other payment methods.
+4. How funds are collected and settled.
+5. Whether multiple locations create reconciliation
+   or financial-control requirements.
+6. How the business pays suppliers and employees.
+7. Whether it manages collections from multiple customers,
+   dealers, retailers or branches.
+8. Whether payment workflows are centralised or decentralised.
+9. Whether transaction frequency and value create a
+   meaningful banking or payments use case.
+10. What operational or financial complexity is actually
+    supported by evidence.
 
-Do not assume that a product capability exists unless
-the supplied evidence supports it.
+Do not assume that every multi-branch business has
+complex reconciliation problems.
 
+Do not assume that every high-volume business has
+poor banking infrastructure.
 
-### 7. Buying Signals and Prospect Identification
+Do not present a common industry problem as a verified
+problem experienced by a specific company.
 
-Identify observable events and behavioural indicators
-that could signal readiness to adopt or switch.
+## Stage 3: Moniepoint Product Fit
 
-Distinguish between general ICP characteristics and
-genuine buying signals.
+Establish Moniepoint's actual product capabilities
+using reliable evidence, preferably official sources.
 
+For each capability:
 
-### 8. Customer Qualification, Prioritisation and Anti-ICP
+- Identify the product or service.
+- Explain the relevant customer workflow.
+- Identify the business segments that could benefit.
+- Distinguish directly supported use cases from speculative ones.
+- Identify product limitations and missing evidence.
 
-Develop excellent-fit, reasonable-fit and poor-fit criteria.
+Do not invent products, integrations, settlement speeds,
+pricing, service guarantees or technical capabilities.
 
-Explain exclusion criteria and their commercial rationale.
+Do not assume that a general POS proposition automatically
+solves complex treasury, ERP or enterprise reconciliation needs.
 
+Evaluate product fit separately for:
 
-### 9. Strategic Recommendations
+- Merchant collections.
+- POS and in-person payments.
+- Business accounts and banking.
+- Transfers and settlements.
+- Supplier payments.
+- Multi-location financial management.
+- Business payment collection.
+- Other verified capabilities found in the evidence.
 
-Identify primary ICPs, secondary ICPs, geographic
-concentrations, qualification criteria and strategic priorities.
+If the evidence does not establish a product capability,
+mark it as requiring verification.
 
+## Stage 4: Comparative Segment Assessment
 
-## Research Standards and Guardrails
+Build a comparative table for the identified segments.
 
-1. Cite retrieved evidence using its source ID, for example
-   [S1] or [S3].
+Assess:
 
-2. Every material factual claim should have a supporting
-   source ID where available.
+- Payment frequency.
+- Typical transaction characteristics.
+- Physical operating footprint.
+- Number and distribution of locations.
+- Collection complexity.
+- Supplier-payment requirements.
+- Reconciliation requirements.
+- Financial management maturity.
+- Potential Moniepoint product fit.
+- Addressable business population.
+- Evidence of Nigerian market activity.
+- Competitive intensity.
+- Likely economic buyer.
+- Sales accessibility.
+- Implementation complexity.
+- Potential commercial value.
+- Confidence in the assessment.
 
-3. Never invent source IDs, citations, market statistics,
-   company characteristics or technology detection markers.
+Use evidence wherever possible.
 
-4. Distinguish clearly between:
-   - Verified facts
-   - Reasonable inferences
-   - Estimates
-   - Unvalidated hypotheses
+Do not invent transaction volumes, turnover, market size,
+branch counts or conversion rates.
 
-5. Search snippets are weaker evidence than extracted
-   webpage content. Identify claims that rely only on snippets.
+Where reliable numerical data is unavailable, use
+transparent qualitative assessments and explain the basis.
 
-6. Do not treat a source as proof of a claim unless its
-   actual content supports that claim.
+Do not give every segment an artificially precise numerical
+score. If a scoring framework is used, define its criteria,
+weights and evidence limitations.
 
-7. Where evidence is missing, explain the uncertainty.
-   Do not fill research gaps with invented information.
+Distinguish the following:
 
-8. Challenge initial assumptions wherever the evidence
-   warrants it.
+- Commercial attractiveness.
+- Product fit.
+- Operational need.
+- Addressability.
+- Evidence confidence.
 
-9. Make the analysis commercially specific to Nigerian
-   businesses and their operating environments.
+These are different dimensions and must not be collapsed
+into one unsupported score.
 
-10. Emphasise analytical depth, useful distinctions and
-    actionable insights.
+## Stage 5: Firmographic and Operational Qualification
 
-11. Never use em dashes anywhere in the document.
+Investigate characteristics that help identify commercially
+attractive companies within each segment.
 
-12. Use clean Markdown headings and comparative tables
-    where appropriate.
+Consider:
 
+- Nigerian operating presence.
+- Business identity and legal or trading structure.
+- Active commercial operations.
+- Physical locations, outlets, branches, depots or facilities.
+- Employee count and organisational maturity.
+- Revenue and turnover where credible evidence exists.
+- Geographic coverage.
+- Business model.
+- Payment and collection relevance.
+- Finance and treasury function maturity.
+
+Do not invent universal minimum revenue, headcount,
+transaction volume or branch-count thresholds.
+
+Distinguish mandatory qualification conditions from
+prioritisation heuristics.
+
+A single-location business must not automatically be
+excluded if its actual operating model and payment activity
+indicate strong fit.
+
+A large company must not automatically qualify merely
+because it is large.
+
+## Stage 6: Buying Committee
+
+For each attractive segment, identify:
+
+- Economic buyer.
+- Business owner or founder.
+- Managing director or chief executive.
+- Chief financial officer.
+- Finance director.
+- Head of Finance.
+- Treasury manager.
+- Financial controller.
+- Operations director.
+- Relevant payments or technology stakeholders.
+- Procurement or compliance blockers.
+
+Explain how buying authority changes with business size,
+ownership and organisational maturity.
+
+Do not assume that the person with the most relevant job
+title is necessarily the final decision-maker.
+
+## Stage 7: Observable Buying Signals
+
+Distinguish between:
+
+A. ICP characteristics.
+B. Operational indicators.
+C. Genuine observable buying signals.
+D. Evidence of explicit purchase intent.
+
+Investigate signals such as:
+
+- New branches, outlets, depots or geographic expansion.
+- Finance, treasury or financial-control recruitment.
+- New distribution relationships.
+- Business acquisitions or consolidation.
+- New payment infrastructure or technology deployments.
+- Publicly announced banking or payment partnerships.
+- Other verifiable developments relevant to financial operations.
+
+Assess the relevance, recency, reliability and attribution
+of each signal.
+
+Do not claim that a business intends to switch providers
+merely because it is expanding or recruiting.
+
+## Stage 8: Anti-ICP and Exclusion Logic
+
+Identify genuinely unsuitable businesses and explain why.
+
+Distinguish:
+
+- Definitively unsuitable businesses.
+- Businesses outside the selected campaign scope.
+- Businesses with insufficient public evidence.
+- Businesses requiring further investigation.
+- Businesses with strong potential but uncertain product fit.
+
+Do not confuse an unverified business with a bad prospect.
+
+Do not classify a business as disqualified solely because
+its website is poor, its turnover is unavailable or its
+branch count cannot be established.
+
+## Stage 9: Market Opportunity and Missed-Revenue Audit
+
+This section is mandatory.
+
+Identify sectors or subsegments that could be commercially
+valuable but might be missed by a narrow ICP.
+
+Specifically investigate whether excluding restaurants,
+hospitality, pharmacies, fuel stations, healthcare,
+education or other sectors could create material
+opportunity costs.
+
+For each potentially missed segment, explain:
+
+- Why it could be commercially attractive.
+- Which Moniepoint capabilities could be relevant.
+- What evidence supports the opportunity.
+- What evidence is missing.
+- What additional research would validate or reject it.
+- Whether it merits a separate campaign or further testing.
+
+Do not recommend adding a segment simply to make the ICP broad.
+
+Recommend inclusion only where commercial logic and
+evidence justify it.
+
+## Stage 10: Final ICP Architecture
+
+Produce three distinct outputs.
+
+### A. Market-Level ICP Recommendation
+
+Identify the strongest potential customer segments
+for Moniepoint across the Nigerian market.
+
+Classify them as:
+
+- PRIMARY OPPORTUNITY.
+- SECONDARY OPPORTUNITY.
+- EMERGING OR UNDER-RESEARCHED OPPORTUNITY.
+- LOW PRIORITY OR POOR FIT.
+
+Explain the reasoning and confidence behind each classification.
+
+Do not force a segment into a category if the evidence
+is insufficient.
+
+### B. Segment-Specific ICP Definitions
+
+For each recommended segment, define:
+
+- Business model.
+- Ideal operating characteristics.
+- Payment and financial workflows.
+- Mandatory qualification criteria.
+- Prioritisation criteria.
+- Economic buyer.
+- Relevant buying signals.
+- Moniepoint product fit.
+- Exclusion criteria.
+- Evidence requirements.
+
+### C. Campaign-Specific ICP Recommendation
+
+Recommend which segments should be included in a
+practical prospecting campaign.
+
+Explain whether the existing focus on:
+
+- RETAIL_SUPERMARKET
+- FMCG_DISTRIBUTOR
+
+is commercially justified, too narrow or should be expanded.
+
+Do not silently change an existing campaign's approved
+scope. Present any proposed expansion explicitly.
+
+## Evidence and Reasoning Standards
+
+1. Cite claims using the supplied source IDs, such as [S001].
+
+2. Never invent source IDs, sources, statistics or company facts.
+
+3. Every material factual claim must be supported by evidence
+   where available.
+
+4. Distinguish:
+   - Verified facts.
+   - Reasonable inferences.
+   - Estimates.
+   - Unvalidated hypotheses.
+   - Unknown information.
+
+5. A search snippet is weaker evidence than an extracted
+   source page.
+
+6. A source's existence does not establish that it supports
+   the associated claim. Check its actual content.
+
+7. Prefer official company sources, regulatory publications,
+   credible industry research and reputable Nigerian
+   business publications.
+
+8. Identify conflicting evidence rather than silently
+   selecting whichever source supports the conclusion.
+
+9. Do not treat the absence of public evidence as evidence
+   that a business lacks a particular capability or need.
+
+10. Do not infer financial distress, dissatisfaction with
+    a bank, payment failure or switching intent without
+    direct evidence.
+
+11. Do not invent numerical qualification thresholds.
+
+12. Never use an em dash.
+
+13. Use precise, commercially useful language.
+
+14. Avoid generic statements that could apply to any business.
+
+15. Do not force a conclusion where the evidence is inadequate.
 
 ## Final Evidence Assessment
 
 Conclude with:
 
-- The strongest evidence-backed ICP conclusions.
-- Important assumptions that remain unverified.
-- Research gaps that require additional investigation.
-- Claims that should not yet be used in prospect targeting.
+1. Strongest evidence-backed market opportunities.
+2. Segments that warrant additional investigation.
+3. Segments that appear less attractive and why.
+4. Potential revenue opportunities that a narrow ICP could miss.
+5. Important assumptions that remain unverified.
+6. Research gaps and the specific evidence needed to resolve them.
+7. Recommended campaign segments.
+8. Confidence levels and limitations.
+9. Claims that must not yet be used in prospect qualification.
 
+The final recommendation must reflect the available evidence,
+not the initial assumptions or convenience of the research process.
 """
 
 
-print("\nRequesting ICP analysis from Gemini...")
+print("\n========================================")
+print("REQUESTING GEMINI MARKET ANALYSIS")
+print("========================================")
 
 response = client.models.generate_content(
-    model=model_name,
-    contents=prompt
+    model=MODEL_NAME,
+    contents=prompt,
 )
 
 content = response.text
 
 if not content or not content.strip():
+
     raise ValueError(
         "Gemini returned an empty response. "
         "The existing ICP file will not be overwritten."
     )
 
 
-# Add the source links to the end of the generated document.
-evidence_markdown = (
-    "\n\n## Research Sources & Evidence Trail\n"
-)
+evidence_markdown = """
+
+## Research Sources and Evidence Trail
+
+"""
 
 for source in evidence_trail:
+
     evidence_markdown += (
         f"\n- [{source['id']}] "
         f"[{source['title'] or 'Untitled source'}]"
         f"({source['url']})"
-        f" | {source['evidence_type']}"
+        f" | Area: {source['research_area']}"
+        f" | Evidence: {source['evidence_type']}"
     )
 
-final_output = content + evidence_markdown
+
+coverage_markdown = """
+
+## Research Coverage Audit
+
+"""
+
+for area, stats in coverage.items():
+
+    coverage_markdown += (
+        f"\n- **{area}:** "
+        f"{stats['usable_sources']} usable sources; "
+        f"{stats['full_page_sources']} full-page extractions; "
+        f"{stats['snippet_only_sources']} snippet-only sources."
+    )
 
 
-# Save the generated ICP document.
-output_path = "icp/icp.md"
-
-os.makedirs(os.path.dirname(output_path), exist_ok=True)
-
-with open(output_path, "w", encoding="utf-8") as f:
-    f.write(final_output)
-
-print(f"\nICP successfully saved to {output_path}")
+final_output = (
+    content
+    + evidence_markdown
+    + coverage_markdown
+)
 
 
-# Record the research activity in the current week's work log.
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+temporary_output = OUTPUT_PATH.with_suffix(".md.tmp")
+
+with open(temporary_output, "w", encoding="utf-8") as file:
+    file.write(final_output)
+
+# replace the existing report only after the new report is written successfully
+
+os.replace(temporary_output, OUTPUT_PATH)
+
+print(f"\nICP report saved: {OUTPUT_PATH}")
+
+
 now = datetime.now()
 iso_calendar = now.isocalendar()
 
 work_log_path = (
-    f"work-log/{iso_calendar.year}-W{iso_calendar.week:02d}.md"
+    ROOT
+    / "work-log"
+    / f"{iso_calendar.year}-W{iso_calendar.week:02d}.md"
 )
 
-os.makedirs(os.path.dirname(work_log_path), exist_ok=True)
+work_log_path.parent.mkdir(parents=True, exist_ok=True)
 
 timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
 log_entry = (
     f"\n- [{timestamp}] "
-    f"Generated Moniepoint Business Banking ICP using "
-    f"DDGS, Trafilatura and Gemini 3.1 Flash Lite. "
-    f"Collected {len(search_sources)} search results, "
-    f"extracted {full_page_count} full pages and used "
+    f"Completed broad Moniepoint market and ICP research "
+    f"using DDGS, Trafilatura and Gemini {MODEL_NAME}. "
+    f"Investigated {len(RESEARCH_AREAS)} market research areas. "
+    f"Collected {len(search_sources)} unique sources. "
+    f"Extracted {full_page_count} full pages and used "
     f"{snippet_count} search snippets. "
-    f"Saved ICP to `{output_path}` and source register to "
-    f"`{source_register_path}`."
+    f"Search failures: {len(search_failures)}. "
+    f"Saved report to `{OUTPUT_PATH.relative_to(ROOT)}` "
+    f"and source register to "
+    f"`{SOURCE_REGISTER_PATH.relative_to(ROOT)}`."
 )
 
-with open(work_log_path, "a", encoding="utf-8") as log_file:
-    log_file.write(log_entry)
-
-print(f"Work log updated at {work_log_path}")
+with open(work_log_path, "a", encoding="utf-8") as file:
+    file.write(log_entry)
 
 
 print("\n========================================")
-print("MONIEPOINT ICP RESEARCH COMPLETED")
+print("MONIEPOINT MARKET RESEARCH COMPLETED")
 print("========================================")
+
+print(f"Research areas: {len(RESEARCH_AREAS)}")
 print(f"Search results: {len(search_sources)}")
 print(f"Full pages extracted: {full_page_count}")
 print(f"Snippet fallbacks: {snippet_count}")
-print(f"ICP document: {output_path}")
-print(f"Source register: {source_register_path}")
+print(f"Empty sources: {empty_source_count}")
+print(f"Search failures: {len(search_failures)}")
+print(f"Evidence characters: {total_evidence_chars}")
+
+print(f"\nICP report: {OUTPUT_PATH}")
+print(f"Source register: {SOURCE_REGISTER_PATH}")
 print(f"Work log: {work_log_path}")
+
 print("========================================")

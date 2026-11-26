@@ -1,22 +1,32 @@
-# Buyer Personas: Moniepoint Business Banking and Payments
+# personas.md
 
-## 1. Purpose and Buying-Committee Definitions
+## 1. Purpose and Operating Principles
 
-This document defines the buying roles to investigate within qualified Nigerian retail supermarket chains and FMCG distributors.
+This document defines the buying committee to investigate within businesses that have passed the ICP qualification process.
 
-The workflow recognises three buying roles:
+It translates the approved ICP segments and detected buying signals into three commercial research roles:
 
-1. **Champion:** The person most likely to recognise a relevant operational or financial requirement, investigate solutions and advocate internally.
-2. **Economic Buyer:** The person with budget authority or final commercial approval for a banking or payments decision.
-3. **Influencer:** The person whose operational, technical or functional input shapes evaluation, implementation or adoption.
+1. **CHAMPION:** The person most likely to understand the financial requirement, evaluate potential solutions and advocate for internal consideration.
+2. **ECONOMIC_BUYER:** The person with verified authority to approve the banking relationship, commercial expenditure or final purchasing decision.
+3. **INFLUENCER:** The person whose operational, technical or functional responsibilities shape requirements, evaluation, implementation or adoption.
 
-These are buying roles, not fixed job titles. One individual may occupy multiple roles, particularly in smaller organisations. Assign personas based on verified responsibilities and decision-making authority, not title matching alone.
+These are functional buying roles, not fixed job titles.
 
-Persona identification begins after account qualification and signal research. An account can qualify even when no relevant contact has been identified.
+One individual may occupy multiple roles, particularly in smaller businesses. A senior title does not automatically establish budget authority, and a finance title does not automatically establish purchasing influence.
+
+### Operating sequence
+
+`ICP QUALIFICATION → SIGNAL DETECTION → ACCOUNT ROUTING → PERSONA IDENTIFICATION → HUMAN REVIEW → OUTREACH APPROVAL`
+
+Persona identification must follow account qualification and signal research.
+
+An account can qualify even when no relevant contact has been identified.
+
+A detected signal provides a reason to investigate an account. It does not automatically establish that a particular person is a buyer or that the business intends to purchase a financial product.
 
 ## 2. Champion
 
-**Primary persona:** Finance Manager / Treasury Manager / Financial Controller
+**Primary persona:** Finance Manager / Treasury Manager / Financial Controller.
 
 **Alternative titles:**
 
@@ -24,214 +34,334 @@ Persona identification begins after account qualification and signal research. A
 - Finance Operations Manager
 - Treasury Lead
 - Financial Operations Lead
+- Group Accountant
 - Senior Accountant, where relevant responsibilities are verified
+- Finance Director, where the individual also performs the champion function
 
-**Organisational position:** Finance-function professional responsible for financial processes, reporting, cash management or payment operations.
+**Organisational function:** Financial management, treasury, collections, payments, reconciliation and financial control.
 
-**Relevant responsibilities:**
+### Responsibilities to investigate
 
-- Overseeing collections, payments and financial transactions.
-- Monitoring cash flow and financial positions.
-- Coordinating reconciliation and settlement reporting.
+- Managing collections and outgoing payments.
+- Monitoring cash flow and liquidity.
+- Coordinating settlement and reconciliation processes.
 - Managing banking relationships and financial service processes.
-- Supporting financial controls and operational efficiency.
+- Maintaining financial controls and reporting.
+- Coordinating financial administration across branches, stations, warehouses or operating centres.
 - Providing financial information to senior management.
 
-**Potential priorities to investigate:**
+### Potential priorities
 
 - Visibility into incoming and outgoing funds.
-- Reconciliation of collections and settlements.
-- Coordination of payments across operating locations.
-- Reliable banking services for business operations.
-- Efficient financial administration and reporting.
+- Reliable collection and settlement processes.
+- Reconciliation across multiple operating locations.
+- Coordination of supplier payments and other obligations.
+- Financial reporting and operational control.
+- Banking services that accommodate the company's transaction volumes.
 
-**Discovery hypotheses, not assumed problems:**
+### Discovery hypotheses
 
-- Whether financial visibility is fragmented across locations.
-- Whether collections require manual reconciliation.
-- How supplier payments and other financial obligations are coordinated.
-- Whether financial processes scale effectively with the operating footprint.
+Investigate whether:
 
-**Why this persona matters:** The champion can explain how financial processes operate, identify relevant requirements and help evaluate whether a banking or payments solution deserves consideration.
+- Financial information is fragmented across operating locations.
+- Collections require manual reconciliation.
+- Settlement timing affects cash availability.
+- Supplier payments depend on predictable collection cycles.
+- Existing banking arrangements support the company's transaction volumes.
+- Financial administration becomes more complex as the business expands.
 
-**Signal relevance:**
+These are questions to investigate, not assumed customer problems.
 
-- **Finance and Treasury Recruitment:** A relevant vacancy indicates recruitment for a finance function. It does not establish who will champion a banking solution. Investigate the role's responsibilities, reporting structure and relationship to existing finance leadership.
-- **Multi-Branch Expansion:** Explore whether additional locations affect collections, settlements, reconciliation or financial visibility.
+### Commercial angle
 
-**Commercial discussion angle:** Explore how the finance function manages collections, settlements, reconciliation and financial visibility across the company's operating footprint.
+Explore how the finance function manages collections, settlements, reconciliation, supplier payments and financial visibility across the company's operating footprint.
+
+**Why this persona matters:** The champion can explain the existing financial workflow, identify relevant requirements and help establish whether a banking or payments solution merits internal consideration.
 
 ## 3. Economic Buyer
 
-**Primary persona:** Chief Financial Officer / Finance Director
+**Primary persona:** Owner / Managing Director / Chief Financial Officer / Finance Director.
 
 **Alternative titles:**
 
 - Chief Executive Officer
-- Managing Director
-- Owner / Founder
+- Founder
 - Group Finance Director
+- Executive Director
+- Managing Partner, where applicable
 - Director of Finance and Administration
+- Owner-Manager
 
-**Organisational position:** Senior executive or owner with verified authority over banking relationships, financial expenditure, budgets or commercial purchasing decisions.
+**Organisational function:** Executive leadership, financial governance, budget ownership and commercial purchasing authority.
 
-**Relevant responsibilities:**
+The economic buyer depends on company size, ownership structure and organisational maturity.
 
-- Approving financial service providers and banking relationships.
-- Overseeing financial strategy and liquidity management.
-- Evaluating financial costs, risks and operational returns.
+### Responsibilities to investigate
+
+- Approving banking relationships and financial service providers.
+- Setting financial priorities and liquidity strategy.
 - Authorising budgets and significant expenditure.
-- Setting financial controls and governance standards.
+- Evaluating financial costs, risks and commercial returns.
 - Approving changes to financial infrastructure.
+- Overseeing financial governance.
+- Evaluating the financial implications of business expansion.
 
-**Potential priorities to investigate:**
+### Potential priorities
 
 - Financial control and visibility.
-- Cost and reliability of banking and payment operations.
-- Collections and settlement efficiency.
-- Financial scalability as the business expands.
+- Cost and reliability of banking operations.
+- Collection and settlement efficiency.
+- Financial scalability.
+- Working-capital availability and suitability.
 - Risk management and governance.
 - Commercial value from financial service providers.
 
-**Discovery hypotheses, not assumed problems:**
+### Discovery hypotheses
 
-- Whether current banking arrangements support the company's operating model.
-- Whether financial processes remain effective as transaction volumes or locations increase.
-- Whether collections and settlements provide sufficient management visibility.
-- Whether changes to financial operations could deliver measurable commercial value.
+Investigate whether:
 
-**Why this persona matters:** The economic buyer evaluates the commercial justification and financial implications of adopting or changing a business banking or payments provider.
+- Existing banking arrangements support the company's operating model.
+- Financial processes remain effective as transaction volumes increase.
+- Collections and settlements provide sufficient management visibility.
+- Working-capital requirements are adequately supported.
+- Expansion creates additional financial coordination requirements.
+- Changes to financial infrastructure could deliver measurable commercial value.
 
-**Signal relevance:**
+### Commercial angle
 
-- **Finance and Treasury Recruitment:** Recruitment may indicate investment in financial management capability. It does not establish a decision to change banking providers or financial software.
-- **Multi-Branch Expansion:** Growth may make financial scalability, collections and settlement coordination relevant executive considerations.
+Explore whether the company's banking and payments arrangements support its liquidity management, financial control, operating scale and commercial growth objectives.
 
-**Commercial discussion angle:** Explore whether the company's banking and payments arrangements support its financial control, operating scale and growth objectives.
+**Why this persona matters:** The economic buyer evaluates the financial implications, commercial justification and approval requirements associated with adopting or changing a banking or payments provider.
+
+**Authority verification:** Record an individual as the economic buyer only when evidence supports their decision-making or budget authority. Do not infer this solely from CEO, Founder, Owner or CFO titles.
 
 ## 4. Influencer
 
-**Primary persona:** Head of Operations / Operations Manager
+**Primary persona:** Head of Operations / Operations Manager.
 
 **Alternative titles:**
 
+- Chief Operating Officer
 - Head of Retail Operations
 - Regional Operations Manager
 - Distribution Operations Manager
 - Head of Commercial Operations
 - Business Operations Manager
-- IT Systems Manager, where technology integration is relevant
+- Fleet Operations Manager
+- Station Operations Manager
+- Restaurant Operations Manager
+- Pharmacy Operations Manager
+- Healthcare Operations Manager
+- IT Systems Manager, where relevant to implementation
 
-**Organisational position:** Operational or functional leader whose teams use, depend on or are affected by the company's collections, payments and settlement processes.
+**Organisational function:** Operational management, systems adoption, frontline processes and coordination between operating locations and central finance.
 
-**Relevant responsibilities:**
+### Responsibilities to investigate
 
-- Coordinating day-to-day business operations.
-- Overseeing outlet, warehouse or distribution performance.
+- Coordinating daily business operations.
+- Overseeing outlets, warehouses, stations, fleets or diagnostic centres.
 - Managing operational processes across locations.
 - Coordinating with finance on collections and payment workflows.
-- Identifying operational bottlenecks and process improvements.
+- Identifying operational bottlenecks.
 - Supporting implementation of operational systems.
+- Communicating operational requirements to senior management.
 
-**Potential priorities to investigate:**
+### Potential priorities
 
 - Consistent financial processes across locations.
 - Reliable collection and payment workflows.
 - Coordination between finance and frontline teams.
-- Operational processes that can support business expansion.
 - Practical implementation requirements.
+- Operational reporting and transaction visibility.
+- Processes that can accommodate business expansion.
 
-**Discovery hypotheses, not assumed problems:**
+### Discovery hypotheses
 
-- Whether collection and payment processes differ across locations.
-- How transaction information reaches central finance teams.
-- Whether operational reporting depends on manual processes.
-- How outlets, warehouses and distribution teams coordinate with finance.
+Investigate whether:
 
-**Why this persona matters:** The influencer can explain how financial workflows operate in practice, identify operational requirements and help assess whether a proposed solution is practical to adopt.
+- Collection and payment processes differ between locations.
+- Transaction information reaches central finance consistently.
+- Operational reporting depends on manual processes.
+- New locations introduce additional administrative requirements.
+- Existing systems support coordination between operations and finance.
 
-**Signal relevance:**
+### Commercial angle
 
-- **Finance and Treasury Recruitment:** Investigate how finance responsibilities interact with operational teams. Do not assume the operations leader is involved in the recruitment decision.
-- **Multi-Branch Expansion:** Particularly relevant when new outlets, depots or distribution markets affect operational coordination.
+Explore how financial workflows connect central finance with outlets, warehouses, stations, distribution teams, fleets and other operating units.
 
-**Commercial discussion angle:** Explore how financial workflows connect central finance with outlets, warehouses, distribution teams and other operating units.
+**Why this persona matters:** The influencer provides operational and technical context, identifies implementation requirements and helps establish whether a proposed solution is practical for the business.
 
-## 5. Matrix 1: Segment-by-Persona Commercial Angles
+## 5. Matrix 1: Approved ICP Segments × Buying Personas
 
-This matrix defines the commercial discussion angle for each buying persona within the two approved ICP segments. Each angle is a discovery hypothesis informed by the business model and the persona's likely responsibilities. It is not an assertion that the business has a confirmed operational or financial problem.
+The matrix defines the commercial research angle for each buying role within every approved segment.
 
-| ICP Segment          | Champion                                                                                                                                                                            | Economic Buyer                                                                                                                                                                                                                                | Influencer                                                                                                                                                                                                                            |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `RETAIL_SUPERMARKET` | **Finance Manager / Financial Controller:** Explore how the finance function manages collections, POS settlements, reconciliation and financial visibility across existing outlets. | **CFO / Finance Director / MD / Owner:** Explore whether current banking and payment arrangements provide the financial control, settlement visibility and scalability required to support the supermarket's operating model and growth.      | **Head of Retail Operations / Operations Manager:** Explore how payment acceptance, collections and transaction-related processes are coordinated across outlets, and how operational teams work with central finance.                |
-| `FMCG_DISTRIBUTOR`   | **Finance Manager / Treasury Manager:** Explore how the finance function manages retailer collections, reconciliation, cash visibility and coordination of supplier payments.       | **CFO / Finance Director / MD / Owner:** Explore whether current banking and payment arrangements support collection efficiency, financial control, cash-flow visibility and supplier-payment coordination across the distribution operation. | **Head of Distribution Operations / Commercial Operations Manager:** Explore how collection and payment workflows connect sales teams, depots, distribution operations and central finance across the business's operating footprint. |
+These angles must be adapted to the account's verified operating model, detected signals and the individual's actual responsibilities.
 
-### Matrix Interpretation Rules
+| Approved ICP segment                     | Champion                                                                                                                                    | Economic Buyer                                                                                                                                            | Influencer                                                                                                                        |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **FMCG Distributors**                    | Explore how finance coordinates retailer collections, trade receivables, supplier payments and reconciliation across depots.                | Explore whether banking arrangements support liquidity management, collection efficiency, supplier-payment coordination and working-capital requirements. | Explore how collection and payment workflows connect sales teams, depots, distribution operations and central finance.            |
+| **Petrol Station Networks**              | Explore how finance manages daily station collections, cash/POS reconciliation, settlement reporting and liquidity visibility.              | Explore whether banking arrangements support daily liquidity, transaction volumes, financial control and station-network expansion.                       | Explore how station teams coordinate cash handling, POS transactions, transfers and daily reporting with central finance.         |
+| **Retail Chains / Supermarkets**         | Explore how finance reconciles outlet collections, monitors POS settlements and consolidates financial reporting across branches.           | Explore whether banking arrangements provide the financial control, settlement visibility and scalability required by the retail network.                 | Explore how outlet payment acceptance, cash handling and transaction reporting connect with central finance.                      |
+| **QSR Groups**                           | Explore how finance consolidates collections, reconciles outlet transactions and monitors settlement reporting across restaurants.          | Explore whether banking arrangements support outlet-level financial control, transaction visibility and the group's expansion objectives.                 | Explore how restaurant teams coordinate cash, POS and transfer transactions with central finance and group operations.            |
+| **Pharmacy Chains**                      | Explore how finance coordinates outlet collections, supplier payments, reconciliation and financial reporting across pharmacy locations.    | Explore whether banking arrangements support financial control, operating scale and the group's commercial and supplier-payment requirements.             | Explore how pharmacy teams coordinate outlet transactions, stock-related financial processes and reporting with central finance.  |
+| **Logistics / Haulage**                  | Explore how finance manages customer collections, driver payments, fleet expenditure, supplier obligations and cash-flow visibility.        | Explore whether banking arrangements support financial control, operating expenditure, collection efficiency and fleet-expansion requirements.            | Explore how fleet teams coordinate driver expenses, operational payments, customer collections and financial reporting.           |
+| **Specialised Healthcare / Diagnostics** | Explore how finance manages patient collections, corporate payments, reconciliation and billing-related financial reporting across centres. | Explore whether banking arrangements support collection efficiency, financial control and the financial requirements of diagnostic-centre expansion.      | Explore how centre operations coordinate patient payments, billing workflows, transaction reporting and financial administration. |
 
-- The segment determines the business context; the persona determines the perspective and commercial discussion angle.
-- Adapt each angle to the account's verified operating model, the individual's responsibilities and the available evidence.
-- Treat all angles as discovery hypotheses. Do not present potential payment, reconciliation or settlement issues as established facts.
-- The champion helps investigate financial requirements and assess operational relevance.
-- The economic buyer evaluates commercial value, financial implications and approval requirements.
-- The influencer provides operational or technical context relevant to implementation and adoption.
-- One individual may occupy more than one buying role. Do not assume the three roles belong to separate people.
-- A detected signal establishes a reason to investigate the account. It does not determine an individual's buying role or decision-making authority.
-- Where no contact has been verified, record the relevant persona or job function to research. Do not invent a contact or assign purchasing authority without evidence.
+### Matrix interpretation
 
-### Assignment Rules
+- Every cell provides a distinct commercial angle. Do not use the same generic message for all three personas.
+- The champion's angle focuses on financial processes and requirements.
+- The economic buyer's angle focuses on commercial value, financial implications and approval.
+- The influencer's angle focuses on operational workflows and implementation.
+- The segment determines the business context; the persona determines the perspective.
+- Commercial angles are discovery hypotheses, not statements of established problems.
+- Where an individual performs multiple functions, classify each verified buying role separately.
+- Where a contact is unavailable, retain the persona as a research target rather than inventing an individual.
 
-- For finance recruitment, investigate the finance function and the responsibilities of the advertised role. Do not automatically assign the vacancy holder as champion.
-- For multi-branch expansion, prioritise relevant operational leadership while still investigating the finance function and economic buyer.
-- Identify the economic buyer through verified decision-making authority, not seniority or title alone.
-- Where no CFO or Finance Director is identifiable, investigate whether the MD, owner or another executive controls banking decisions.
-- Do not assume that the champion, economic buyer and influencer are three different people.
-- Record the actual person, current title, department, evidence and confidence level separately.
-- If authority cannot be established, use `UNCLASSIFIED` rather than forcing a persona assignment.
+## 6. Segment-Specific Buying Committee Context
 
-## 6. Persona Research and Evidence Contract
+### A. FMCG Distributors and Wholesalers
+
+- **Champion:** Investigate trade receivables, retailer collections, supplier payments and depot-level reconciliation.
+- **Economic Buyer:** Investigate liquidity management, collection efficiency, supplier-payment coordination and financial scalability.
+- **Influencer:** Investigate coordination between sales teams, depots, distribution operations and finance.
+
+Priority signals: Finance/Treasury recruitment, warehouse or depot commissioning, geographic expansion and new distribution agreements.
+
+### B. Petrol Station Networks
+
+- **Champion:** Investigate daily station collections, settlement reporting, reconciliation and liquidity visibility.
+- **Economic Buyer:** Investigate transaction economics, daily liquidity requirements and the financial implications of network expansion.
+- **Influencer:** Investigate station-level cash handling, POS processes, transfers and daily reporting.
+
+Priority signals: New station commissioning, network expansion, CNG/EV infrastructure investment and diversification into convenience retail.
+
+CNG/EV investment is an infrastructure signal. It does not independently prove settlement friction or demand for credit.
+
+### C. Retail Chains and Supermarkets
+
+- **Champion:** Investigate outlet collections, POS settlements, reconciliation and consolidated financial reporting.
+- **Economic Buyer:** Investigate financial scalability, operating costs, liquidity management and financial control across the retail network.
+- **Influencer:** Investigate outlet payment workflows, transaction reporting and coordination with central finance.
+
+Priority signals: New branch openings, geographic expansion and finance or internal-audit recruitment.
+
+### D. Quick-Service Restaurant Groups
+
+- **Champion:** Investigate outlet collections, payment reconciliation and consolidated settlement reporting.
+- **Economic Buyer:** Investigate financial control, outlet-level visibility and the financial implications of expansion.
+- **Influencer:** Investigate cash, POS and transfer workflows and the coordination of outlet reporting.
+
+Priority signals: Multi-outlet expansion, finance recruitment and changes to centralised POS management.
+
+### E. Pharmacy Chains
+
+- **Champion:** Investigate outlet collections, supplier payments, reconciliation and financial reporting.
+- **Economic Buyer:** Investigate financial control, supplier-payment coordination and operating scale.
+- **Influencer:** Investigate outlet transaction workflows, stock-related financial administration and reporting.
+
+Priority signals: Acquisitions, new locations and finance or accounting recruitment.
+
+Pharmacy-specific treasury maturity and churn remain research gaps. Do not present either as an established buying trigger.
+
+### F. Logistics and Haulage
+
+- **Champion:** Investigate customer collections, fleet expenditure, driver payments and financial obligations.
+- **Economic Buyer:** Investigate financial control, operating expenditure, collection efficiency and fleet-expansion requirements.
+- **Influencer:** Investigate driver payments, fleet expenses, customer collections and operational reporting.
+
+Priority signals: Fleet expansion, new haulage contracts and increased transport capacity.
+
+Fleet investment does not independently establish credit demand or banking-provider dissatisfaction.
+
+### G. Specialised Healthcare and Diagnostic Networks
+
+- **Champion:** Investigate patient collections, corporate payments, reconciliation and billing-related financial reporting.
+- **Economic Buyer:** Investigate collection efficiency, financial control and the financial implications of centre expansion.
+- **Influencer:** Investigate patient-payment workflows, billing systems, transaction reporting and centre-level financial administration.
+
+Priority signals: New diagnostic centres, finance recruitment and investment in billing or payment infrastructure.
+
+Verify ownership and the actual operating entity. Public-sector diagnostic infrastructure projects must not automatically become private-sector commercial prospects.
+
+## 7. Signal-to-Persona Routing
+
+A buying signal determines which business function should be investigated first. It does not automatically identify an individual or establish their buying authority.
+
+| Signal                                      | First research priority                  | Secondary research priority                       |
+| ------------------------------------------- | ---------------------------------------- | ------------------------------------------------- |
+| Finance/Treasury recruitment                | Finance function and hiring organisation | Existing finance leadership and economic buyer    |
+| New branch, station, depot or centre        | Relevant operations leadership           | Finance leadership and economic buyer             |
+| New supplier or distribution agreement      | Finance/Treasury                         | Commercial or Distribution Operations             |
+| Fleet or infrastructure investment          | Finance leadership                       | Fleet/Operations leadership                       |
+| Payment infrastructure change               | Finance/Treasury                         | Operations and relevant IT leadership             |
+| Explicit settlement/reconciliation friction | Finance/Treasury                         | Economic buyer and relevant Operations leadership |
+| Ownership or management change              | New executive leadership                 | Finance leadership                                |
+
+### Signal combination rules
+
+- **Expansion + Finance Recruitment:** Investigate whether financial oversight is being strengthened alongside expansion.
+- **Expansion + Finance Leadership:** Investigate the financial coordination requirements of the growing operating footprint.
+- **Payment Infrastructure Change + Finance Involvement:** Investigate the company's actual payment acceptance, settlement and reconciliation arrangements.
+- **Explicit Payment Friction + Finance Leadership:** Prioritise discovery around the documented issue and its commercial implications.
+- **Fleet/Infrastructure Investment + Explicit Funding Requirement:** Investigate the funding requirement separately and assess suitability without presuming credit demand.
+
+Multiple verified signals can increase research priority. They do not automatically establish purchase intent.
+
+## 8. Contact Research and Evidence Contract
 
 Create a contact record only when the person's identity and association with the account can be supported by evidence.
 
-| Field                | Type          | Requirement                                                     |
-| -------------------- | ------------- | --------------------------------------------------------------- |
-| `contact_id`         | String        | Required. Unique contact identifier.                            |
-| `account_id`         | String        | Required. Links to the verified account record.                 |
-| `full_name`          | String/null   | Verified name; null until identified.                           |
-| `job_title`          | String/null   | Current verified title; null until established.                 |
-| `department`         | String/null   | Verified function; null if unknown.                             |
-| `persona_type`       | Enum          | `CHAMPION`, `ECONOMIC_BUYER`, `INFLUENCER` or `UNCLASSIFIED`.   |
-| `linkedin_url`       | URL/null      | Verified profile URL; nullable.                                 |
-| `contact_source_url` | URL           | Required when identity or role is recorded.                     |
-| `decision_authority` | Enum          | `BUDGET_OWNER`, `RECOMMENDER`, `OPERATIONAL_USER` or `UNKNOWN`. |
-| `persona_confidence` | Enum          | `HIGH`, `MEDIUM`, `LOW` or `UNVERIFIED`.                        |
-| `persona_rationale`  | String        | Evidence supporting the persona assignment.                     |
-| `last_verified_at`   | Datetime/null | Most recent verification timestamp; null until verified.        |
+| Field                | Type          | Requirement                                                   |
+| -------------------- | ------------- | ------------------------------------------------------------- |
+| `contact_id`         | String        | Required; unique contact identifier.                          |
+| `account_id`         | String        | Required; links to verified account.                          |
+| `full_name`          | String/null   | Verified name; null until identified.                         |
+| `job_title`          | String/null   | Current verified title.                                       |
+| `department`         | String/null   | Verified business function.                                   |
+| `persona_type`       | Enum          | `CHAMPION`, `ECONOMIC_BUYER`, `INFLUENCER`, `UNCLASSIFIED`.   |
+| `linkedin_url`       | URL/null      | Verified profile URL.                                         |
+| `contact_source_url` | URL/null      | Evidence supporting identity or role.                         |
+| `decision_authority` | Enum          | `BUDGET_OWNER`, `RECOMMENDER`, `OPERATIONAL_USER`, `UNKNOWN`. |
+| `persona_confidence` | Enum          | `HIGH`, `MEDIUM`, `LOW`, `UNVERIFIED`.                        |
+| `persona_rationale`  | String        | Evidence supporting the assignment.                           |
+| `last_verified_at`   | Datetime/null | Most recent verification timestamp.                           |
 
-**Research rules:**
+### Research rules
 
-- Use official company leadership pages, company websites, verified professional profiles and credible public sources.
-- A job title alone is insufficient evidence of budget authority or purchasing influence.
-- Do not fabricate contact names, email addresses, reporting lines or decision-making responsibilities.
-- Use `UNCLASSIFIED` when a person's buying role cannot be established.
-- Keep account qualification separate from contact identification.
-- Revalidate contact roles before outreach because personnel and responsibilities can change.
+1. Use official company leadership pages, company websites, verified professional profiles and credible public sources.
+2. A job title alone is insufficient evidence of budget authority.
+3. Do not fabricate names, email addresses, reporting lines or decision-making responsibilities.
+4. Use `UNCLASSIFIED` when a person's buying role cannot be established.
+5. Keep account qualification separate from contact identification.
+6. Revalidate contact roles before outreach.
+7. Record the source and date supporting material contact claims.
+8. Where a function is identifiable but no individual is found, retain the function as a research target.
+9. A vacancy is evidence of recruitment activity, not evidence that the successful candidate has been identified.
+10. Do not automatically assign the hiring manager, vacancy holder or most senior executive as the economic buyer.
 
-## 7. Relationship to icp.md and workflow.md
+## 9. Relationship with the Other Project Documents
 
-`icp.md` defines the approved market segments, firmographic and operational characteristics, mandatory qualification conditions and not-a-fit exclusions.
+| Document      | Authority and responsibility                                                                                           |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `icp.md`      | Approved segments, priority, firmographic and operational qualification, mandatory conditions and exclusions.          |
+| `signals.md`  | Observable buying signals, detection, evidence, signal strength, limitations and verification.                         |
+| `personas.md` | Champion, economic buyer, influencer, Matrix 1 and contact research contract.                                          |
+| `workflow.md` | End-to-end execution, qualification, signal detection, routing, evidence handling, human review and outreach approval. |
 
-`workflow.md` defines account qualification, signal detection, evidence requirements, routing and human review.
+### Operating boundaries
 
-`personas.md` defines the buying roles to investigate within qualified accounts and the evidence required to assign those roles.
+- `personas.md` must not override ICP qualification.
+- A detected signal must not automatically qualify an account.
+- Persona identification must not be treated as evidence of purchase intent.
+- A commercial angle must not assert an unverified payment or settlement problem.
+- A contact must not be classified as an economic buyer without supporting evidence.
+- Outreach must remain subject to the workflow's human-review and approval requirements.
 
-The documents work together:
+## 10. Design Principle
 
-`ICP QUALIFICATION → SIGNAL DETECTION → ACCOUNT ROUTING → PERSONA IDENTIFICATION → HUMAN REVIEW → OUTREACH APPROVAL`
+Identify the person who understands the financial requirement, the person who can approve the commercial decision and the person who understands the operational realities.
 
-Persona assignments support research and commercial prioritisation. They do not establish purchasing intent, override ICP disqualification or authorise outreach.
+The objective is not to collect the most senior contacts.
 
-## 8. Design Principle
-
-Identify the person most likely to understand the financial or operational relevance, the person capable of approving the commercial decision and the person who can explain implementation realities.
-
-Prioritise verified responsibilities and buying authority over job-title matching. The objective is to understand the buying committee within qualified accounts, not simply collect senior contacts.
+It is to identify the actual buying committee within qualified accounts, understand their respective responsibilities and establish a commercially credible reason to engage.

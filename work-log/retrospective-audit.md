@@ -12104,3 +12104,631 @@ No previous in-memory version was available for comparison.
  
 ```
 
+
+## File Modified
+
+- **Detected:** 2026-11-26T16:33:52+01:00
+- **Path:** `workflow.md`
+- **Size:** 60,653 bytes
+- **SHA-256:** `1d4d4098472d500f84cba93147354b5d06b290b8c08a69db3ea62b523ed6cd89`
+
+### Text Change
+
+```diff
+--- previous
++++ current
+@@ -4,25 +4,29 @@
+ 
+ ## 1. Workflow Status Line
+ 
+-**STATUS:** Initial implementation specification | **MARKET:** Nigeria | **PREFERRED SIGNAL:** `FINANCE_RECRUITMENT` | **SECONDARY SIGNAL:** `MULTI_BRANCH_EXPANSION` | **ICP GATE:** Approved ICP qualification before signal-based prioritisation | **OUTPUT:** Verified, enriched and commercially routed accounts ready for human review.
+-
+-| Attribute                  | Specification                                                            |
+-| -------------------------- | ------------------------------------------------------------------------ |
+-| Workflow name              | Moniepoint Business Banking and Payments GTM Signal Workflow             |
+-| Workflow status            | Initial implementation specification                                     |
+-| Preferred automated signal | `FINANCE_RECRUITMENT`                                                    |
+-| Supporting signal          | `MULTI_BRANCH_EXPANSION`                                                 |
+-| Primary ICP segments       | FMCG Distributors, Petrol Station Networks, Retail Chains (Supermarkets) |
+-| Secondary ICP segments     | QSR Groups, Pharmacy Chains                                              |
+-| Emerging ICP segments      | Logistics/Haulage, Specialized Healthcare/Diagnostic Networks            |
+-| Market                     | Nigeria                                                                  |
+-| Commercial themes          | Instant settlement, working capital, multi-location financial management |
+-| Execution platform         | Clay                                                                     |
+-| ICP authority              | `icp.md`                                                                 |
+-| Signal authority           | `signals.md`                                                             |
+-| Workflow authority         | This document                                                            |
+-
+-**Operating rule:** Finance recruitment is the principal detection and routing signal. Multi-branch expansion provides a secondary signal that can strengthen account prioritisation or independently support a segment-specific commercial angle. Neither signal can override ICP qualification.
++**STATUS:** Clay implementation specification | **MARKET:** Nigeria | **PREFERRED SIGNAL:** `FINANCE_RECRUITMENT` | **SECONDARY SIGNAL:** `MULTI_BRANCH_EXPANSION` | **ICP GATE:** Approved ICP qualification before signal-based prioritisation | **DELIVERY TARGET:** 100 production-grade enriched company records | **OUTPUT:** Evidence-backed, enriched and commercially routed accounts ready for human review.
++
++| Attribute | Specification |
++|---|---|
++| Workflow name | Moniepoint Business Banking and Payments GTM Signal Workflow |
++| Workflow status | Clay implementation specification |
++| Preferred automated signal | `FINANCE_RECRUITMENT` |
++| Supporting signal | `MULTI_BRANCH_EXPANSION` |
++| Primary ICP segments | FMCG Distributors, Petrol Station Networks, Retail Chains (Supermarkets) |
++| Secondary ICP segments | QSR Groups, Pharmacy Chains |
++| Emerging ICP segments | Logistics/Haulage, Specialized Healthcare/Diagnostic Networks |
++| Market | Nigeria |
++| Commercial themes | Instant settlement, working capital, multi-location financial management |
++| Research and preparation stack | Python, DDGS, Trafilatura and Gemini API free tier |
++| Execution and enrichment platform | Clay |
++| ICP authority | `icp/icp.md` |
++| Signal authority | `icp/signals.md` |
++| Workflow authority | This document |
++| Final production target | 100 qualified, signal-verified and enriched company records |
++
++**Operating rule:** Finance recruitment is the principal detection and routing signal. Multi-branch expansion provides a supporting signal that can strengthen account prioritisation or independently support a segment-specific commercial angle. Neither signal can override ICP qualification.
++
++**Delivery rule:** The target is 100 production-grade company records, not 20. Discovery results, incomplete research records, unverified signals and unqualified businesses do not count towards this target.
+ 
+ ---
+ 
+@@ -30,7 +34,7 @@
+ 
+ Identify Nigerian businesses within Moniepoint's approved ICP that are investing in financial oversight or expanding their operations, then use those observable developments to identify credible opportunities for commercial conversations about business banking and payments.
+ 
+-The preferred signal, `FINANCE_RECRUITMENT`, is intended to identify businesses recruiting for finance, treasury, financial control or related responsibilities. These vacancies can indicate investment in financial oversight and may provide a relevant reason to investigate how the business manages:
++The preferred signal, `FINANCE_RECRUITMENT`, identifies businesses recruiting for finance, treasury, financial control or related responsibilities. These vacancies can indicate investment in financial oversight and may provide a relevant reason to investigate how the business manages:
+ 
+ - Collections and cash management.
+ - Cash, POS and transfer reconciliation.
+@@ -41,7 +45,49 @@
+ 
+ `MULTI_BRANCH_EXPANSION` provides supporting evidence of operational change. It helps establish whether the business is adding locations, distribution capacity or other infrastructure that could increase financial coordination requirements.
+ 
+-**The intended output is not a list of companies with finance vacancies or expansion announcements. It is a pipeline of ICP-qualified accounts with verified events, relevant buying roles and a defensible commercial angle.**
++**The intended output is not a list of companies with finance vacancies or expansion announcements. It is a pipeline of 100 ICP-qualified company accounts with independently verified events, enriched company information, relevant buying-role research and a defensible commercial angle.**
++
++### 2.1 Delivery target
++
++The final workbook must contain at least 100 production-grade enriched company records.
++
++The target applies to company accounts, not contacts, job vacancies, locations or duplicate company records.
++
++The 100 accounts must:
++
++1. Belong to one of the seven approved ICP segments.
++2. Have verified Nigerian operating presence.
++3. Pass all applicable mandatory segment-specific ICP requirements.
++4. Have an identifiable company and operating entity.
++5. Have at least one independently verified selected buying signal.
++6. Have traceable ICP and signal evidence.
++7. Have completed company enrichment.
++8. Have a segment-specific commercial angle.
++9. Have relevant buying-role research attempted and its outcome recorded.
++10. Be available for human review.
++
++The preferred signal remains `FINANCE_RECRUITMENT`. However, a qualified account with independently verified `MULTI_BRANCH_EXPANSION` can count towards the production target even if finance recruitment is not detected.
++
++Accounts with neither verified signal remain useful research records but do not count towards the 100 production-grade target.
++
++### 2.2 Research and execution boundaries
++
++The workflow uses the following division of responsibility:
++
++| Component | Responsibility | Implementation |
++|---|---|---|
++| Python | Research orchestration, preparation, deduplication, validation and data handling | Existing local Python environment |
++| DDGS | Public web discovery and search | Existing Python research scripts |
++| Trafilatura | Extracting relevant text from accessible public web pages | Existing Python research scripts |
++| Gemini API free tier | Research assistance, structured extraction and classification | Existing API integration, subject to free-tier limits |
++| Clay | Company tables, enrichment, signal research, contact research, classification, segmentation and routing | Clay workbook |
++| Human review | Evidence validation, commercial judgement and outreach approval | Manual review |
++
++The existing Python research scripts generate ICP and signal intelligence documentation. They must not be represented as an already operational 100-account qualification or signal-detection engine.
++
++Clay is the primary execution environment for the Week 2 company enrichment deliverable.
++
++No Claude Code subscription, paid Gemini API plan, paid search API or additional automation platform is a prerequisite for implementing this workflow.
+ 
+ ---
+ 
+@@ -49,32 +95,34 @@
+ 
+ ### 3.1 Approved ICP scope
+ 
+-The workflow must cover all seven segments defined in `icp.md`, retaining their original priority classifications.
+-
+-| Priority  | Segment                                        | Segment code             | ICP qualification basis                                                                  |
+-| --------- | ---------------------------------------------- | ------------------------ | ---------------------------------------------------------------------------------------- |
+-| PRIMARY   | FMCG Distributors and Wholesalers              | `FMCG_DISTRIBUTOR`       | Multiple depots or significant warehousing, plus trade receivables or credit-based sales |
+-| PRIMARY   | Petrol Station Networks                        | `PETROL_STATION_NETWORK` | Owns or manages at least 3 stations and performs daily cash/POS reconciliation           |
+-| PRIMARY   | Retail Chains (Supermarkets)                   | `RETAIL_SUPERMARKET`     | Verifiable supermarket chain and attributable branch network                             |
+-| SECONDARY | Quick-Service Restaurant Groups                | `QSR_GROUP`              | Verifiable QSR group operating model                                                     |
+-| SECONDARY | Pharmacy Chains                                | `PHARMACY_CHAIN`         | Verifiable pharmacy chain operating model                                                |
+-| EMERGING  | Logistics and Haulage                          | `LOGISTICS_HAULAGE`      | Relevant commercial logistics, fleet or haulage operations                               |
+-| EMERGING  | Specialized Healthcare and Diagnostic Networks | `HEALTHCARE_DIAGNOSTICS` | Verifiable private healthcare or diagnostic operating network                            |
++The workflow must cover all seven segments defined in `icp/icp.md`, retaining their original priority classifications.
++
++| Priority | Segment | Segment code | ICP qualification basis |
++|---|---|---|---|
++| PRIMARY | FMCG Distributors and Wholesalers | `FMCG_DISTRIBUTOR` | Multiple depots or significant warehousing, plus trade receivables or credit-based sales |
++| PRIMARY | Petrol Station Networks | `PETROL_STATION_NETWORK` | Owns or manages at least 3 stations and performs daily cash/POS reconciliation |
++| PRIMARY | Retail Chains (Supermarkets) | `RETAIL_SUPERMARKET` | Verifiable supermarket chain and attributable branch network |
++| SECONDARY | Quick-Service Restaurant Groups | `QSR_GROUP` | Verifiable QSR group operating model |
++| SECONDARY | Pharmacy Chains | `PHARMACY_CHAIN` | Verifiable pharmacy chain operating model |
++| EMERGING | Logistics and Haulage | `LOGISTICS_HAULAGE` | Relevant commercial logistics, fleet or haulage operations |
++| EMERGING | Specialized Healthcare and Diagnostic Networks | `HEALTHCARE_DIAGNOSTICS` | Verifiable private healthcare or diagnostic operating network |
+ 
+ The segment priority determines the account's campaign priority. It does not establish qualification by itself.
+ 
++The 100-company target must not be achieved by changing the approved ICP, weakening its qualification requirements or inventing additional numerical thresholds.
++
+ ### 3.2 Mandatory account-level ICP filter
+ 
+ Every account must pass the general qualification checks and the applicable segment-specific requirements.
+ 
+-| Filter                        | Qualification rule                                                                    | Evidence required                                                                    | Decision if unresolved or failed                                        |
+-| ----------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+-| Nigerian operating presence   | A Nigerian operating entity or verifiable Nigerian operating presence must exist      | Company website, operating address, corporate profile or credible business reporting | `RESEARCH_REQUIRED` until established; `DISQUALIFIED` if absent         |
+-| Business identity             | The business and relevant operating entity must be identifiable                       | Company name, website, legal/trading identity and entity relationship                | `RESEARCH_REQUIRED`                                                     |
+-| Approved segment              | The actual operating model must fit one of the seven approved segments                | Business activities, products, services and operating model                          | `OUT_OF_SCOPE` if outside approved segments                             |
+-| Active operations             | The business must be operational                                                      | Current operating activity, locations or credible recent evidence                    | `DISQUALIFIED` if dormant, inactive or permanently closed               |
+-| Segment-specific requirements | The applicable mandatory ICP requirements must be satisfied                           | Segment-specific evidence                                                            | `RESEARCH_REQUIRED` until verified; `DISQUALIFIED` if requirements fail |
+-| Operating complexity          | The business must have the operating characteristics relevant to its approved segment | Evidence of the actual operating model                                               | Do not assume complexity from industry classification alone             |
++| Filter | Qualification rule | Evidence required | Decision if unresolved or failed |
++|---|---|---|---|
++| Nigerian operating presence | A Nigerian operating entity or verifiable Nigerian operating presence must exist | Company website, operating address, corporate profile or credible business reporting | `RESEARCH_REQUIRED` until established; `DISQUALIFIED` if absent |
++| Business identity | The business and relevant operating entity must be identifiable | Company name, website, legal/trading identity and entity relationship | `RESEARCH_REQUIRED` |
++| Approved segment | The actual operating model must fit one of the seven approved segments | Business activities, products, services and operating model | `OUT_OF_SCOPE` if outside approved segments |
++| Active operations | The business must be operational | Current operating activity, locations or credible recent evidence | `DISQUALIFIED` if dormant, inactive or permanently closed |
++| Segment-specific requirements | Applicable mandatory ICP requirements must be satisfied | Segment-specific evidence | `RESEARCH_REQUIRED` until verified; `DISQUALIFIED` if requirements fail |
++| Operating complexity | The business must have the operating characteristics relevant to its approved segment | Evidence of the actual operating model | Do not assume complexity from industry classification alone |
+ 
+ **Qualification decision:**
+ 
+@@ -129,22 +177,22 @@
+ 
+ Verify a private operating entity and its relevant healthcare or diagnostic network operations. A public-sector infrastructure project without a qualifying private commercial operator does not qualify.
+ 
+-For segments where `icp.md` does not establish numerical thresholds or additional mandatory conditions, this workflow must not invent them.
++For segments where `icp/icp.md` does not establish numerical thresholds or additional mandatory conditions, this workflow must not invent them.
+ 
+ ### 3.4 Anti-ICP exclusions
+ 
+-| Exclusion                                                                                               | Decision                                                                       |
+-| ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+-| Single-location microbusiness without evidence of meaningful scale or operational complexity            | `DISQUALIFIED`, unless documented evidence establishes relevant commercial fit |
+-| Informal sole proprietor without demonstrable financial infrastructure or relevant operating complexity | `DISQUALIFIED`, unless additional evidence establishes fit                     |
+-| Petrol station with fewer than three stations                                                           | `DISQUALIFIED` from `PETROL_STATION_NETWORK`                                   |
+-| FMCG trader without significant warehousing or distribution operations                                  | `DISQUALIFIED` unless the mandatory FMCG requirements are verified             |
+-| Retail business without a verifiable supermarket branch network                                         | `DISQUALIFIED` from `RETAIL_SUPERMARKET`                                       |
+-| Announced but unverified expansion                                                                      | `RESEARCH_REQUIRED`; announcement alone does not establish qualification       |
+-| Dormant, inactive or permanently closed business                                                        | `DISQUALIFIED`                                                                 |
+-| No verifiable Nigerian operating entity                                                                 | `DISQUALIFIED` if the operating entity cannot be established                   |
+-| Public-sector infrastructure project without a qualifying private operating entity                      | `DISQUALIFIED` from private-sector targeting                                   |
+-| Business outside the approved ICP segments                                                              | `OUT_OF_SCOPE`                                                                 |
++| Exclusion | Decision |
++|---|---|
++| Single-location microbusiness without evidence of meaningful scale or operational complexity | `DISQUALIFIED`, unless documented evidence establishes relevant commercial fit |
++| Informal sole proprietor without demonstrable financial infrastructure or relevant operating complexity | `DISQUALIFIED`, unless additional evidence establishes fit |
++| Petrol station with fewer than three stations | `DISQUALIFIED` from `PETROL_STATION_NETWORK` |
++| FMCG trader without significant warehousing or distribution operations | `DISQUALIFIED` unless the mandatory FMCG requirements are verified |
++| Retail business without a verifiable supermarket branch network | `DISQUALIFIED` from `RETAIL_SUPERMARKET` |
++| Announced but unverified expansion | `RESEARCH_REQUIRED`; announcement alone does not establish qualification |
++| Dormant, inactive or permanently closed business | `DISQUALIFIED` |
++| No verifiable Nigerian operating entity | `DISQUALIFIED` if the operating entity cannot be established |
++| Public-sector infrastructure project without a qualifying private operating entity | `DISQUALIFIED` from private-sector targeting |
++| Business outside the approved ICP segments | `OUT_OF_SCOPE` |
+ 
+ ### 3.5 ICP safeguards
+ 
+@@ -163,19 +211,19 @@
+ 
+ The initial workflow is designed around `FINANCE_RECRUITMENT`.
+ 
+-| Selection  | Signal code              | Workflow role                                             | Strategic justification                                                                                                                         |
+-| ---------- | ------------------------ | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+-| PREFERRED  | `FINANCE_RECRUITMENT`    | Primary detection, verification and routing signal        | Strong data accessibility and a credible commercial conversation around financial oversight; buying reason and volume were assessed as moderate |
+-| SUPPORTING | `MULTI_BRANCH_EXPANSION` | Secondary detection, enrichment and prioritisation signal | Strong buying reason and natural commercial story, with moderate volume and detection reliability                                               |
+-
+-The four-test assessment is a strategic evaluation from `signals.md`, not measured conversion performance.
++| Selection | Signal code | Workflow role | Strategic justification |
++|---|---|---|---|
++| PREFERRED | `FINANCE_RECRUITMENT` | Primary detection, verification and routing signal | Strong data accessibility and a credible commercial conversation around financial oversight; buying reason and volume were assessed as moderate |
++| SUPPORTING | `MULTI_BRANCH_EXPANSION` | Secondary detection, enrichment and prioritisation signal | Strong buying reason and natural commercial story, with moderate volume and detection reliability |
++
++The four-test assessment is a strategic evaluation from `icp/signals.md`, not measured conversion performance.
+ 
+ ### 4.2 Signals table
+ 
+-| Signal                   | Observable event                                                                                   | ICP relevance                                                      | Detection requirements                                         | Verification requirements                                                                                   | Commercial interpretation                                                                  |
+-| ------------------------ | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+-| `FINANCE_RECRUITMENT`    | Current finance, treasury, financial control, accounting or relevant finance operations vacancy    | All approved segments                                              | Detect relevant vacancies and identify the advertised employer | Verify employer, vacancy status, responsibilities, seniority and connection to relevant financial workflows | Possible investment in financial oversight and finance operations                          |
+-| `MULTI_BRANCH_EXPANSION` | New branch, station, warehouse, depot, diagnostic centre or other segment-specific expansion event | All approved segments, using the event appropriate to each segment | Detect segment-specific operating expansion                    | Verify event, operating entity, attribution, operational status and location growth where applicable        | Possible increase in collections, reconciliation and multi-location financial coordination |
++| Signal | Observable event | ICP relevance | Detection requirements | Verification requirements | Commercial interpretation |
++|---|---|---|---|---|---|
++| `FINANCE_RECRUITMENT` | Current finance, treasury, financial control, accounting or relevant finance operations vacancy | All approved segments | Detect relevant vacancies and identify the advertised employer | Verify employer, vacancy status, responsibilities, seniority and connection to relevant financial workflows | Possible investment in financial oversight and finance operations |
++| `MULTI_BRANCH_EXPANSION` | New branch, station, warehouse, depot, diagnostic centre or other segment-specific expansion event | All approved segments, using the event appropriate to each segment | Detect segment-specific operating expansion | Verify event, operating entity, attribution, operational status and location growth where applicable | Possible increase in collections, reconciliation and multi-location financial coordination |
+ 
+ ### 4.3 Preferred signal specification: `FINANCE_RECRUITMENT`
+ 
+@@ -238,17 +286,17 @@
+ 
+ **Purpose:** Detect operational expansion that may strengthen the commercial relevance of a finance-recruitment signal or independently provide a credible reason to investigate financial coordination requirements.
+ 
+-| Segment                 | Segment-specific expansion events                                                                                           |
+-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+-| FMCG Distributors       | New warehouse or depot commissioning; geographic distribution expansion; new regional distribution operations               |
++| Segment | Segment-specific expansion events |
++|---|---|
++| FMCG Distributors | New warehouse or depot commissioning; geographic distribution expansion; new regional distribution operations |
+ | Petrol Station Networks | New station commissioning; additional operating stations; CNG/EV infrastructure investment; non-fuel retail diversification |
+-| Retail Chains           | New supermarket branches; geographic expansion                                                                              |
+-| QSR Groups              | Multi-outlet expansion; new operating restaurant locations                                                                  |
+-| Pharmacy Chains         | Pharmacy acquisitions; new pharmacy locations                                                                               |
+-| Logistics/Haulage       | Fleet expansion; new haulage contracts or relevant operational expansion                                                    |
+-| Healthcare/Diagnostics  | New diagnostic centres; new healthcare operating locations                                                                  |
+-
+-**Important distinction:** Not every event in this table is a branch opening. CNG/EV investment, acquisitions, fleet expansion and new haulage contracts must retain their actual event classification. They must not automatically be represented as an increase in branch count.
++| Retail Chains | New supermarket branches; geographic expansion |
++| QSR Groups | Multi-outlet expansion; new operating restaurant locations |
++| Pharmacy Chains | Pharmacy acquisitions; new pharmacy locations |
++| Logistics/Haulage | Fleet expansion; new haulage contracts or relevant operational expansion |
++| Healthcare/Diagnostics | New diagnostic centres; new healthcare operating locations |
++
++Not every event in this table is a branch opening. CNG/EV investment, acquisitions, fleet expansion and new haulage contracts must retain their actual event classification. They must not automatically be represented as an increase in branch count.
+ 
+ **Verification procedure:**
+ 
+@@ -270,14 +318,14 @@
+ 
+ ### 4.5 Signal evaluation framework
+ 
+-Retain the four evaluation dimensions from `signals.md`.
+-
+-| Test                | Question                                  | Operational use                                                                                              |
+-| ------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+-| Clear buying reason | Why now?                                  | Determine whether the event provides a credible reason to investigate a financial or operational requirement |
+-| Enough volume       | Is there enough potential account volume? | Assess whether the signal can support repeatable account discovery                                           |
+-| Data you can get    | Can the event be detected?                | Assess source accessibility and verification feasibility                                                     |
+-| A natural story     | Can the event support a credible opener?  | Establish whether the event provides a relevant commercial conversation angle                                |
++Retain the four evaluation dimensions from `icp/signals.md`.
++
++| Test | Question | Operational use |
++|---|---|---|
++| Clear buying reason | Why now? | Determine whether the event provides a credible reason to investigate a financial or operational requirement |
++| Enough volume | Is there enough potential account volume? | Assess whether the signal can support repeatable account discovery |
++| Data you can get | Can the event be detected? | Assess source accessibility and verification feasibility |
++| A natural story | Can the event support a credible opener? | Establish whether the event provides a relevant commercial conversation angle |
+ 
+ These assessments guide signal selection. They are not account-level proof of demand or conversion probability.
+ 
+@@ -289,15 +337,15 @@
+ 
+ The workflow evaluates the two signals independently.
+ 
+-| Detected evidence                                   | Decision                          | Treatment                                                                                      |
+-| --------------------------------------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------- |
+-| Verified finance recruitment only                   | `FINANCE_ONLY`                    | Preferred-signal account; route using the finance-recruitment angle                            |
+-| Verified expansion only                             | `EXPANSION_ONLY`                  | Supporting-signal account; route using the segment-specific expansion angle                    |
+-| Both signals independently verified                 | `BOTH`                            | Higher research priority; investigate whether finance responsibilities relate to the expansion |
+-| Neither selected signal detected                    | `NONE`                            | Retain as ICP-qualified; do not present as signal-qualified                                    |
+-| Signal detected but not attributable to the account | `RESEARCH_REQUIRED`               | Do not route as verified                                                                       |
+-| Signal detected but event cannot be verified        | `RESEARCH_REQUIRED` or `REJECTED` | Resolve the evidence gap or reject the event                                                   |
+-| Signal detected at an ICP-disqualified account      | No qualified routing              | Preserve research evidence if useful, but exclude from qualified pipeline                      |
++| Detected evidence | Decision | Treatment |
++|---|---|---|
++| Verified finance recruitment only | `FINANCE_ONLY` | Preferred-signal account; route using the finance-recruitment angle |
++| Verified expansion only | `EXPANSION_ONLY` | Supporting-signal account; route using the segment-specific expansion angle |
++| Both signals independently verified | `BOTH` | Higher research priority; investigate whether finance responsibilities relate to the expansion |
+... diff truncated ...
+```
+
+
+## File Modified
+
+- **Detected:** 2026-11-26T16:34:01+01:00
+- **Path:** `workflow.md`
+- **Size:** 81,360 bytes
+- **SHA-256:** `83ba687b99bf8698ccea23c6370e8651ec908f343326ba37e1fa6f967e99450e`
+
+### Text Change
+
+```diff
+--- previous
++++ current
+@@ -6,23 +6,23 @@
+ 
+ **STATUS:** Clay implementation specification | **MARKET:** Nigeria | **PREFERRED SIGNAL:** `FINANCE_RECRUITMENT` | **SECONDARY SIGNAL:** `MULTI_BRANCH_EXPANSION` | **ICP GATE:** Approved ICP qualification before signal-based prioritisation | **DELIVERY TARGET:** 100 production-grade enriched company records | **OUTPUT:** Evidence-backed, enriched and commercially routed accounts ready for human review.
+ 
+-| Attribute | Specification |
+-|---|---|
+-| Workflow name | Moniepoint Business Banking and Payments GTM Signal Workflow |
+-| Workflow status | Clay implementation specification |
+-| Preferred automated signal | `FINANCE_RECRUITMENT` |
+-| Supporting signal | `MULTI_BRANCH_EXPANSION` |
+-| Primary ICP segments | FMCG Distributors, Petrol Station Networks, Retail Chains (Supermarkets) |
+-| Secondary ICP segments | QSR Groups, Pharmacy Chains |
+-| Emerging ICP segments | Logistics/Haulage, Specialized Healthcare/Diagnostic Networks |
+-| Market | Nigeria |
+-| Commercial themes | Instant settlement, working capital, multi-location financial management |
+-| Research and preparation stack | Python, DDGS, Trafilatura and Gemini API free tier |
+-| Execution and enrichment platform | Clay |
+-| ICP authority | `icp/icp.md` |
+-| Signal authority | `icp/signals.md` |
+-| Workflow authority | This document |
+-| Final production target | 100 qualified, signal-verified and enriched company records |
++| Attribute                         | Specification                                                            |
++| --------------------------------- | ------------------------------------------------------------------------ |
++| Workflow name                     | Moniepoint Business Banking and Payments GTM Signal Workflow             |
++| Workflow status                   | Clay implementation specification                                        |
++| Preferred automated signal        | `FINANCE_RECRUITMENT`                                                    |
++| Supporting signal                 | `MULTI_BRANCH_EXPANSION`                                                 |
++| Primary ICP segments              | FMCG Distributors, Petrol Station Networks, Retail Chains (Supermarkets) |
++| Secondary ICP segments            | QSR Groups, Pharmacy Chains                                              |
++| Emerging ICP segments             | Logistics/Haulage, Specialized Healthcare/Diagnostic Networks            |
++| Market                            | Nigeria                                                                  |
++| Commercial themes                 | Instant settlement, working capital, multi-location financial management |
++| Research and preparation stack    | Python, DDGS, Trafilatura and Gemini API free tier                       |
++| Execution and enrichment platform | Clay                                                                     |
++| ICP authority                     | `icp/icp.md`                                                             |
++| Signal authority                  | `icp/signals.md`                                                         |
++| Workflow authority                | This document                                                            |
++| Final production target           | 100 qualified, signal-verified and enriched company records              |
+ 
+ **Operating rule:** Finance recruitment is the principal detection and routing signal. Multi-branch expansion provides a supporting signal that can strengthen account prioritisation or independently support a segment-specific commercial angle. Neither signal can override ICP qualification.
+ 
+@@ -74,14 +74,14 @@
+ 
+ The workflow uses the following division of responsibility:
+ 
+-| Component | Responsibility | Implementation |
+-|---|---|---|
+-| Python | Research orchestration, preparation, deduplication, validation and data handling | Existing local Python environment |
+-| DDGS | Public web discovery and search | Existing Python research scripts |
+-| Trafilatura | Extracting relevant text from accessible public web pages | Existing Python research scripts |
+-| Gemini API free tier | Research assistance, structured extraction and classification | Existing API integration, subject to free-tier limits |
+-| Clay | Company tables, enrichment, signal research, contact research, classification, segmentation and routing | Clay workbook |
+-| Human review | Evidence validation, commercial judgement and outreach approval | Manual review |
++| Component            | Responsibility                                                                                          | Implementation                                        |
++| -------------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
++| Python               | Research orchestration, preparation, deduplication, validation and data handling                        | Existing local Python environment                     |
++| DDGS                 | Public web discovery and search                                                                         | Existing Python research scripts                      |
++| Trafilatura          | Extracting relevant text from accessible public web pages                                               | Existing Python research scripts                      |
++| Gemini API free tier | Research assistance, structured extraction and classification                                           | Existing API integration, subject to free-tier limits |
++| Clay                 | Company tables, enrichment, signal research, contact research, classification, segmentation and routing | Clay workbook                                         |
++| Human review         | Evidence validation, commercial judgement and outreach approval                                         | Manual review                                         |
+ 
+ The existing Python research scripts generate ICP and signal intelligence documentation. They must not be represented as an already operational 100-account qualification or signal-detection engine.
+ 
+@@ -97,15 +97,15 @@
+ 
+ The workflow must cover all seven segments defined in `icp/icp.md`, retaining their original priority classifications.
+ 
+-| Priority | Segment | Segment code | ICP qualification basis |
+-|---|---|---|---|
+-| PRIMARY | FMCG Distributors and Wholesalers | `FMCG_DISTRIBUTOR` | Multiple depots or significant warehousing, plus trade receivables or credit-based sales |
+-| PRIMARY | Petrol Station Networks | `PETROL_STATION_NETWORK` | Owns or manages at least 3 stations and performs daily cash/POS reconciliation |
+-| PRIMARY | Retail Chains (Supermarkets) | `RETAIL_SUPERMARKET` | Verifiable supermarket chain and attributable branch network |
+-| SECONDARY | Quick-Service Restaurant Groups | `QSR_GROUP` | Verifiable QSR group operating model |
+-| SECONDARY | Pharmacy Chains | `PHARMACY_CHAIN` | Verifiable pharmacy chain operating model |
+-| EMERGING | Logistics and Haulage | `LOGISTICS_HAULAGE` | Relevant commercial logistics, fleet or haulage operations |
+-| EMERGING | Specialized Healthcare and Diagnostic Networks | `HEALTHCARE_DIAGNOSTICS` | Verifiable private healthcare or diagnostic operating network |
++| Priority  | Segment                                        | Segment code             | ICP qualification basis                                                                  |
++| --------- | ---------------------------------------------- | ------------------------ | ---------------------------------------------------------------------------------------- |
++| PRIMARY   | FMCG Distributors and Wholesalers              | `FMCG_DISTRIBUTOR`       | Multiple depots or significant warehousing, plus trade receivables or credit-based sales |
++| PRIMARY   | Petrol Station Networks                        | `PETROL_STATION_NETWORK` | Owns or manages at least 3 stations and performs daily cash/POS reconciliation           |
++| PRIMARY   | Retail Chains (Supermarkets)                   | `RETAIL_SUPERMARKET`     | Verifiable supermarket chain and attributable branch network                             |
++| SECONDARY | Quick-Service Restaurant Groups                | `QSR_GROUP`              | Verifiable QSR group operating model                                                     |
++| SECONDARY | Pharmacy Chains                                | `PHARMACY_CHAIN`         | Verifiable pharmacy chain operating model                                                |
++| EMERGING  | Logistics and Haulage                          | `LOGISTICS_HAULAGE`      | Relevant commercial logistics, fleet or haulage operations                               |
++| EMERGING  | Specialized Healthcare and Diagnostic Networks | `HEALTHCARE_DIAGNOSTICS` | Verifiable private healthcare or diagnostic operating network                            |
+ 
+ The segment priority determines the account's campaign priority. It does not establish qualification by itself.
+ 
+@@ -115,14 +115,14 @@
+ 
+ Every account must pass the general qualification checks and the applicable segment-specific requirements.
+ 
+-| Filter | Qualification rule | Evidence required | Decision if unresolved or failed |
+-|---|---|---|---|
+-| Nigerian operating presence | A Nigerian operating entity or verifiable Nigerian operating presence must exist | Company website, operating address, corporate profile or credible business reporting | `RESEARCH_REQUIRED` until established; `DISQUALIFIED` if absent |
+-| Business identity | The business and relevant operating entity must be identifiable | Company name, website, legal/trading identity and entity relationship | `RESEARCH_REQUIRED` |
+-| Approved segment | The actual operating model must fit one of the seven approved segments | Business activities, products, services and operating model | `OUT_OF_SCOPE` if outside approved segments |
+-| Active operations | The business must be operational | Current operating activity, locations or credible recent evidence | `DISQUALIFIED` if dormant, inactive or permanently closed |
+-| Segment-specific requirements | Applicable mandatory ICP requirements must be satisfied | Segment-specific evidence | `RESEARCH_REQUIRED` until verified; `DISQUALIFIED` if requirements fail |
+-| Operating complexity | The business must have the operating characteristics relevant to its approved segment | Evidence of the actual operating model | Do not assume complexity from industry classification alone |
++| Filter                        | Qualification rule                                                                    | Evidence required                                                                    | Decision if unresolved or failed                                        |
++| ----------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
++| Nigerian operating presence   | A Nigerian operating entity or verifiable Nigerian operating presence must exist      | Company website, operating address, corporate profile or credible business reporting | `RESEARCH_REQUIRED` until established; `DISQUALIFIED` if absent         |
++| Business identity             | The business and relevant operating entity must be identifiable                       | Company name, website, legal/trading identity and entity relationship                | `RESEARCH_REQUIRED`                                                     |
++| Approved segment              | The actual operating model must fit one of the seven approved segments                | Business activities, products, services and operating model                          | `OUT_OF_SCOPE` if outside approved segments                             |
++| Active operations             | The business must be operational                                                      | Current operating activity, locations or credible recent evidence                    | `DISQUALIFIED` if dormant, inactive or permanently closed               |
++| Segment-specific requirements | Applicable mandatory ICP requirements must be satisfied                               | Segment-specific evidence                                                            | `RESEARCH_REQUIRED` until verified; `DISQUALIFIED` if requirements fail |
++| Operating complexity          | The business must have the operating characteristics relevant to its approved segment | Evidence of the actual operating model                                               | Do not assume complexity from industry classification alone             |
+ 
+ **Qualification decision:**
+ 
+@@ -181,18 +181,18 @@
+ 
+ ### 3.4 Anti-ICP exclusions
+ 
+-| Exclusion | Decision |
+-|---|---|
+-| Single-location microbusiness without evidence of meaningful scale or operational complexity | `DISQUALIFIED`, unless documented evidence establishes relevant commercial fit |
+-| Informal sole proprietor without demonstrable financial infrastructure or relevant operating complexity | `DISQUALIFIED`, unless additional evidence establishes fit |
+-| Petrol station with fewer than three stations | `DISQUALIFIED` from `PETROL_STATION_NETWORK` |
+-| FMCG trader without significant warehousing or distribution operations | `DISQUALIFIED` unless the mandatory FMCG requirements are verified |
+-| Retail business without a verifiable supermarket branch network | `DISQUALIFIED` from `RETAIL_SUPERMARKET` |
+-| Announced but unverified expansion | `RESEARCH_REQUIRED`; announcement alone does not establish qualification |
+-| Dormant, inactive or permanently closed business | `DISQUALIFIED` |
+-| No verifiable Nigerian operating entity | `DISQUALIFIED` if the operating entity cannot be established |
+-| Public-sector infrastructure project without a qualifying private operating entity | `DISQUALIFIED` from private-sector targeting |
+-| Business outside the approved ICP segments | `OUT_OF_SCOPE` |
++| Exclusion                                                                                               | Decision                                                                       |
++| ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
++| Single-location microbusiness without evidence of meaningful scale or operational complexity            | `DISQUALIFIED`, unless documented evidence establishes relevant commercial fit |
++| Informal sole proprietor without demonstrable financial infrastructure or relevant operating complexity | `DISQUALIFIED`, unless additional evidence establishes fit                     |
++| Petrol station with fewer than three stations                                                           | `DISQUALIFIED` from `PETROL_STATION_NETWORK`                                   |
++| FMCG trader without significant warehousing or distribution operations                                  | `DISQUALIFIED` unless the mandatory FMCG requirements are verified             |
++| Retail business without a verifiable supermarket branch network                                         | `DISQUALIFIED` from `RETAIL_SUPERMARKET`                                       |
++| Announced but unverified expansion                                                                      | `RESEARCH_REQUIRED`; announcement alone does not establish qualification       |
++| Dormant, inactive or permanently closed business                                                        | `DISQUALIFIED`                                                                 |
++| No verifiable Nigerian operating entity                                                                 | `DISQUALIFIED` if the operating entity cannot be established                   |
++| Public-sector infrastructure project without a qualifying private operating entity                      | `DISQUALIFIED` from private-sector targeting                                   |
++| Business outside the approved ICP segments                                                              | `OUT_OF_SCOPE`                                                                 |
+ 
+ ### 3.5 ICP safeguards
+ 
+@@ -211,19 +211,19 @@
+ 
+ The initial workflow is designed around `FINANCE_RECRUITMENT`.
+ 
+-| Selection | Signal code | Workflow role | Strategic justification |
+-|---|---|---|---|
+-| PREFERRED | `FINANCE_RECRUITMENT` | Primary detection, verification and routing signal | Strong data accessibility and a credible commercial conversation around financial oversight; buying reason and volume were assessed as moderate |
+-| SUPPORTING | `MULTI_BRANCH_EXPANSION` | Secondary detection, enrichment and prioritisation signal | Strong buying reason and natural commercial story, with moderate volume and detection reliability |
++| Selection  | Signal code              | Workflow role                                             | Strategic justification                                                                                                                         |
++| ---------- | ------------------------ | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
++| PREFERRED  | `FINANCE_RECRUITMENT`    | Primary detection, verification and routing signal        | Strong data accessibility and a credible commercial conversation around financial oversight; buying reason and volume were assessed as moderate |
++| SUPPORTING | `MULTI_BRANCH_EXPANSION` | Secondary detection, enrichment and prioritisation signal | Strong buying reason and natural commercial story, with moderate volume and detection reliability                                               |
+ 
+ The four-test assessment is a strategic evaluation from `icp/signals.md`, not measured conversion performance.
+ 
+ ### 4.2 Signals table
+ 
+-| Signal | Observable event | ICP relevance | Detection requirements | Verification requirements | Commercial interpretation |
+-|---|---|---|---|---|---|
+-| `FINANCE_RECRUITMENT` | Current finance, treasury, financial control, accounting or relevant finance operations vacancy | All approved segments | Detect relevant vacancies and identify the advertised employer | Verify employer, vacancy status, responsibilities, seniority and connection to relevant financial workflows | Possible investment in financial oversight and finance operations |
+-| `MULTI_BRANCH_EXPANSION` | New branch, station, warehouse, depot, diagnostic centre or other segment-specific expansion event | All approved segments, using the event appropriate to each segment | Detect segment-specific operating expansion | Verify event, operating entity, attribution, operational status and location growth where applicable | Possible increase in collections, reconciliation and multi-location financial coordination |
++| Signal                   | Observable event                                                                                   | ICP relevance                                                      | Detection requirements                                         | Verification requirements                                                                                   | Commercial interpretation                                                                  |
++| ------------------------ | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
++| `FINANCE_RECRUITMENT`    | Current finance, treasury, financial control, accounting or relevant finance operations vacancy    | All approved segments                                              | Detect relevant vacancies and identify the advertised employer | Verify employer, vacancy status, responsibilities, seniority and connection to relevant financial workflows | Possible investment in financial oversight and finance operations                          |
++| `MULTI_BRANCH_EXPANSION` | New branch, station, warehouse, depot, diagnostic centre or other segment-specific expansion event | All approved segments, using the event appropriate to each segment | Detect segment-specific operating expansion                    | Verify event, operating entity, attribution, operational status and location growth where applicable        | Possible increase in collections, reconciliation and multi-location financial coordination |
+ 
+ ### 4.3 Preferred signal specification: `FINANCE_RECRUITMENT`
+ 
+@@ -286,15 +286,15 @@
+ 
+ **Purpose:** Detect operational expansion that may strengthen the commercial relevance of a finance-recruitment signal or independently provide a credible reason to investigate financial coordination requirements.
+ 
+-| Segment | Segment-specific expansion events |
+-|---|---|
+-| FMCG Distributors | New warehouse or depot commissioning; geographic distribution expansion; new regional distribution operations |
++| Segment                 | Segment-specific expansion events                                                                                           |
++| ----------------------- | --------------------------------------------------------------------------------------------------------------------------- |
++| FMCG Distributors       | New warehouse or depot commissioning; geographic distribution expansion; new regional distribution operations               |
+ | Petrol Station Networks | New station commissioning; additional operating stations; CNG/EV infrastructure investment; non-fuel retail diversification |
+-| Retail Chains | New supermarket branches; geographic expansion |
+-| QSR Groups | Multi-outlet expansion; new operating restaurant locations |
+-| Pharmacy Chains | Pharmacy acquisitions; new pharmacy locations |
+-| Logistics/Haulage | Fleet expansion; new haulage contracts or relevant operational expansion |
+-| Healthcare/Diagnostics | New diagnostic centres; new healthcare operating locations |
++| Retail Chains           | New supermarket branches; geographic expansion                                                                              |
++| QSR Groups              | Multi-outlet expansion; new operating restaurant locations                                                                  |
++| Pharmacy Chains         | Pharmacy acquisitions; new pharmacy locations                                                                               |
++| Logistics/Haulage       | Fleet expansion; new haulage contracts or relevant operational expansion                                                    |
++| Healthcare/Diagnostics  | New diagnostic centres; new healthcare operating locations                                                                  |
+ 
+ Not every event in this table is a branch opening. CNG/EV investment, acquisitions, fleet expansion and new haulage contracts must retain their actual event classification. They must not automatically be represented as an increase in branch count.
+ 
+@@ -320,12 +320,12 @@
+ 
+ Retain the four evaluation dimensions from `icp/signals.md`.
+ 
+-| Test | Question | Operational use |
+-|---|---|---|
+-| Clear buying reason | Why now? | Determine whether the event provides a credible reason to investigate a financial or operational requirement |
+-| Enough volume | Is there enough potential account volume? | Assess whether the signal can support repeatable account discovery |
+-| Data you can get | Can the event be detected? | Assess source accessibility and verification feasibility |
+-| A natural story | Can the event support a credible opener? | Establish whether the event provides a relevant commercial conversation angle |
++| Test                | Question                                  | Operational use                                                                                              |
++| ------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
++| Clear buying reason | Why now?                                  | Determine whether the event provides a credible reason to investigate a financial or operational requirement |
++| Enough volume       | Is there enough potential account volume? | Assess whether the signal can support repeatable account discovery                                           |
++| Data you can get    | Can the event be detected?                | Assess source accessibility and verification feasibility                                                     |
++| A natural story     | Can the event support a credible opener?  | Establish whether the event provides a relevant commercial conversation angle                                |
+ 
+ These assessments guide signal selection. They are not account-level proof of demand or conversion probability.
+ 
+@@ -337,15 +337,15 @@
+ 
+ The workflow evaluates the two signals independently.
+ 
+-| Detected evidence | Decision | Treatment |
+-|---|---|---|
+-| Verified finance recruitment only | `FINANCE_ONLY` | Preferred-signal account; route using the finance-recruitment angle |
+-| Verified expansion only | `EXPANSION_ONLY` | Supporting-signal account; route using the segment-specific expansion angle |
+-| Both signals independently verified | `BOTH` | Higher research priority; investigate whether finance responsibilities relate to the expansion |
+-| Neither selected signal detected | `NONE` | Retain as ICP-qualified; do not present as signal-qualified |
+-| Signal detected but not attributable to the account | `RESEARCH_REQUIRED` | Do not route as verified |
+-| Signal detected but event cannot be verified | `RESEARCH_REQUIRED` or `REJECTED` | Resolve the evidence gap or reject the event |
+-| Signal detected at an ICP-disqualified account | No qualified routing | Preserve research evidence if useful, but exclude from qualified pipeline |
++| Detected evidence                                   | Decision                          | Treatment                                                                                      |
++| --------------------------------------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------- |
++| Verified finance recruitment only                   | `FINANCE_ONLY`                    | Preferred-signal account; route using the finance-recruitment angle                            |
++| Verified expansion only                             | `EXPANSION_ONLY`                  | Supporting-signal account; route using the segment-specific expansion angle                    |
++| Both signals independently verified                 | `BOTH`                            | Higher research priority; investigate whether finance responsibilities relate to the expansion |
++| Neither selected signal detected                    | `NONE`                            | Retain as ICP-qualified; do not present as signal-qualified                                    |
++| Signal detected but not attributable to the account | `RESEARCH_REQUIRED`               | Do not route as verified                                                                       |
++| Signal detected but event cannot be verified        | `RESEARCH_REQUIRED` or `REJECTED` | Resolve the evidence gap or reject the event                                                   |
++| Signal detected at an ICP-disqualified account      | No qualified routing              | Preserve research evidence if useful, but exclude from qualified pipeline                      |
+ 
+ ### 5.2 Prioritisation hierarchy
+ 
+@@ -363,12 +363,12 @@
+ 
+ Signal confidence must be recorded separately from ICP qualification and account priority.
+ 
+-| Confidence | Meaning |
+-|---|---|
+-| `STRONG` | Direct, attributable and sufficiently clear evidence supports the event and its relevance |
+-| `MODERATE` | Credible evidence supports the event, but one or more details remain uncertain |
+-| `WEAK` | Indirect, incomplete or ambiguous evidence |
+-| `UNASSESSED` | Confidence has not yet been evaluated |
++| Confidence   | Meaning                                                                                   |
++| ------------ | ----------------------------------------------------------------------------------------- |
++| `STRONG`     | Direct, attributable and sufficiently clear evidence supports the event and its relevance |
++| `MODERATE`   | Credible evidence supports the event, but one or more details remain uncertain            |
++| `WEAK`       | Indirect, incomplete or ambiguous evidence                                                |
++| `UNASSESSED` | Confidence has not yet been evaluated                                                     |
+ 
+ A strong signal cannot compensate for failed ICP qualification.
+ 
+@@ -382,25 +382,25 @@
+ 
+ ### 6.1 Primary ICP routing
+ 
+-| Primary segment | `FINANCE_RECRUITMENT` angle | `MULTI_BRANCH_EXPANSION` angle |
+-|---|---|---|
+-| FMCG Distributors | Investigate how the finance function manages trade receivables, supplier payments, treasury oversight and collections across depots. Explore whether financial oversight requirements are changing as the business scales. | Investigate how new depots or regional distribution operations affect collections, trade-payment coordination, cash visibility and working-capital requirements. |
+-| Petrol Station Networks | Investigate how the finance team manages daily cash/POS reconciliation, station-level collections, settlement visibility and financial control across the network. | Investigate how additional stations, CNG/EV infrastructure or non-fuel retail offerings change transaction management, settlement coordination and liquidity requirements across the network. |
+-| Retail Chains (Supermarkets) | Investigate how the finance function consolidates branch collections, reconciles cash/POS/transfers and manages financial reporting across outlets. | Investigate how new supermarket branches affect centralised financial reporting, outlet collections, payment reconciliation and settlement coordination. |
++| Primary segment              | `FINANCE_RECRUITMENT` angle                                                                                                                                                                                                | `MULTI_BRANCH_EXPANSION` angle                                                                                                                                                                |
++| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
++| FMCG Distributors            | Investigate how the finance function manages trade receivables, supplier payments, treasury oversight and collections across depots. Explore whether financial oversight requirements are changing as the business scales. | Investigate how new depots or regional distribution operations affect collections, trade-payment coordination, cash visibility and working-capital requirements.                              |
++| Petrol Station Networks      | Investigate how the finance team manages daily cash/POS reconciliation, station-level collections, settlement visibility and financial control across the network.                                                         | Investigate how additional stations, CNG/EV infrastructure or non-fuel retail offerings change transaction management, settlement coordination and liquidity requirements across the network. |
++| Retail Chains (Supermarkets) | Investigate how the finance function consolidates branch collections, reconciles cash/POS/transfers and manages financial reporting across outlets.                                                                        | Investigate how new supermarket branches affect centralised financial reporting, outlet collections, payment reconciliation and settlement coordination.                                      |
+ 
+ ### 6.2 Secondary ICP routing
+ 
+-| Secondary segment | `FINANCE_RECRUITMENT` angle | `MULTI_BRANCH_EXPANSION` angle |
+-|---|---|---|
+-| QSR Groups | Investigate how finance teams oversee outlet collections, daily reconciliation, supplier payments and consolidated reporting across restaurants. | Investigate how additional restaurant outlets affect transaction coordination, collections, centralised POS management and consolidated financial reporting. |
+-| Pharmacy Chains | Investigate how finance and accounting teams manage outlet reconciliation, supplier payments, inventory-related financial control and consolidated reporting. | Investigate whether acquisitions or new pharmacy locations create additional supplier-payment, collections and financial integration requirements. |
++| Secondary segment | `FINANCE_RECRUITMENT` angle                                                                                                                                   | `MULTI_BRANCH_EXPANSION` angle                                                                                                                               |
++| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
++| QSR Groups        | Investigate how finance teams oversee outlet collections, daily reconciliation, supplier payments and consolidated reporting across restaurants.              | Investigate how additional restaurant outlets affect transaction coordination, collections, centralised POS management and consolidated financial reporting. |
++| Pharmacy Chains   | Investigate how finance and accounting teams manage outlet reconciliation, supplier payments, inventory-related financial control and consolidated reporting. | Investigate whether acquisitions or new pharmacy locations create additional supplier-payment, collections and financial integration requirements.           |
+ 
+ ### 6.3 Emerging ICP routing
+ 
+-| Emerging segment | `FINANCE_RECRUITMENT` angle | `MULTI_BRANCH_EXPANSION` angle |
+-|---|---|---|
+-| Logistics/Haulage | Investigate how finance teams manage fleet expenditure, driver payments, collections, supplier payments and financial oversight across operations. | Investigate whether fleet expansion or new haulage capacity increases expenditure coordination, driver-payment administration and working-capital requirements. |
+-| Specialized Healthcare/Diagnostic Networks | Investigate how finance teams manage patient collections, corporate payments, billing reconciliation and financial reporting across centres. | Investigate whether new diagnostic centres create additional collection, billing, payment coordination and consolidated reporting requirements. |
++| Emerging segment                           | `FINANCE_RECRUITMENT` angle                                                                                                                        | `MULTI_BRANCH_EXPANSION` angle                                                                                                                                  |
++| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
++| Logistics/Haulage                          | Investigate how finance teams manage fleet expenditure, driver payments, collections, supplier payments and financial oversight across operations. | Investigate whether fleet expansion or new haulage capacity increases expenditure coordination, driver-payment administration and working-capital requirements. |
++| Specialized Healthcare/Diagnostic Networks | Investigate how finance teams manage patient collections, corporate payments, billing reconciliation and financial reporting across centres.       | Investigate whether new diagnostic centres create additional collection, billing, payment coordination and consolidated reporting requirements.                 |
+ 
+ ### 6.4 Commercial angle construction
+ 
+@@ -418,13 +418,13 @@
+... diff truncated ...
+```
+

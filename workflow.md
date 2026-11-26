@@ -4,25 +4,29 @@
 
 ## 1. Workflow Status Line
 
-**STATUS:** Initial implementation specification | **MARKET:** Nigeria | **PREFERRED SIGNAL:** `FINANCE_RECRUITMENT` | **SECONDARY SIGNAL:** `MULTI_BRANCH_EXPANSION` | **ICP GATE:** Approved ICP qualification before signal-based prioritisation | **OUTPUT:** Verified, enriched and commercially routed accounts ready for human review.
+**STATUS:** Clay implementation specification | **MARKET:** Nigeria | **PREFERRED SIGNAL:** `FINANCE_RECRUITMENT` | **SECONDARY SIGNAL:** `MULTI_BRANCH_EXPANSION` | **ICP GATE:** Approved ICP qualification before signal-based prioritisation | **DELIVERY TARGET:** 100 production-grade enriched company records | **OUTPUT:** Evidence-backed, enriched and commercially routed accounts ready for human review.
 
-| Attribute                  | Specification                                                            |
-| -------------------------- | ------------------------------------------------------------------------ |
-| Workflow name              | Moniepoint Business Banking and Payments GTM Signal Workflow             |
-| Workflow status            | Initial implementation specification                                     |
-| Preferred automated signal | `FINANCE_RECRUITMENT`                                                    |
-| Supporting signal          | `MULTI_BRANCH_EXPANSION`                                                 |
-| Primary ICP segments       | FMCG Distributors, Petrol Station Networks, Retail Chains (Supermarkets) |
-| Secondary ICP segments     | QSR Groups, Pharmacy Chains                                              |
-| Emerging ICP segments      | Logistics/Haulage, Specialized Healthcare/Diagnostic Networks            |
-| Market                     | Nigeria                                                                  |
-| Commercial themes          | Instant settlement, working capital, multi-location financial management |
-| Execution platform         | Clay                                                                     |
-| ICP authority              | `icp.md`                                                                 |
-| Signal authority           | `signals.md`                                                             |
-| Workflow authority         | This document                                                            |
+| Attribute                         | Specification                                                            |
+| --------------------------------- | ------------------------------------------------------------------------ |
+| Workflow name                     | Moniepoint Business Banking and Payments GTM Signal Workflow             |
+| Workflow status                   | Clay implementation specification                                        |
+| Preferred automated signal        | `FINANCE_RECRUITMENT`                                                    |
+| Supporting signal                 | `MULTI_BRANCH_EXPANSION`                                                 |
+| Primary ICP segments              | FMCG Distributors, Petrol Station Networks, Retail Chains (Supermarkets) |
+| Secondary ICP segments            | QSR Groups, Pharmacy Chains                                              |
+| Emerging ICP segments             | Logistics/Haulage, Specialized Healthcare/Diagnostic Networks            |
+| Market                            | Nigeria                                                                  |
+| Commercial themes                 | Instant settlement, working capital, multi-location financial management |
+| Research and preparation stack    | Python, DDGS, Trafilatura and Gemini API free tier                       |
+| Execution and enrichment platform | Clay                                                                     |
+| ICP authority                     | `icp/icp.md`                                                             |
+| Signal authority                  | `icp/signals.md`                                                         |
+| Workflow authority                | This document                                                            |
+| Final production target           | 100 qualified, signal-verified and enriched company records              |
 
-**Operating rule:** Finance recruitment is the principal detection and routing signal. Multi-branch expansion provides a secondary signal that can strengthen account prioritisation or independently support a segment-specific commercial angle. Neither signal can override ICP qualification.
+**Operating rule:** Finance recruitment is the principal detection and routing signal. Multi-branch expansion provides a supporting signal that can strengthen account prioritisation or independently support a segment-specific commercial angle. Neither signal can override ICP qualification.
+
+**Delivery rule:** The target is 100 production-grade company records, not 20. Discovery results, incomplete research records, unverified signals and unqualified businesses do not count towards this target.
 
 ---
 
@@ -30,7 +34,7 @@
 
 Identify Nigerian businesses within Moniepoint's approved ICP that are investing in financial oversight or expanding their operations, then use those observable developments to identify credible opportunities for commercial conversations about business banking and payments.
 
-The preferred signal, `FINANCE_RECRUITMENT`, is intended to identify businesses recruiting for finance, treasury, financial control or related responsibilities. These vacancies can indicate investment in financial oversight and may provide a relevant reason to investigate how the business manages:
+The preferred signal, `FINANCE_RECRUITMENT`, identifies businesses recruiting for finance, treasury, financial control or related responsibilities. These vacancies can indicate investment in financial oversight and may provide a relevant reason to investigate how the business manages:
 
 - Collections and cash management.
 - Cash, POS and transfer reconciliation.
@@ -41,7 +45,49 @@ The preferred signal, `FINANCE_RECRUITMENT`, is intended to identify businesses 
 
 `MULTI_BRANCH_EXPANSION` provides supporting evidence of operational change. It helps establish whether the business is adding locations, distribution capacity or other infrastructure that could increase financial coordination requirements.
 
-**The intended output is not a list of companies with finance vacancies or expansion announcements. It is a pipeline of ICP-qualified accounts with verified events, relevant buying roles and a defensible commercial angle.**
+**The intended output is not a list of companies with finance vacancies or expansion announcements. It is a pipeline of 100 ICP-qualified company accounts with independently verified events, enriched company information, relevant buying-role research and a defensible commercial angle.**
+
+### 2.1 Delivery target
+
+The final workbook must contain at least 100 production-grade enriched company records.
+
+The target applies to company accounts, not contacts, job vacancies, locations or duplicate company records.
+
+The 100 accounts must:
+
+1. Belong to one of the seven approved ICP segments.
+2. Have verified Nigerian operating presence.
+3. Pass all applicable mandatory segment-specific ICP requirements.
+4. Have an identifiable company and operating entity.
+5. Have at least one independently verified selected buying signal.
+6. Have traceable ICP and signal evidence.
+7. Have completed company enrichment.
+8. Have a segment-specific commercial angle.
+9. Have relevant buying-role research attempted and its outcome recorded.
+10. Be available for human review.
+
+The preferred signal remains `FINANCE_RECRUITMENT`. However, a qualified account with independently verified `MULTI_BRANCH_EXPANSION` can count towards the production target even if finance recruitment is not detected.
+
+Accounts with neither verified signal remain useful research records but do not count towards the 100 production-grade target.
+
+### 2.2 Research and execution boundaries
+
+The workflow uses the following division of responsibility:
+
+| Component            | Responsibility                                                                                          | Implementation                                        |
+| -------------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| Python               | Research orchestration, preparation, deduplication, validation and data handling                        | Existing local Python environment                     |
+| DDGS                 | Public web discovery and search                                                                         | Existing Python research scripts                      |
+| Trafilatura          | Extracting relevant text from accessible public web pages                                               | Existing Python research scripts                      |
+| Gemini API free tier | Research assistance, structured extraction and classification                                           | Existing API integration, subject to free-tier limits |
+| Clay                 | Company tables, enrichment, signal research, contact research, classification, segmentation and routing | Clay workbook                                         |
+| Human review         | Evidence validation, commercial judgement and outreach approval                                         | Manual review                                         |
+
+The existing Python research scripts generate ICP and signal intelligence documentation. They must not be represented as an already operational 100-account qualification or signal-detection engine.
+
+Clay is the primary execution environment for the Week 2 company enrichment deliverable.
+
+No Claude Code subscription, paid Gemini API plan, paid search API or additional automation platform is a prerequisite for implementing this workflow.
 
 ---
 
@@ -49,7 +95,7 @@ The preferred signal, `FINANCE_RECRUITMENT`, is intended to identify businesses 
 
 ### 3.1 Approved ICP scope
 
-The workflow must cover all seven segments defined in `icp.md`, retaining their original priority classifications.
+The workflow must cover all seven segments defined in `icp/icp.md`, retaining their original priority classifications.
 
 | Priority  | Segment                                        | Segment code             | ICP qualification basis                                                                  |
 | --------- | ---------------------------------------------- | ------------------------ | ---------------------------------------------------------------------------------------- |
@@ -63,6 +109,8 @@ The workflow must cover all seven segments defined in `icp.md`, retaining their 
 
 The segment priority determines the account's campaign priority. It does not establish qualification by itself.
 
+The 100-company target must not be achieved by changing the approved ICP, weakening its qualification requirements or inventing additional numerical thresholds.
+
 ### 3.2 Mandatory account-level ICP filter
 
 Every account must pass the general qualification checks and the applicable segment-specific requirements.
@@ -73,7 +121,7 @@ Every account must pass the general qualification checks and the applicable segm
 | Business identity             | The business and relevant operating entity must be identifiable                       | Company name, website, legal/trading identity and entity relationship                | `RESEARCH_REQUIRED`                                                     |
 | Approved segment              | The actual operating model must fit one of the seven approved segments                | Business activities, products, services and operating model                          | `OUT_OF_SCOPE` if outside approved segments                             |
 | Active operations             | The business must be operational                                                      | Current operating activity, locations or credible recent evidence                    | `DISQUALIFIED` if dormant, inactive or permanently closed               |
-| Segment-specific requirements | The applicable mandatory ICP requirements must be satisfied                           | Segment-specific evidence                                                            | `RESEARCH_REQUIRED` until verified; `DISQUALIFIED` if requirements fail |
+| Segment-specific requirements | Applicable mandatory ICP requirements must be satisfied                               | Segment-specific evidence                                                            | `RESEARCH_REQUIRED` until verified; `DISQUALIFIED` if requirements fail |
 | Operating complexity          | The business must have the operating characteristics relevant to its approved segment | Evidence of the actual operating model                                               | Do not assume complexity from industry classification alone             |
 
 **Qualification decision:**
@@ -129,7 +177,7 @@ Verify relevant commercial logistics, fleet or haulage operations. Industry memb
 
 Verify a private operating entity and its relevant healthcare or diagnostic network operations. A public-sector infrastructure project without a qualifying private commercial operator does not qualify.
 
-For segments where `icp.md` does not establish numerical thresholds or additional mandatory conditions, this workflow must not invent them.
+For segments where `icp/icp.md` does not establish numerical thresholds or additional mandatory conditions, this workflow must not invent them.
 
 ### 3.4 Anti-ICP exclusions
 
@@ -168,7 +216,7 @@ The initial workflow is designed around `FINANCE_RECRUITMENT`.
 | PREFERRED  | `FINANCE_RECRUITMENT`    | Primary detection, verification and routing signal        | Strong data accessibility and a credible commercial conversation around financial oversight; buying reason and volume were assessed as moderate |
 | SUPPORTING | `MULTI_BRANCH_EXPANSION` | Secondary detection, enrichment and prioritisation signal | Strong buying reason and natural commercial story, with moderate volume and detection reliability                                               |
 
-The four-test assessment is a strategic evaluation from `signals.md`, not measured conversion performance.
+The four-test assessment is a strategic evaluation from `icp/signals.md`, not measured conversion performance.
 
 ### 4.2 Signals table
 
@@ -248,7 +296,7 @@ A relevant finance vacancy may indicate that the company is strengthening financ
 | Logistics/Haulage       | Fleet expansion; new haulage contracts or relevant operational expansion                                                    |
 | Healthcare/Diagnostics  | New diagnostic centres; new healthcare operating locations                                                                  |
 
-**Important distinction:** Not every event in this table is a branch opening. CNG/EV investment, acquisitions, fleet expansion and new haulage contracts must retain their actual event classification. They must not automatically be represented as an increase in branch count.
+Not every event in this table is a branch opening. CNG/EV investment, acquisitions, fleet expansion and new haulage contracts must retain their actual event classification. They must not automatically be represented as an increase in branch count.
 
 **Verification procedure:**
 
@@ -270,7 +318,7 @@ A relevant finance vacancy may indicate that the company is strengthening financ
 
 ### 4.5 Signal evaluation framework
 
-Retain the four evaluation dimensions from `signals.md`.
+Retain the four evaluation dimensions from `icp/signals.md`.
 
 | Test                | Question                                  | Operational use                                                                                              |
 | ------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
@@ -386,53 +434,57 @@ This section is the implementation contract for Clay. Field names, types, permit
 
 ### 7.1 Account variables
 
-| Variable                          | Type     | Requirement          | Allowed values / format                                                                                                                          | Purpose                                    |
-| --------------------------------- | -------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ |
-| `account_id`                      | Text     | Required             | Unique stable identifier                                                                                                                         | Account primary key                        |
-| `company_name`                    | Text     | Required             | Verified trading or company name                                                                                                                 | Account identity                           |
-| `legal_entity_name`               | Text     | Conditional          | Verified legal entity name                                                                                                                       | Entity resolution                          |
-| `company_website`                 | URL      | Conditional          | Valid URL                                                                                                                                        | Account verification                       |
-| `country`                         | Text     | Required             | `Nigeria` for qualified accounts                                                                                                                 | Geographic qualification                   |
-| `operating_location`              | Text     | Required             | Verified Nigerian city/state or operating locations                                                                                              | Operating footprint                        |
-| `segment`                         | Category | Required             | `FMCG_DISTRIBUTOR`, `PETROL_STATION_NETWORK`, `RETAIL_SUPERMARKET`, `QSR_GROUP`, `PHARMACY_CHAIN`, `LOGISTICS_HAULAGE`, `HEALTHCARE_DIAGNOSTICS` | ICP segment                                |
-| `segment_priority`                | Category | Required             | `PRIMARY`, `SECONDARY`, `EMERGING`                                                                                                               | Campaign priority                          |
-| `icp_qualification_status`        | Category | Required             | `QUALIFIED`, `RESEARCH_REQUIRED`, `DISQUALIFIED`, `OUT_OF_SCOPE`                                                                                 | ICP decision                               |
-| `operational_status`              | Category | Required             | `ACTIVE`, `INACTIVE`, `UNKNOWN`                                                                                                                  | Operating-status verification              |
-| `icp_evidence_url`                | URL      | Conditional          | Source URL                                                                                                                                       | Qualification evidence                     |
-| `icp_evidence_summary`            | Text     | Conditional          | Factual summary                                                                                                                                  | Qualification rationale                    |
-| `operating_model_evidence`        | Text     | Required             | Factual summary                                                                                                                                  | Segment-specific operating-model proof     |
-| `location_count`                  | Number   | Conditional          | Non-negative integer                                                                                                                             | Known operating locations                  |
-| `location_count_previous`         | Number   | Conditional          | Non-negative integer                                                                                                                             | Previous known location count              |
-| `location_count_current`          | Number   | Conditional          | Non-negative integer                                                                                                                             | Current known location count               |
-| `warehousing_evidence`            | Text     | FMCG only            | Evidence summary                                                                                                                                 | Multiple depots or significant warehousing |
-| `trade_receivables_evidence`      | Text     | FMCG only            | Evidence summary                                                                                                                                 | Trade receivables or credit-based sales    |
-| `station_reconciliation_evidence` | Text     | Petrol stations only | Evidence summary                                                                                                                                 | Daily cash/POS reconciliation              |
+| Variable                          | Type     | Requirement              | Allowed values / format                                          | Purpose                                    |
+| --------------------------------- | -------- | ------------------------ | ---------------------------------------------------------------- | ------------------------------------------ |
+| `account_id`                      | Text     | Required                 | Unique stable identifier                                         | Account primary key                        |
+| `company_name`                    | Text     | Required                 | Verified trading or company name                                 | Account identity                           |
+| `legal_entity_name`               | Text     | Conditional              | Verified legal entity name                                       | Entity resolution                          |
+| `company_website`                 | URL      | Required where available | Valid URL                                                        | Account verification                       |
+| `company_domain`                  | Text     | Required where available | Normalised domain                                                | Deduplication and enrichment               |
+| `country`                         | Text     | Required                 | `Nigeria` for qualified accounts                                 | Geographic qualification                   |
+| `operating_location`              | Text     | Required                 | Verified Nigerian city/state or operating locations              | Operating footprint                        |
+| `segment`                         | Category | Required                 | Approved seven segment codes                                     | ICP segment                                |
+| `segment_priority`                | Category | Required                 | `PRIMARY`, `SECONDARY`, `EMERGING`                               | Campaign priority                          |
+| `icp_qualification_status`        | Category | Required                 | `QUALIFIED`, `RESEARCH_REQUIRED`, `DISQUALIFIED`, `OUT_OF_SCOPE` | ICP decision                               |
+| `operational_status`              | Category | Required                 | `ACTIVE`, `INACTIVE`, `UNKNOWN`                                  | Operating-status verification              |
+| `icp_evidence_url`                | URL      | Conditional              | Source URL                                                       | Qualification evidence                     |
+| `icp_evidence_summary`            | Text     | Conditional              | Factual summary                                                  | Qualification rationale                    |
+| `operating_model_evidence`        | Text     | Required                 | Factual summary                                                  | Segment-specific operating-model proof     |
+| `location_count`                  | Number   | Conditional              | Non-negative integer                                             | Known operating locations                  |
+| `location_count_previous`         | Number   | Conditional              | Non-negative integer                                             | Previous known location count              |
+| `location_count_current`          | Number   | Conditional              | Non-negative integer                                             | Current known location count               |
+| `warehousing_evidence`            | Text     | FMCG only                | Evidence summary                                                 | Multiple depots or significant warehousing |
+| `trade_receivables_evidence`      | Text     | FMCG only                | Evidence summary                                                 | Trade receivables or credit-based sales    |
+| `station_reconciliation_evidence` | Text     | Petrol stations only     | Evidence summary                                                 | Daily cash/POS reconciliation              |
+| `company_enrichment_status`       | Category | Required                 | `PENDING`, `ENRICHED`, `PARTIAL`, `FAILED`                       | Company enrichment outcome                 |
+| `company_enrichment_source`       | Text     | Conditional              | Provider or source name                                          | Enrichment provenance                      |
+| `company_enrichment_date`         | Date     | Conditional              | ISO date                                                         | Enrichment audit trail                     |
 
 ### 7.2 Signal evidence variables
 
 Each detected event must have its own signal evidence record. An account can have multiple signal records.
 
-| Variable                        | Type          | Requirement              | Allowed values / format                                   | Purpose                                  |
-| ------------------------------- | ------------- | ------------------------ | --------------------------------------------------------- | ---------------------------------------- |
-| `signal_id`                     | Text          | Required                 | Unique stable identifier                                  | Signal evidence primary key              |
-| `account_id`                    | Text          | Required                 | Existing account ID                                       | Link signal to account                   |
-| `signal_type`                   | Category      | Required                 | `FINANCE_RECRUITMENT`, `MULTI_BRANCH_EXPANSION`           | Selected signal                          |
-| `signal_priority`               | Category      | Required                 | `PRIMARY`, `SECONDARY`                                    | Signal hierarchy                         |
-| `signal_event_type`             | Category/text | Required                 | Specific event code or description                        | Preserve actual event                    |
-| `signal_detected_date`          | Date          | Required                 | ISO date                                                  | Detection date                           |
-| `signal_event_date`             | Date          | Conditional              | ISO date                                                  | Event or publication date, as applicable |
-| `signal_source_url`             | URL           | Required                 | Direct source URL                                         | Evidence traceability                    |
-| `signal_evidence_summary`       | Text          | Required                 | Factual description                                       | What the source establishes              |
-| `signal_detection_status`       | Category      | Required                 | `DETECTED`, `NOT_DETECTED`, `RESEARCH_REQUIRED`           | Detection outcome                        |
-| `signal_verification_status`    | Category      | Required when detected   | `VERIFIED`, `UNVERIFIED`, `REJECTED`, `RESEARCH_REQUIRED` | Verification outcome                     |
-| `signal_confidence`             | Category      | Required when assessed   | `STRONG`, `MODERATE`, `WEAK`, `UNASSESSED`                | Evidence confidence                      |
-| `signal_recency_days`           | Number        | Conditional              | Non-negative integer                                      | Event age where calculable               |
-| `finance_role_title`            | Text          | Finance recruitment only | Advertised job title                                      | Role identification                      |
-| `finance_role_responsibilities` | Text          | Finance recruitment only | Extracted responsibilities                                | Role relevance                           |
-| `finance_role_relevance`        | Boolean       | Finance recruitment only | `TRUE`, `FALSE`                                           | Relevance to financial workflows         |
-| `finance_role_type`             | Category      | Conditional              | `NEW_ROLE`, `REPLACEMENT`, `UNKNOWN`                      | Recruitment interpretation               |
-| `expansion_type`                | Category/text | Expansion only           | Segment-specific event type                               | Expansion classification                 |
-| `expansion_verification`        | Text          | Expansion only           | Factual verification summary                              | Evidence of operating event              |
+| Variable                        | Type          | Requirement              | Allowed values / format                                   | Purpose                          |
+| ------------------------------- | ------------- | ------------------------ | --------------------------------------------------------- | -------------------------------- |
+| `signal_id`                     | Text          | Required                 | Unique stable identifier                                  | Signal evidence primary key      |
+| `account_id`                    | Text          | Required                 | Existing account ID                                       | Link signal to account           |
+| `signal_type`                   | Category      | Required                 | `FINANCE_RECRUITMENT`, `MULTI_BRANCH_EXPANSION`           | Selected signal                  |
+| `signal_priority`               | Category      | Required                 | `PRIMARY`, `SECONDARY`                                    | Signal hierarchy                 |
+| `signal_event_type`             | Category/text | Required                 | Specific event code or description                        | Preserve actual event            |
+| `signal_detected_date`          | Date          | Required                 | ISO date                                                  | Detection date                   |
+| `signal_event_date`             | Date          | Conditional              | ISO date                                                  | Event or publication date        |
+| `signal_source_url`             | URL           | Required when detected   | Direct source URL                                         | Evidence traceability            |
+| `signal_evidence_summary`       | Text          | Required when detected   | Factual description                                       | What the source establishes      |
+| `signal_detection_status`       | Category      | Required                 | `DETECTED`, `NOT_DETECTED`, `RESEARCH_REQUIRED`           | Detection outcome                |
+| `signal_verification_status`    | Category      | Required when detected   | `VERIFIED`, `UNVERIFIED`, `REJECTED`, `RESEARCH_REQUIRED` | Verification outcome             |
+| `signal_confidence`             | Category      | Required when assessed   | `STRONG`, `MODERATE`, `WEAK`, `UNASSESSED`                | Evidence confidence              |
+| `signal_recency_days`           | Number        | Conditional              | Non-negative integer                                      | Event age where calculable       |
+| `finance_role_title`            | Text          | Finance recruitment only | Advertised job title                                      | Role identification              |
+| `finance_role_responsibilities` | Text          | Finance recruitment only | Extracted responsibilities                                | Role relevance                   |
+| `finance_role_relevance`        | Boolean       | Finance recruitment only | `TRUE`, `FALSE`                                           | Relevance to financial workflows |
+| `finance_role_type`             | Category      | Conditional              | `NEW_ROLE`, `REPLACEMENT`, `UNKNOWN`                      | Recruitment interpretation       |
+| `expansion_type`                | Category/text | Expansion only           | Segment-specific event type                               | Expansion classification         |
+| `expansion_verification`        | Text          | Expansion only           | Factual verification summary                              | Evidence of operating event      |
 
 **Status distinction:**
 
@@ -460,17 +512,21 @@ These fields must not be merged into one status field.
 
 Contact enrichment is linked to the account but does not determine ICP qualification.
 
-| Variable                      | Type          | Requirement                 | Allowed values / format                                                    | Purpose                   |
-| ----------------------------- | ------------- | --------------------------- | -------------------------------------------------------------------------- | ------------------------- |
-| `contact_id`                  | Text          | Required for contact record | Unique stable identifier                                                   | Contact primary key       |
-| `account_id`                  | Text          | Required                    | Existing account ID                                                        | Link contact to account   |
-| `persona_name`                | Text          | Conditional                 | Verified contact name                                                      | Contact identity          |
-| `persona_title`               | Text          | Conditional                 | Verified job title                                                         | Role identification       |
-| `persona_function`            | Category      | Conditional                 | `OWNER`, `MANAGING_DIRECTOR`, `FINANCE`, `TREASURY`, `OPERATIONS`, `OTHER` | Functional classification |
-| `persona_seniority`           | Category/text | Conditional                 | Verified seniority                                                         | Buying-role context       |
-| `persona_source_url`          | URL           | Conditional                 | Direct source URL                                                          | Contact evidence          |
-| `contact_verification_status` | Category      | Required for contact record | `VERIFIED`, `UNVERIFIED`, `RESEARCH_REQUIRED`                              | Contact verification      |
-| `contact_relevance`           | Category      | Conditional                 | `ECONOMIC_BUYER`, `INFLUENCER`, `RELEVANT_FUNCTION`, `UNKNOWN`             | Buying-role relevance     |
+| Variable                      | Type          | Requirement                         | Allowed values / format                                                    | Purpose                      |
+| ----------------------------- | ------------- | ----------------------------------- | -------------------------------------------------------------------------- | ---------------------------- |
+| `contact_id`                  | Text          | Required for contact record         | Unique stable identifier                                                   | Contact primary key          |
+| `account_id`                  | Text          | Required                            | Existing account ID                                                        | Link contact to account      |
+| `persona_name`                | Text          | Conditional                         | Verified contact name                                                      | Contact identity             |
+| `persona_title`               | Text          | Conditional                         | Verified job title                                                         | Role identification          |
+| `persona_function`            | Category      | Conditional                         | `OWNER`, `MANAGING_DIRECTOR`, `FINANCE`, `TREASURY`, `OPERATIONS`, `OTHER` | Functional classification    |
+| `persona_seniority`           | Category/text | Conditional                         | Verified seniority                                                         | Buying-role context          |
+| `persona_source_url`          | URL           | Conditional                         | Direct source URL                                                          | Contact evidence             |
+| `contact_verification_status` | Category      | Required for contact record         | `VERIFIED`, `UNVERIFIED`, `RESEARCH_REQUIRED`                              | Contact verification         |
+| `contact_relevance`           | Category      | Conditional                         | `ECONOMIC_BUYER`, `INFLUENCER`, `RELEVANT_FUNCTION`, `UNKNOWN`             | Buying-role relevance        |
+| `work_email`                  | Email         | Conditional                         | Business email                                                             | Contactability               |
+| `email_verification_status`   | Category      | Conditional                         | `VERIFIED`, `UNVERIFIED`, `RISKY`, `NOT_FOUND`                             | Email validation             |
+| `email_matches_company`       | Boolean       | Conditional                         | `TRUE`, `FALSE`                                                            | Company-domain check         |
+| `send_ready`                  | Boolean       | Required for outreach-ready contact | `TRUE`, `FALSE`                                                            | Final contact readiness gate |
 
 ### 7.5 Data integrity rules
 
@@ -487,6 +543,8 @@ Contact enrichment is linked to the account but does not determine ICP qualifica
 11. A verified signal requires attributable evidence and a factual evidence summary.
 12. An account cannot be `QUALIFIED` until its applicable mandatory ICP requirements are verified.
 13. A signal cannot be used to infer purchase intent, payment friction, credit eligibility or purchasing authority.
+14. Company enrichment must not overwrite the evidence used for ICP qualification.
+15. A missing email or contact must not change a qualified account's ICP status.
 
 ---
 
@@ -499,12 +557,15 @@ Contact enrichment is linked to the account but does not determine ICP qualifica
 **Actions:**
 
 1. Discover businesses in the approved segments.
-2. Capture company name, website and known operating locations.
+2. Capture company name, website, domain and known operating locations.
 3. Identify the likely operating entity.
 4. Assign a provisional segment and priority.
 5. Record the discovery source.
+6. Deduplicate candidate companies using normalised company domains where available, supported by company-name and legal-entity checks.
 
 **Output:** `DISCOVERED` account.
+
+Discovery results are candidates, not qualified accounts. Search-result volume must not be reported as the number of qualified companies.
 
 ### Stage 2: ICP Qualification
 
@@ -596,18 +657,22 @@ Contact enrichment is linked to the account but does not determine ICP qualifica
 
 **Output:** `signal_combination` and `account_research_priority`.
 
+An account with no detected signal remains ICP-qualified but does not count towards the 100 production-grade target.
+
 ### Stage 7: Account and Persona Enrichment
 
 **Objective:** Build a useful account record and identify relevant buying roles.
 
 **Actions:**
 
-1. Confirm the company website and operating entity.
+1. Confirm the company website, domain and operating entity.
 2. Capture known business locations and segment-specific operating evidence.
-3. Research relevant finance, treasury, operations and executive contacts.
-4. Record names, titles, functions and source URLs where available.
-5. Classify contact relevance using the buying-role guidance below.
-6. Record unresolved contact research rather than inventing contact details.
+3. Enrich company information using available Clay providers and accessible public sources.
+4. Research relevant finance, treasury, operations and executive contacts.
+5. Record names, titles, functions and source URLs where available.
+6. Classify contact relevance using the buying-role guidance below.
+7. Record unresolved contact research rather than inventing contact details.
+8. Record enrichment status and the source/provider used.
 
 **Buying-role guidance:**
 
@@ -621,7 +686,7 @@ Contact enrichment is linked to the account but does not determine ICP qualifica
 | Logistics/Haulage       | Finance leadership, operations leadership and business ownership                       |
 | Healthcare/Diagnostics  | Finance leadership and relevant executive or operating leadership                      |
 
-A missing contact does not disqualify an account.
+A missing contact does not disqualify an account. Contact research must be attempted and the outcome recorded, but an account must not be removed from the 100-company target solely because a named contact or email cannot be found.
 
 ### Stage 8: Commercial Routing
 
@@ -706,7 +771,7 @@ Outreach must:
 | `OUTREACH_REVIEW`            | Outreach approved                                           | `OUTREACH_READY`                          |
 | `OUTREACH_REVIEW`            | Outreach rejected                                           | `REJECTED`                                |
 
-An account with no detected signal can remain ICP-qualified for future monitoring. It must not be represented as a signal-qualified prospect.
+An account with no detected signal can remain ICP-qualified for future monitoring. It must not be represented as a signal-qualified prospect or counted towards the 100 production-grade target.
 
 An account with unresolved qualification or signal evidence must not progress as though the relevant condition has been verified.
 
@@ -714,11 +779,13 @@ An account with unresolved qualification or signal evidence must not progress as
 
 ## 10. Clay Implementation Architecture
 
-The workflow uses three linked tables.
+The initial Clay implementation uses a company-first architecture. Company qualification and signal verification must precede contact enrichment.
 
-### 10.1 Accounts
+This prevents spending enrichment credits on companies that fail the ICP or have no verified selected signal.
 
-**Purpose:** Maintain the account-level ICP decision, signal summary, research priority and commercial routing.
+### 10.1 Accounts table
+
+**Purpose:** Maintain the account-level ICP decision, signal summary, company enrichment, research priority and commercial routing.
 
 Core fields:
 
@@ -726,6 +793,7 @@ Core fields:
 - `company_name`
 - `legal_entity_name`
 - `company_website`
+- `company_domain`
 - `country`
 - `operating_location`
 - `segment`
@@ -735,6 +803,8 @@ Core fields:
 - `operating_model_evidence`
 - `icp_evidence_url`
 - `location_count`
+- `company_enrichment_status`
+- `company_enrichment_source`
 - `preferred_signal_present`
 - `signal_combination`
 - `account_research_priority`
@@ -744,7 +814,7 @@ Core fields:
 - `human_review_status`
 - `outreach_approval_status`
 
-### 10.2 Signal Evidence
+### 10.2 Signal Evidence table
 
 **Purpose:** Store each detected event independently, preserving its source, verification and interpretation.
 
@@ -770,7 +840,7 @@ Core fields:
 - `expansion_type`
 - `expansion_verification`
 
-### 10.3 Contacts
+### 10.3 Contacts table
 
 **Purpose:** Store relevant buying-role contacts independently of the account qualification decision.
 
@@ -785,6 +855,10 @@ Core fields:
 - `persona_source_url`
 - `contact_verification_status`
 - `contact_relevance`
+- `work_email`
+- `email_verification_status`
+- `email_matches_company`
+- `send_ready`
 
 ### 10.4 Table relationships
 
@@ -796,13 +870,97 @@ Core fields:
 - Contact availability must not determine account qualification.
 - Account-level signal combination must be derived from independently verified signal records.
 
+### 10.5 Clay build and credit controls
+
+The Clay workbook must be built with automatic runs disabled during configuration and testing.
+
+Execution order:
+
+1. Import and deduplicate the candidate company list.
+2. Validate the company identifiers and domains.
+3. Apply free research and qualification checks where possible.
+4. Run the qualification logic before paid enrichment.
+5. Test each paid enrichment column on one record before running it across the table.
+6. Test AI classification on two or three representative records before scaling.
+7. Inspect output quality and provider credit consumption.
+8. Run company enrichment once per unique qualified account.
+9. Detect and verify the selected signals.
+10. Perform contact enrichment only after the account passes the applicable gates.
+11. Run email verification only for contacts being considered for outreach.
+12. Reconcile the final table against the 100-record acceptance criteria.
+
+Do not run expensive enrichment on duplicate domains, disqualified companies or records that have not passed the necessary qualification gates.
+
+Where multiple providers can supply the same field, prefer a free or lower-cost source first, provided the source is sufficiently reliable for the field being populated.
+
+A missing result must remain missing or be marked `RESEARCH_REQUIRED`. Do not manufacture a value to fill a column.
+
+### 10.6 Research stack integration
+
+Python research outputs may be imported into Clay as prepared candidate records or evidence inputs.
+
+The existing research stack has the following permitted uses:
+
+| Tool                 | Permitted use                                                                                                    | Limitation                                                                                             |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Python               | Prepare search batches, normalise records, deduplicate domains, validate fields and calculate workflow summaries | Does not independently establish truth without supporting evidence                                     |
+| DDGS                 | Discover public company pages, vacancies and expansion references                                                | Search results are discovery evidence, not final verification                                          |
+| Trafilatura          | Extract accessible page text for inspection and structured analysis                                              | Extraction success does not establish source accuracy or event validity                                |
+| Gemini API free tier | Extract facts, classify evidence and produce structured research outputs                                         | Outputs must be checked against source material; free-tier limits apply                                |
+| Clay                 | Enrich accounts and contacts, organise evidence, classify, route and manage the workbook                         | Provider availability, credit consumption and field coverage depend on the connected services and plan |
+
+The workflow must not depend on Claude Code or a paid model subscription.
+
+### 10.7 Workbook views
+
+The workbook should provide clear views for:
+
+1. `All Accounts`
+2. `ICP Qualified`
+3. `Primary ICP`
+4. `Secondary ICP`
+5. `Emerging ICP`
+6. `Finance Recruitment`
+7. `Expansion`
+8. `Both Signals`
+9. `Research Required`
+10. `Human Review`
+11. `Outreach Ready`
+12. `Excluded Accounts`
+
+Views must reflect actual field values. They must not imply that an account is qualified, verified or outreach-ready when it has not passed the relevant gate.
+
+### 10.8 Outreach readiness gates
+
+A contact must not be marked `send_ready = TRUE` merely because an email address is present.
+
+The final gate requires:
+
+- Account is ICP-qualified.
+- At least one selected signal is independently verified.
+- Contact identity and company association are credible.
+- Contact role is relevant to the intended conversation.
+- Email verification status is acceptable.
+- Email domain association has been checked.
+- Human review has approved the account and proposed outreach.
+
+Where email verification is unavailable, the contact must not be represented as email-verified.
+
+`OUTREACH_READY` means approved for human-controlled outreach. It does not mean a message has been sent or a CRM record has been synchronised.
+
 ---
 
 ## 11. Acceptance Criteria and Delivery Standard
 
-A record counts towards the production-grade enriched total only when the relevant requirements below are satisfied.
+### 11.1 Final delivery target
 
-### Account qualification
+**Required delivery: at least 100 production-grade enriched company records.**
+
+The target is 100 distinct company accounts after deduplication, not 100 contacts, locations, job vacancies or search results.
+
+The 100 records must not be padded with unqualified companies, duplicate subsidiaries, unverifiable operating entities or unverified buying signals.
+
+### 11.2 Account qualification
 
 - [ ] Company identity is verified.
 - [ ] Nigerian operating presence is established.
@@ -812,8 +970,20 @@ A record counts towards the production-grade enriched total only when the releva
 - [ ] Applicable mandatory segment requirements are evidenced.
 - [ ] Anti-ICP exclusions have been checked.
 - [ ] Qualification evidence is traceable.
+- [ ] Company domain has been normalised and deduplicated where available.
 
-### Preferred signal verification
+### 11.3 Company enrichment
+
+- [ ] Company website and domain have been captured where available.
+- [ ] Operating location has been researched.
+- [ ] Segment-specific operating information has been captured.
+- [ ] Relevant company information has been enriched.
+- [ ] Enrichment source or provider has been recorded.
+- [ ] Enrichment outcome has been recorded.
+- [ ] Unknown fields remain blank or explicitly unresolved.
+- [ ] Company enrichment has not been confused with ICP qualification.
+
+### 11.4 Preferred signal verification
 
 - [ ] Finance recruitment has been searched for.
 - [ ] Any detected vacancy is attributable to the target company.
@@ -823,7 +993,7 @@ A record counts towards the production-grade enriched total only when the releva
 - [ ] Source URL and detection date have been recorded.
 - [ ] Verification status and confidence have been assigned.
 
-### Supporting signal verification
+### 11.5 Supporting signal verification
 
 - [ ] Segment-specific expansion events have been searched for.
 - [ ] Any detected event is attributable to the target company.
@@ -832,7 +1002,7 @@ A record counts towards the production-grade enriched total only when the releva
 - [ ] Source URL and detection date have been recorded.
 - [ ] Verification status and confidence have been assigned.
 
-### Commercial routing
+### 11.6 Commercial routing
 
 - [ ] Verified signal combination is recorded.
 - [ ] Account priority is assigned.
@@ -842,29 +1012,62 @@ A record counts towards the production-grade enriched total only when the releva
 - [ ] Human review decision is recorded.
 - [ ] Outreach approval is recorded separately.
 
-### Contact enrichment
+### 11.7 Contact enrichment
 
 - [ ] Relevant buying roles have been researched.
 - [ ] Contact sources are recorded where contacts are identified.
 - [ ] Contact verification status is recorded.
 - [ ] Missing contact information is not used to disqualify the account.
+- [ ] Email verification status is recorded where an email is obtained.
+- [ ] `send_ready` is controlled by the defined readiness conditions.
 
-### Assignment delivery standard
+### 11.8 What counts as one production-grade record
 
-The assignment minimum is at least 20 enriched records.
+A company counts towards the 100-record target only when:
 
-A record should count towards the production-grade total only when:
+1. It is one distinct company account after deduplication.
+2. It is ICP-qualified.
+3. Its segment and priority are correctly assigned.
+4. Its operating model and applicable mandatory requirements are supported by evidence.
+5. Its company record has been enriched with relevant available business information.
+6. At least one of the two selected signals is independently verified.
+7. The signal event, source and detection date are recorded.
+8. A segment-specific commercial angle is assigned.
+9. Relevant buying-role research has been attempted and its outcome recorded.
+10. The record is traceable and ready for human review.
 
-1. The company is ICP-qualified.
-2. Its segment and priority are correctly assigned.
-3. Its operating model and applicable mandatory requirements are supported by evidence.
-4. At least one of the two selected signals is verified.
-5. Signal event, source and detection date are recorded.
-6. A segment-specific commercial angle is assigned.
-7. Relevant contact research has been attempted and its outcome recorded.
-8. The record is traceable and ready for human review.
+A verified named contact or deliverable email address is desirable and must be captured where available, but missing contact information does not invalidate an otherwise production-grade company account.
 
-Accounts with unresolved mandatory qualification conditions or unverified signals must not be counted as fully qualified, signal-verified production-grade records.
+A company with no verified selected signal does not count towards the 100, even if it is otherwise ICP-qualified and enriched.
+
+A company with unresolved mandatory qualification conditions does not count towards the 100.
+
+### 11.9 Final reporting metrics
+
+The completed workbook should make the following counts visible:
+
+| Metric                             | What it measures                                                      |
+| ---------------------------------- | --------------------------------------------------------------------- |
+| Companies discovered               | Initial candidate volume                                              |
+| Unique companies                   | Deduplicated company accounts                                         |
+| ICP qualified                      | Accounts passing mandatory qualification                              |
+| Research required                  | Accounts with unresolved evidence                                     |
+| Disqualified                       | Accounts failing mandatory requirements                               |
+| Out of scope                       | Accounts outside the approved segments                                |
+| Finance recruitment detected       | Accounts with a detected finance vacancy                              |
+| Finance recruitment verified       | Accounts with independently verified finance vacancies                |
+| Expansion detected                 | Accounts with a detected expansion event                              |
+| Expansion verified                 | Accounts with independently verified expansion events                 |
+| Both signals verified              | Accounts with both selected signals independently verified            |
+| Signal-qualified accounts          | Accounts with at least one verified selected signal                   |
+| Company enriched                   | Accounts with completed company enrichment                            |
+| Contact research completed         | Accounts for which buying-role research has been attempted            |
+| Contacts identified                | Relevant contacts identified                                          |
+| Verified emails                    | Contacts with acceptable email verification                           |
+| Outreach ready                     | Contacts and accounts passing all human and technical readiness gates |
+| Production-grade enriched accounts | Distinct accounts meeting all ten conditions in Section 11.8          |
+
+The final production count must be at least 100.
 
 ---
 
@@ -882,6 +1085,11 @@ Accounts with unresolved mandatory qualification conditions or unverified signal
 10. **No contact-based exclusion:** Missing contacts do not invalidate otherwise qualified accounts.
 11. **No product-fit overclaim:** ICP qualification and signal verification do not establish Moniepoint product eligibility.
 12. **No invented ICP thresholds:** Do not add numerical or operational qualification requirements that the approved ICP has not established.
+13. **No unsupported enrichment:** AI-generated fields must be traceable to source evidence.
+14. **No duplicate enrichment:** Do not spend enrichment credits repeatedly on the same company domain without a documented reason.
+15. **No automatic outreach:** Enrichment and routing do not authorise automatic sending.
+16. **No false implementation claims:** Planned Python, Clay or CRM capabilities must not be described as implemented until they have been tested.
+17. **No unnecessary paid dependencies:** The workflow must remain implementable with the existing Python research stack and available Clay functionality, subject to actual provider and plan limits.
 
 ---
 
@@ -890,21 +1098,23 @@ Accounts with unresolved mandatory qualification conditions or unverified signal
 The workflow operates in this order:
 
 `ACCOUNT DISCOVERY`
+→ `COMPANY DEDUPLICATION`
 → `ICP QUALIFICATION`
 → `FINANCE RECRUITMENT DETECTION`
 → `FINANCE RECRUITMENT VERIFICATION`
 → `EXPANSION DETECTION`
 → `EXPANSION VERIFICATION`
 → `SIGNAL SCORING`
-→ `ACCOUNT AND PERSONA ENRICHMENT`
+→ `COMPANY ENRICHMENT`
+→ `PERSONA RESEARCH`
 → `COMMERCIAL ROUTING`
 → `HUMAN REVIEW`
 → `OUTREACH APPROVAL`
 
 The authority of each document remains distinct:
 
-- `icp.md` determines **which businesses are eligible**.
-- `signals.md` determines **which observable events are relevant and which signals are selected for automation**.
-- `workflow.md` determines **how the preferred signal is detected, verified, scored, routed and converted into an evidence-backed account for human review**.
+- `icp/icp.md` determines **which businesses are eligible**.
+- `icp/signals.md` determines **which observable events are relevant and which signals are selected for automation**.
+- `workflow.md` determines **how the preferred signal is detected, verified, scored, enriched, routed and converted into an evidence-backed account for human review**.
 
-**The workflow's defining output:** An ICP-qualified Nigerian business with a verified finance-recruitment signal, a segment-specific commercial angle, traceable evidence and relevant buying-role research. Expansion evidence strengthens that record where independently verified.
+**The workflow's defining output:** At least 100 distinct ICP-qualified Nigerian businesses with completed company enrichment, at least one independently verified selected buying signal, a segment-specific commercial angle, traceable evidence and documented buying-role research. Finance recruitment remains the preferred signal. Verified expansion can independently qualify an account for the production target when finance recruitment is absent.

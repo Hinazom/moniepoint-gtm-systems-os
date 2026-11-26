@@ -6,10 +6,10 @@ Design a GTM system that identifies, researches, qualifies and prioritises Niger
 
 **Initial target segments:**
 
-- Retail supermarket chains
-- FMCG distributors
-- Fuel and service stations
-- General retail and service SMEs
+- Retail supermarket chains (`RETAIL_SUPERMARKET`)
+- FMCG distributors (`FMCG_DISTRIBUTOR`)
+
+The initial implementation is restricted to these two segments. Fuel and service stations, general retail and service SMEs, and other unrelated business categories are outside the approved workflow scope.
 
 Initial commercial prioritisation focuses on retail chains and FMCG distributors, subject to evidence of ICP fit and operational relevance.
 
@@ -21,79 +21,83 @@ ICP definitions, customer pain points, buying signals and qualification threshol
 
 The system consists of ten operational stages:
 
+The system consists of ten operational stages:
+
 1. Account discovery
-2. Initial ICP screening
-3. Company enrichment
-4. Buying-signal detection
-5. Full ICP qualification
-6. Account prioritisation
-7. Buyer identification
-8. Clay-based prospect preparation
+2. Business identity verification and deduplication
+3. Mandatory ICP qualification
+4. Company-level enrichment and evidence validation
+5. Independent finance recruitment and multi-branch expansion research
+6. Signal outcome assessment and account routing
+7. Buyer identification and persona classification
+8. Clay-based prospect preparation and contact enrichment
 9. Human review and approval
-10. Feedback and refinement
+10. CRM preparation and feedback
 
 ### Architecture diagram
 
 ```mermaid
 flowchart TD
-    A["Context OS<br/>Company context, ICP and buying signals"]
+    A["Context OS<br/>Company context, ICP and approved signals"]
 
     B["Account discovery"]
-    C["Initial ICP screening"]
-    D["Company enrichment"]
-    E["Buying-signal detection"]
-    F["Full ICP qualification"]
-    G["Account prioritisation"]
-    H["Buyer identification"]
-    I["Clay-based prospect preparation"]
-    J["Human review and approval"]
-    K["Approved prospects<br/>Ready for CRM or outbound"]
+    C["Identity verification and deduplication"]
+    D["Mandatory ICP qualification"]
+    E["Company enrichment and evidence validation"]
+    F["Finance recruitment research"]
+    G["Multi-branch expansion research"]
+    H["Signal outcome assessment"]
+    I["Account routing and commercial angle"]
+    J["Buyer identification and persona classification"]
+    K["Clay prospect and contact preparation"]
+    L["Human review and approval"]
+    M["CRM-ready records"]
 
-    L["Disqualification"]
-    M["Further research"]
-    N["Feedback and refinement"]
+    N["ICP disqualification"]
+    O["Further research"]
+    P["Feedback and refinement"]
 
-    A --> B --> C
+    A --> B --> C --> D
 
-    C -->|Potential fit| D
-    C -->|Outside target profile| L
-    C -->|Insufficient evidence| M
+    D -->|All six conditions PASS| E
+    D -->|Any definitive FAIL| N
+    D -->|One or more UNKNOWN| O
 
-    D --> E --> F
+    E --> F
+    E --> G
 
-    F -->|Qualified| G
-    F -->|Does not fit| L
-    F -->|Insufficient evidence| M
+    F --> H
+    G --> H
 
-    G --> H --> I --> J
+    H --> I --> J --> K --> L
 
-    J -->|Approved| K
-    J -->|Needs correction| M
+    L -->|Approved| M
+    L -->|Rejected or correction required| O
 
-    M -->|Additional evidence| D
+    O -->|Additional evidence| C
 
-    K --> N
-    L --> N
+    M --> P
+    N --> P
 
-    N -.->|Refine future criteria| A
+    P -.->|Refine future criteria| A
 ```
 
-Feedback improves future prospecting runs rather than restarting completed accounts. Further research returns an account to enrichment for reassessment.
+The two signal searches are independent. Both must reach terminal outcomes before final signal routing. An unresolved search must not be treated as NOT_DETECTED.
 
 ## 3. Core System Components
 
-| Component              | Responsibility                                                                         |
-| ---------------------- | -------------------------------------------------------------------------------------- |
-| Context OS             | Maintains company context, ICP definitions, buying signals and operating instructions. |
-| Account discovery      | Identifies businesses within the target segments using public sources.                 |
-| Company enrichment     | Collects firmographic, operational and commercial evidence.                            |
-| Signal detection       | Identifies relevant developments such as recruitment and geographic expansion.         |
-| ICP qualification      | Evaluates commercial and operational fit.                                              |
-| Account prioritisation | Ranks qualified accounts using fit, evidence and signal relevance.                     |
-| Buyer identification   | Identifies relevant decision-makers and influencers.                                   |
-| Clay                   | Proposed environment for enrichment, structuring and prospect preparation.             |
-| Human review           | Validates prospect records before activation.                                          |
-| Feedback               | Improves future research and qualification criteria.                                   |
+| Component              | Responsibility                                                                                               |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Context OS             | Maintains company context, ICP definitions, buying signals and operating instructions.                       |
+| Account discovery      | Identifies businesses within the two approved target segments.                                               |
+| Company enrichment     | Establishes identity, Nigerian operations, physical operating model and other mandatory ICP evidence.        |
+| Signal detection       | Independently investigates finance recruitment and multi-branch expansion after mandatory ICP qualification. |
+| ICP qualification      | Evaluates the six mandatory conditions using PASS, FAIL or UNKNOWN.                                          |
+| Account prioritisation | Applies deterministic routing using both signal outcomes, evidence quality and commercial relevance.         |
+| Buyer identification   | Identifies relevant decision-makers and influencers after account qualification and routing.                 |
+| Clay                   | Supports account enrichment, signal research, contact preparation and workflow execution.                    |
+| Human review           | Validates evidence, qualification, routing and contact readiness before approval.                            |
+| Feedback               | Improves future research and qualification criteria.                                                         |
 
 ## 4. Qualification and Prioritisation Logic
 
@@ -103,36 +107,62 @@ The system distinguishes between two independent assessments:
 
 **Buying intent:** What observable evidence suggests a relevant business need or reason to engage?
 
-ICP fit considers:
+**ICP fit:** Whether the business satisfies the six mandatory qualification conditions defined in `workflow.md`.
 
-- Industry and business model
-- Geographic and physical operating footprint
-- Transaction volume and frequency, where available
-- Payment collection and reconciliation complexity
-- Financial and operational requirements
-- Potential relevance of verified Moniepoint products
+Each condition receives one of three outcomes:
 
-Buying signals initially include:
+- PASS
+- FAIL
+- UNKNOWN
 
-- Finance and treasury recruitment
-- Multi-branch or geographic expansion
-- Warehouse, logistics and operations recruitment
+Overall qualification:
 
-These signals indicate potential relevance, not confirmed purchase intent. Their recency, reliability and commercial significance must be assessed.
+- `QUALIFIED`: All six conditions PASS.
+- `DISQUALIFIED`: At least one condition definitively FAILS.
+- `FURTHER_RESEARCH`: No condition FAILS, but at least one remains UNKNOWN.
+
+Missing evidence must not be treated as a negative finding.
+
+Buying signals are restricted to two approved categories:
+
+- `FINANCE_RECRUITMENT`: Relevant finance, treasury, accounting or financial operations recruitment.
+- `MULTI_BRANCH_EXPANSION`: Verified or attributable expansion of physical retail or distribution operations.
+
+Warehouse, logistics and operations recruitment may be retained as supplementary research observations, but must not operate as an independent buying signal or influence current routing.
 
 ### Preliminary qualification outcomes
 
-| Outcome        | Interpretation                                                              |
-| -------------- | --------------------------------------------------------------------------- |
-| Excellent fit  | Strong operational and commercial alignment supported by evidence.          |
-| Reasonable fit | Relevant business model with some demonstrated banking or payment needs.    |
-| Poor fit       | Limited apparent alignment with the products and services being considered. |
+| ICP outcome        | Interpretation                                                    |
+| ------------------ | ----------------------------------------------------------------- |
+| `QUALIFIED`        | All six mandatory ICP conditions have passed.                     |
+| `DISQUALIFIED`     | At least one mandatory ICP condition has definitively failed.     |
+| `FURTHER_RESEARCH` | No definitive failure, but one or more conditions remain unknown. |
 
-Five or more physical locations is an initial indicator of potential fit, not a mandatory threshold. High-volume single-location businesses may also qualify where their payment and collection complexity supports it.
+### Fit Tier and Signal Routing
 
-Qualified accounts are prioritised using ICP fit, signal relevance, evidence quality, recency and commercial rationale. The absence of a detected buying signal does not automatically disqualify a strong ICP fit.
+Fit tier is assessed separately from mandatory ICP qualification:
 
-The detailed qualification criteria are maintained in `icp/icp.md` and `icp/signals.md`.
+- `EXCELLENT_FIT`
+- `REASONABLE_FIT`
+- `UNASSESSED`
+
+Five or more physical locations is a prioritisation heuristic, not a mandatory qualification threshold. A qualifying single-location supermarket may still be included. FMCG distributors do not need retail outlets if their distribution operations are independently verified.
+
+Signal outcomes are assessed independently:
+
+- `DETECTED`
+- `NOT_DETECTED`
+- `UNVERIFIED`
+- `HISTORICAL`
+- `UNKNOWN`
+
+The two signal outcomes determine routing according to the combination matrix in `workflow.md`.
+
+The absence of a detected signal does not disqualify an otherwise qualified account. An unresolved signal search must not be interpreted as `NOT_DETECTED`.
+
+A buying signal does not establish purchase intent, dissatisfaction with an existing provider or a confirmed payment problem.
+
+The controlling qualification and routing rules are maintained in `workflow.md`. Supporting market research and signal context are maintained in `icp/icp.md` and `icp/signals.md`.
 
 ## 5. Data and Evidence Management
 
@@ -140,17 +170,22 @@ The system preserves research provenance throughout account qualification.
 
 Each prospect record should retain:
 
-- Company name and website
-- Industry and operating locations
-- Source URLs and publication dates
-- Research and verification dates
-- Supporting evidence
-- Detected buying signals
-- Signal confidence and relevance
-- ICP qualification outcome and score
-- Prioritisation rationale
-- Identified buyers and verification status
-- Human review decision
+- Company name, verified identity and website/domain
+- Nigerian operating presence and supporting evidence
+- Approved business segment
+- Physical operating footprint
+- Evidence for each of the six mandatory ICP conditions
+- Individual ICP condition outcomes: `PASS`, `FAIL` or `UNKNOWN`
+- Overall ICP qualification outcome: `QUALIFIED`, `DISQUALIFIED` or `FURTHER_RESEARCH`
+- Fit tier and supporting rationale: `EXCELLENT_FIT`, `REASONABLE_FIT` or `UNASSESSED`
+- Finance recruitment search status and outcome
+- Multi-branch expansion search status and outcome
+- Signal evidence records, source URLs and relevant dates
+- Search coverage, unresolved candidates and research limitations
+- Signal combination and routing outcome
+- Commercial angle and next action
+- Identified buyers, personas and verification status
+- Human review decision and CRM preparation status
 
 Facts, inferences and hypotheses must remain distinguishable. Unknown or conflicting information must be flagged rather than presented as verified.
 
@@ -189,14 +224,18 @@ Clay is intended to support account-level enrichment, qualification, prioritisat
 
 The following capabilities remain to be configured, implemented and tested:
 
-- Automated account discovery and screening
-- Structured account-level enrichment
-- Repeatable buying-signal detection
-- Automated qualification and prioritisation
-- Buyer identification
-- Clay enrichment and workflow integrations
+- Account discovery within the two approved segments
+- Business identity verification and deduplication
+- Six-condition mandatory ICP qualification
+- Company-level enrichment and evidence validation
+- Independent finance recruitment research
+- Independent multi-branch expansion research
+- Signal outcome assessment and deterministic account routing
+- Buyer identification and persona classification
+- Clay enrichment and contact preparation
+- Verified work-email research and contact-readiness checks
 - Human review and approval
-- CRM and outbound activation
+- CRM preparation and feedback
 
 The current Python scripts automate research and documentation. They do not yet implement the complete account-level GTM workflow.
 
@@ -204,15 +243,17 @@ The current Python scripts automate research and documentation. They do not yet 
 
 The intended output is an approved, evidence-backed prospect record containing:
 
-- Company and operating information
-- ICP fit assessment
-- Buying signals and supporting evidence
-- Priority and qualification rationale
-- Relevant decision-makers
-- Suggested outreach angle
-- Verification and review status
+- Company and verified operating information
+- ICP qualification assessment and fit tier
+- Finance recruitment and multi-branch expansion signals with supporting evidence
+- Signal combination, routing outcome and prioritisation rationale
+- Relevant decision-makers and personas
+- Suggested commercial angle and next action
+- Verification, human review and CRM preparation status
 
-Approved records can then be prepared for CRM or outbound activation.
+An account reaching `CRM_READY` means it has passed the required qualification, evidence and human approval checks and is ready for CRM processing. It does not mean the record has already been synchronised with a CRM or that outreach has been initiated.
+
+Approved records can then be prepared for CRM integration or outbound activation, subject to the relevant implementation and approval requirements.
 
 Campaign execution is outside the initial implementation scope unless separately configured and validated.
 

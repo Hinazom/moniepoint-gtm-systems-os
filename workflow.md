@@ -89,16 +89,68 @@ Only these two segments are in scope for this workflow.
 
 Fuel stations, unrelated SMEs, online-only retailers and businesses outside these definitions are excluded, even if they demonstrate a potentially relevant signal.
 
-### 4.2 Mandatory Qualification Conditions
+### 4.2 Mandatory ICP Qualification
 
-| Condition                | PASS                                                                                                                                       | FAIL                                                                     | Insufficient evidence |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ | --------------------- |
-| Nigerian presence        | Current Nigerian business operations supported by evidence.                                                                                | No Nigerian operations established or operations definitively ceased.    | `UNKNOWN`             |
-| Business identity        | Operating entity distinguishable through credible sources.                                                                                 | Candidate is the wrong entity or identity is disproved.                  | `UNKNOWN`             |
-| Segment fit              | Business activity matches one approved segment.                                                                                            | Business is outside both approved segments.                              | `UNKNOWN`             |
-| Active operations        | Current commercial activity supported.                                                                                                     | Business is dormant or relevant operations have ceased.                  | `UNKNOWN`             |
-| Physical operating model | Physical retail outlets or genuine wholesale/distribution operations supported.                                                            | Exclusively online retail or no qualifying physical business operations. | `UNKNOWN`             |
-| Payments relevance       | Meaningful recurring business collections, settlements or supplier-payment requirements are plausible and supported by the business model. | No meaningful relevance to the proposition is established.               | `UNKNOWN`             |
+Every account must be assessed against all six conditions. Each condition must receive exactly one outcome: `PASS`, `FAIL` or `UNKNOWN`.
+
+An account is `QUALIFIED` only when all six conditions are `PASS`.
+
+An account is `DISQUALIFIED` when at least one condition is definitively `FAIL`.
+
+An account is `FURTHER_RESEARCH` when no condition is `FAIL` but at least one condition is `UNKNOWN`.
+
+Missing evidence must never be treated as evidence of failure.
+
+| Condition                | UNKNOWN criteria                                                                           |
+| ------------------------ | ------------------------------------------------------------------------------------------ |
+| Nigerian presence        | Nigerian presence cannot be established or reliably ruled out                              |
+| Business identity        | Available information is insufficient to establish the correct business identity           |
+| Segment fit              | Available evidence does not establish which approved segment, if any, applies              |
+| Active operations        | Available evidence is stale, contradictory or insufficient to establish current operations |
+| Physical operating model | The physical operating model cannot be established                                         |
+| Payments relevance       | The nature or significance of its payment activity cannot be established                   |
+
+#### 4.3 Evidence requirements
+
+Every `PASS` or `FAIL` must have supporting evidence recorded.
+
+Evidence should include:
+
+- The source name.
+- The direct source URL.
+- The specific fact being established.
+- The date accessed or verified.
+- A short explanation of why the evidence supports the decision.
+
+Prefer company-owned sources and credible independent sources. A search-result snippet alone is not sufficient evidence where the underlying source can be accessed.
+
+For active operations, use evidence that supports current trading or operating activity. An old company profile or undated directory entry does not independently establish that a business is still operating.
+
+For physical operating model, record actual evidence of outlets, warehouses, depots or other relevant facilities. Do not infer a physical footprint merely from the company's industry classification.
+
+For payments relevance, assess the business model and its transaction activities. Do not treat the existence of payment activity as proof of payment friction, poor banking service, reconciliation problems or purchase intent.
+
+#### 4.4 Qualification boundaries
+
+- Five or more physical locations is a prioritisation heuristic, not a mandatory ICP qualification condition.
+- A single-location supermarket can qualify if it passes all six conditions.
+- An FMCG distributor does not need to operate retail outlets.
+- A distributor's warehouse or depot can establish a physical operating model without being classified as a supermarket branch.
+- High transaction volume, payment complexity and consolidated payment-management requirements must be evidenced before being described as established characteristics of an account.
+- Finance recruitment is a signal to investigate, not a mandatory ICP qualification condition.
+- A detected signal cannot override an ICP failure.
+
+#### 4.5 Fit tier
+
+Assign a fit tier only after ICP qualification.
+
+`EXCELLENT_FIT`: Strong evidence of substantial operating scale, such as five or more physical locations or a significant distribution footprint, alongside credible high-frequency transaction activity and relevant financial operations complexity.
+
+`REASONABLE_FIT`: A qualified business with a credible payment-management use case, including a single-location high-volume retailer or an FMCG distributor with meaningful B2B collection or supplier-payment activity.
+
+`UNASSESSED`: Evidence is insufficient to determine relative commercial attractiveness.
+
+The fit tier is a prioritisation assessment. It must not change the mandatory ICP outcome.
 
 **ICP decision rules:**
 
@@ -107,25 +159,6 @@ Fuel stations, unrelated SMEs, online-only retailers and businesses outside thes
 - `FURTHER_RESEARCH`: No condition definitively fails, but at least one remains `UNKNOWN`.
 - Missing information is not a negative finding.
 - A detected buying signal cannot override an ICP failure.
-
-### 4.3 Fit Tier and Prioritisation
-
-The ICP distinguishes stronger-fit accounts from reasonable-fit accounts. These tiers guide prioritisation; they do not replace the mandatory qualification decision.
-
-| Fit tier         | Qualification profile                                                                                                                           |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `EXCELLENT_FIT`  | Businesses with five or more physical locations, high-frequency transaction activity and a relevant finance or treasury recruitment profile.    |
-| `REASONABLE_FIT` | Single-location, high-volume retailers, including large supermarkets, or distributors with a credible need for consolidated payment management. |
-| `UNASSESSED`     | Qualified account whose available evidence is not sufficient to assign a fit tier.                                                              |
-
-**Interpretation rules:**
-
-- Five or more locations is an initial prioritisation heuristic, not a mandatory ICP threshold.
-- A single-location business is not automatically disqualified if it otherwise meets the approved segment definition and mandatory conditions.
-- A distributor does not need to operate retail outlets. Its wholesale and distribution model must be verified.
-- High transaction volume and collection complexity should be evidenced where possible, not assumed from company size.
-- Finance recruitment is also a buying signal. Its presence may contribute to an `EXCELLENT_FIT` assessment but must be recorded separately as signal evidence.
-- Businesses fully dependent on B2B e-invoicing with no meaningful in-person collection or other relevant payment-management requirements are poor fit. Verify the actual business model before disqualification.
 
 ## 5. Signal Definitions and Detection
 
@@ -178,11 +211,141 @@ Expansion status must be recorded as:
 
 An attributable announcement can qualify as a detected development, but must not be described as an already operational location.
 
-Planned, speculative, stale or unattributable developments do not qualify as current detected signals. Retain relevant candidate or historical evidence with its correct status.
+Speculative, stale or unattributable developments do not qualify as current detected signals. However, a specific, attributable announcement of a planned development may qualify as a detected signal when it falls within the applicable active window and meets the evidence requirements. Its event status must remain ANNOUNCED or PLANNED, and it must not be represented as a completed or operational development. Retain relevant candidate or historical evidence with its correct status.
 
 The 180-day and 12-month windows are initial operating assumptions. Validate them during implementation.
 
-### 5.2 Search Status and Signal Outcome
+### 5.2 Clay Signal Research Implementation Contract
+
+Both active signals are researched independently for every ICP-qualified account.
+
+The research process must identify an observable event, retain its source evidence and distinguish a verified event from a search result that merely appears relevant.
+
+The implementation must not assume that a particular Clay provider, search integration or enrichment source is available on the user's plan. Each proposed research method must first be tested in the actual Clay workspace.
+
+#### Signal 1: FINANCE_RECRUITMENT
+
+**Research objective:** Identify recent, attributable recruitment activity for finance, treasury or financial operations roles at the target business or a verified subsidiary.
+
+**Eligible roles include:**
+
+- Treasury Manager
+- Finance Manager
+- Financial Controller
+- Finance Operations Manager
+- Finance Analyst
+- Relevant accounting, treasury or financial control roles
+
+**Candidate source categories:**
+
+- The company's careers or recruitment page.
+- The company's verified LinkedIn presence or recruitment announcements.
+- Credible job boards and recruitment platforms.
+- Credible business or professional publications reporting the vacancy.
+
+**Candidate Clay implementation methods:**
+
+1. Test whether the available Clay search or research functionality can discover relevant vacancies using the company name and domain.
+2. Test whether a web-research AI column can return the vacancy URL, role, employer attribution, publication date and vacancy status.
+3. Where a candidate vacancy is already known, use its direct URL as the research input rather than relying on an AI-generated summary.
+4. If the available Clay functionality cannot retrieve adequate evidence, record the limitation and use the approved external research process. Do not fabricate a completed search.
+
+**Required evidence fields:**
+
+- `signal_type`
+- `signal_event_id`
+- `employer_name`
+- `employer_domain`
+- `role_title`
+- `role_responsibilities`
+- `source_name`
+- `source_url`
+- `publication_date`
+- `job_status`
+- `verification_date`
+- `evidence_excerpt`
+- `evidence_status`
+- `verification_notes`
+
+A vacancy qualifies only when the employer attribution, role relevance, publication date and vacancy status can be established sufficiently to support the decision.
+
+The active recency window is 180 days before the verification date.
+
+A role title alone is insufficient. The responsibilities must be relevant to finance, treasury, accounting, financial control or financial operations.
+
+#### Signal 2: MULTI_BRANCH_EXPANSION
+
+**Research objective:** Identify recent, attributable evidence that a qualified business is opening additional physical outlets, expanding its distribution footprint or entering additional geographic markets.
+
+**Eligible events include:**
+
+- A supermarket opening a new physical outlet.
+- A supermarket announcing a specific new outlet.
+- A business expanding into another city or state through physical operations.
+- An FMCG distributor opening a new depot or warehouse as part of genuine footprint expansion.
+- An FMCG distributor entering an additional geographic distribution market.
+
+**Candidate source categories:**
+
+- Company websites and official announcements.
+- Verified company social-media channels.
+- Credible business publications.
+- Credible local or industry publications reporting a specific opening or expansion.
+
+**Candidate Clay implementation methods:**
+
+1. Test whether the available Clay search or research functionality can discover expansion announcements using the company name and domain.
+2. Test whether a web-research AI column can return the specific event, location, source URL, publication date and event status.
+3. Where a candidate announcement is already known, use the direct source URL as the research input.
+4. If the available Clay functionality cannot retrieve adequate evidence, record the limitation and use the approved external research process. Do not classify an incomplete search as `NOT_DETECTED`.
+
+**Required evidence fields:**
+
+- `signal_type`
+- `signal_event_id`
+- `company_name`
+- `source_name`
+- `source_url`
+- `event_description`
+- `publication_date`
+- `event_date_or_period`
+- `event_location`
+- `expansion_status`
+- `verification_date`
+- `evidence_excerpt`
+- `evidence_status`
+- `verification_notes`
+
+Expansion status must be one of:
+
+`COMPLETED`, `ANNOUNCED`, `PLANNED`, `UNVERIFIED`.
+
+The active recency window is 12 months before the verification date.
+
+A specific, attributable announcement within the active window can qualify as a detected signal, even if the opening has not yet occurred. Its status must remain `ANNOUNCED` or `PLANNED`, as applicable. It must never be described as an operational location until completion is established.
+
+General statements about growth, ambition or future plans without a specific attributable expansion event do not qualify.
+
+#### Search coverage and execution controls
+
+For each signal search, record:
+
+- Search start and completion timestamps.
+- Source categories checked.
+- Search method used.
+- Candidate events discovered.
+- Candidates assessed and their outcomes.
+- Sources that could not be accessed.
+- Search errors, limitations and unresolved gaps.
+- Whether the available evidence supports sufficient coverage.
+
+A fixed number of search results does not independently establish sufficient coverage.
+
+The implementation must be tested on a small number of qualified accounts before scaling. Confirm that it can retrieve direct source URLs, distinguish publication dates from event dates, identify relevant roles or expansion events, and preserve unresolved candidates.
+
+Clay provider availability, credit consumption and search coverage must be recorded during this test. No specific provider or enrichment capability should be treated as available until verified in the actual workspace.
+
+### 5.3 Search Status and Signal Outcome
 
 Each qualified account must have two independent search records: one for finance recruitment and one for expansion.
 
@@ -218,7 +381,7 @@ If a search contains both a verified qualifying event and an unresolved candidat
 
 A verified event must link to its evidence record. Search outcomes must not be inferred from a search-status label alone.
 
-### 5.3 Minimum Search Coverage
+### 5.4 Minimum Search Coverage
 
 A search can be marked `COMPLETED` with sufficient coverage only when:
 
@@ -232,7 +395,7 @@ Source categories should include relevant company channels, credible business pu
 
 A fixed number of searches or sources alone does not establish sufficient coverage. Search depth and source categories must be configured and tested during implementation.
 
-### 5.4 Signal Selection: Four-Test Assessment
+### 5.5 Signal Selection: Four-Test Assessment
 
 The two selected signals are assessed against four tests to establish their commercial and operational suitability for the workflow.
 
@@ -288,25 +451,55 @@ Commercial angles are discovery hypotheses. They must not claim that an account 
 
 ### 6.2 Signal Combination and Routing Rules
 
-Apply these rules only to `QUALIFIED` accounts after both searches have terminal outcomes.
+Routing is determined by the terminal outcomes of the two independent signal searches.
 
-| Finance outcome       | Expansion outcome     | Routing outcome          | Priority     | Required commercial action                                                                                                                                           |
-| --------------------- | --------------------- | ------------------------ | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `DETECTED`            | `DETECTED`            | `COMBINED_SIGNALS`       | `HIGHEST`    | Retain both verified events. Use the segment-specific finance and expansion angles. Choose the lead discussion topic from the actual vacancy and expansion evidence. |
-| `DETECTED`            | `NOT_DETECTED`        | `FINANCE_RECRUITMENT`    | `HIGH`       | Use the finance recruitment angle for the segment. Do not imply expansion.                                                                                           |
-| `NOT_DETECTED`        | `DETECTED`            | `MULTI_BRANCH_EXPANSION` | `HIGH`       | Use the expansion angle for the segment. Do not imply finance recruitment.                                                                                           |
-| `NOT_DETECTED`        | `NOT_DETECTED`        | `ICP_MONITORING`         | `MONITORING` | Retain the qualified account for future monitoring. Do not create a signal-led outreach claim.                                                                       |
-| Any other combination | Any other combination | `FURTHER_RESEARCH`       | `RESEARCH`   | Resolve incomplete, failed, unverified or historical evidence before releasing the account for signal-led outreach.                                                  |
+Only four combinations qualify for a definitive signal-led route:
 
-**Additional routing rules:**
+| Finance recruitment | Multi-branch expansion | Combination              | Route                  | Priority   |
+| ------------------- | ---------------------- | ------------------------ | ---------------------- | ---------- |
+| DETECTED            | DETECTED               | `COMBINED_SIGNALS`       | Combined signals       | HIGHEST    |
+| DETECTED            | NOT_DETECTED           | `FINANCE_RECRUITMENT`    | Finance recruitment    | HIGH       |
+| NOT_DETECTED        | DETECTED               | `MULTI_BRANCH_EXPANSION` | Multi-branch expansion | HIGH       |
+| NOT_DETECTED        | NOT_DETECTED           | `ICP_MONITORING`         | ICP monitoring         | MONITORING |
 
-- Any `UNKNOWN`, `UNVERIFIED` or `HISTORICAL` outcome results in `FURTHER_RESEARCH`, unless the other search combination is already covered by a higher-confidence detected result. In all cases, unresolved evidence must remain visible.
-- A verified signal must not be discarded because the other search is incomplete.
-- If one signal is `DETECTED` and the other is unresolved, preserve the detected event and its provisional commercial angle. Keep the overall route at `FURTHER_RESEARCH`.
-- Historical or unverified evidence never substitutes for `DETECTED`.
-- An account with no detected signals is not automatically disqualified.
-- ICP failures route to `ICP_DISQUALIFIED`, not to signal-led prospecting.
-- ICP uncertainty routes to `FURTHER_RESEARCH` before signal research begins.
+Every other combination routes to:
+
+`FURTHER_RESEARCH`
+
+with priority:
+
+`RESEARCH`
+
+This includes any combination containing `UNKNOWN`, `UNVERIFIED` or `HISTORICAL`, regardless of whether the other signal is `DETECTED`.
+
+#### Preservation of detected evidence
+
+An unresolved search must not erase or downgrade a separately verified event.
+
+For example:
+
+- Finance recruitment: `DETECTED`
+- Multi-branch expansion: `UNKNOWN`
+
+The account routes to `FURTHER_RESEARCH`, but the verified finance recruitment event remains recorded and the provisional commercial angle remains available for human review.
+
+The same principle applies when expansion is detected but finance recruitment remains unresolved.
+
+A `NOT_DETECTED` outcome is permitted only when the corresponding search is `COMPLETED`, coverage is sufficient and no qualifying or unresolved candidate remains.
+
+`FAILED`, `INSUFFICIENT_COVERAGE`, unfinished searches and unresolved candidates must never be converted into `NOT_DETECTED`.
+
+#### Routing restrictions
+
+- Signal detection does not establish purchase intent.
+- Signal detection does not establish a payment problem.
+- Signal detection does not establish dissatisfaction with an existing bank or payment provider.
+- The commercial angle is a research hypothesis, not a claim about the account.
+- `ICP_DISQUALIFIED` accounts cannot enter signal-led routing.
+- `FURTHER_RESEARCH` accounts cannot enter the contact-ready workflow.
+- AI may recommend a route using the approved deterministic rules but cannot approve an account for CRM processing or outreach.
+
+The route must retain the two underlying signal outcomes, the relevant evidence records, the rationale and any outstanding research gaps.
 
 ### 6.3 Required Routing Output
 
@@ -454,7 +647,48 @@ Fields are required unless explicitly marked nullable or conditionally required.
 14. Submit the account for human review.
 15. Prepare approved records for authorised CRM processing.
 
-### 8.2 Retry and Recalculation
+### 8.2 Clay Workbook Implementation Boundary
+
+The primary Clay workbook is company/account-first because both selected signals belong to the company rather than an individual contact.
+
+The workbook must use the following logical structure:
+
+1. **Accounts:** Main table containing company identity, ICP qualification, fit tier, signal-search status, routing and human-review status.
+2. **Signal Evidence:** Supporting records containing individual signal candidates, verified events, rejected candidates and their source evidence. Multiple evidence records may belong to one account.
+3. **Contacts:** A subsequent contact-research stage linked to qualified accounts. Contact discovery must not determine whether the underlying company passes the ICP.
+
+The main Accounts table must not treat a company as a separate account merely because it has multiple branches, vacancies or signal events.
+
+Company identity and domain are the primary deduplication controls. Potential duplicates must be reviewed rather than silently merged where identity is uncertain.
+
+#### Automation and approval
+
+- Automatic execution must remain disabled during initial testing.
+- Prove each enrichment, formula and AI column on a small sample before scaling.
+- Run paid or credit-consuming enrichments only after the preceding qualification gates pass.
+- Preserve failed, unresolved and rejected evidence rather than silently overwriting it.
+- Record the cost and credit consumption of each paid step.
+- Keep human approval separate from AI classification.
+- Only a human-approved account can progress to `CRM_READY`.
+- `CRM_READY` means approved for CRM processing. It does not mean that a CRM sync or outreach action has occurred.
+
+#### Initial implementation acceptance
+
+Before scaling the workbook, demonstrate that:
+
+- A company can be discovered and deduplicated.
+- All six mandatory ICP conditions can be assessed independently.
+- A failed or unknown ICP condition cannot be overridden by a detected signal.
+- Both signal searches can produce separate statuses and outcomes.
+- Each detected event has a direct, attributable evidence source.
+- Unresolved searches cannot become `NOT_DETECTED`.
+- The four approved routing combinations produce the correct routes.
+- Every other signal combination produces `FURTHER_RESEARCH`.
+- AI output follows the defined fields and allowed values.
+- A human approval is required before `CRM_READY`.
+- Enrichment costs, failed lookups and missing data are visible in the build log.
+
+### 8.3 Retry and Recalculation
 
 - Failed, incomplete and insufficient-coverage searches may be retried.
 - Every retry creates a new search-attempt record.
@@ -465,7 +699,7 @@ Fields are required unless explicitly marked nullable or conditionally required.
 - Reassess recency when a record is refreshed.
 - If a previously detected event becomes invalid or stale, update its evidence status and recalculate the account route.
 
-### 8.3 Human Review
+### 8.4 Human Review
 
 The reviewer must verify:
 
@@ -487,7 +721,7 @@ Review decisions:
 
 No account reaches `CRM_READY` without human approval and all required fields.
 
-### 8.4 Acceptance Tests
+### 8.5 Acceptance Tests
 
 - Both approved segments can qualify independently of signal detection.
 - Fuel stations, unrelated SMEs and online-only retailers are excluded.
